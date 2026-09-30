@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprayberry Fitness — Free Consultation</title>
+<meta name="description" content="Book a free 15-minute consultation with Sprayberry Fitness — no pressure, no sales pitch, just an honest conversation about your goals.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sprayberry Fitness — Free Consultation">
+<meta property="og:description" content="Book a free 15-minute consultation with Sprayberry Fitness — no pressure, no sales pitch, just an honest conversation about your goals.">
+<meta property="og:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
+<meta property="og:url" content="https://sprayberryfitness.com/consult.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sprayberry Fitness — Free Consultation">
+<meta name="twitter:description" content="Book a free 15-minute consultation with Sprayberry Fitness — no pressure, no sales pitch, just an honest conversation about your goals.">
+<meta name="twitter:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<style>
+  :root {
+    --ink: #1B2430;
+    --slate: #45596E;
+    --slate-light: #8CA2B5;
+    --mist: #EDF1F4;
+    --white: #FFFFFF;
+    --gold: #B8935A;
+    --gold-deep: #93744A;
+    --sage: #6B8F71;
+    --hairline: rgba(27,36,48,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--mist);
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 48px 16px;
+    line-height: 1.55;
+  }
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 30px 60px -25px rgba(27,36,48,0.25);
+    overflow: hidden;
+  }
+  .card-head {
+    background: var(--ink);
+    color: var(--mist);
+    padding: 36px 40px;
+  }
+  .brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .brand-row img { height: 28px; width: 28px; }
+  .brand-row span { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--white); }
+  .brand-row span .gold { color: var(--gold); }
+  .eyebrow {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .card-head h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 27px;
+    margin-top: 8px;
+    font-weight: 700;
+  }
+  .card-head p { color: var(--slate-light); font-size: 14.5px; margin-top: 8px; max-width: 460px; }
+
+  .form-body { padding: 36px 40px 40px; }
+
+  label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--slate);
+    margin-bottom: 6px;
+    margin-top: 20px;
+    letter-spacing: 0.02em;
+  }
+  label:first-of-type { margin-top: 0; }
+
+  input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    background: var(--white);
+    color: var(--ink);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .check-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .check-item:hover { border-color: var(--gold); }
+  .check-item input { width: auto; margin: 0; }
+
+  .btn-submit {
+    width: 100%;
+    margin-top: 26px;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(184,147,90,0.35); }
+  .btn-submit:disabled { opacity: 0.7; cursor: default; transform: none; box-shadow: none; }
+
+  .form-note {
+    font-size: 12px;
+    color: var(--slate-light);
+    margin-top: 14px;
+    text-align: center;
+  }
+
+  .success-state {
+    text-align: center;
+    padding: 30px 10px;
+  }
+  .success-state .check-circle {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--sage);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 18px;
+  }
+  .success-state h2 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; margin-bottom: 10px; }
+  .success-state p { color: var(--slate); font-size: 14.5px; max-width: 380px; margin: 0 auto; }
+  .success-state a { color: var(--gold-deep); font-weight: 600; text-decoration: none; }
+
+  .error-note {
+    display: none;
+    color: #b23a3a;
+    font-size: 13px;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  @media (max-width: 520px) {
+    .row2, .check-grid { grid-template-columns: 1fr; }
+    .card-head, .form-body { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-head">
+    <div class="brand-row">
+      <img src="assets/icon.svg" alt="Sprayberry Fitness">
+      <span>Sprayberry <span class="gold">Fitness</span></span>
+    </div>
+    <span class="eyebrow">Free Consultation</span>
+    <h1>Let's talk about where you're starting and where you want to go.</h1>
+    <p>15 minutes, no pressure, no sales pitch — just an honest conversation about your goals and whether we're a good fit to work together.</p>
+  </div>
+
+  <div class="form-body" id="formBody">
+    <form id="consultForm" action="https://formspree.io/f/mrenooal" method="POST">
+      <input type="hidden" name="_subject" value="New free consultation request — Sprayberry Fitness" />
+
+      <label for="name">Full name</label>
+      <input type="text" name="name" id="name" placeholder="Your name" required />
+
+      <div class="row2">
+        <div>
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" placeholder="you@email.com" required />
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input type="tel" name="phone" id="phone" placeholder="770-555-0123" required />
+        </div>
+      </div>
+
+      <label>What are you hoping to work on?</label>
+      <div class="check-grid">
+        <label class="check-item"><input type="checkbox" name="goals" value="Weight loss"> Weight loss</label>
+        <label class="check-item"><input type="checkbox" name="goals" value="Build muscle"> Build muscle</label>
+        <label class="check-item"><input type="checkbox" name="goals" value="General health"> General health</label>
+        <label class="check-item"><input type="checkbox" name="goals" value="Injury recovery"> Injury recovery</label>
+        <label class="check-item"><input type="checkbox" name="goals" value="Accountability"> Accountability</label>
+        <label class="check-item"><input type="checkbox" name="goals" value="Not sure yet"> Not sure yet</label>
+      </div>
+
+      <label for="message">Anything you want me to know before we talk?</label>
+      <textarea name="message" id="message" placeholder="Optional — injuries, timeline, past experience, whatever's relevant"></textarea>
+
+      <button type="submit" class="btn-submit" id="consultSubmitBtn">Request My Free Consultation</button>
+      <div class="error-note" id="consultError">Something went wrong — try again, or email sprayberry.fitness@gmail.com directly.</div>
+      <div class="form-note">I'll personally reach out within 24 hours. No spam, no auto-drip emails — just me.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+  const consultForm = document.getElementById('consultForm');
+  const consultBtn = document.getElementById('consultSubmitBtn');
+  const consultError = document.getElementById('consultError');
+
+  consultForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    consultError.style.display = 'none';
+    consultBtn.disabled = true;
+    consultBtn.textContent = 'Sending...';
+
+    try {
+      const response = await fetch(consultForm.action, {
+        method: 'POST',
+        body: new FormData(consultForm),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        document.getElementById('formBody').innerHTML = `
+          <div class="success-state">
+            <div class="check-circle">✓</div>
+            <h2>Got it — talk soon.</h2>
+            <p>Thanks for reaching out. I'll personally follow up within 24 hours to find a time that works. In the meantime, feel free to check your <a href="calculator.html">macro numbers</a> so we've got a starting point.</p>
+          </div>
+        `;
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (err) {
+      consultBtn.disabled = false;
+      consultBtn.textContent = 'Request My Free Consultation';
+      consultError.style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>

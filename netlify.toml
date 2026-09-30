@@ -1,0 +1,15 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[functions."generate-meal-plan"]
+  timeout = 26
+
+[functions."generate-grocery-list"]
+  timeout = 26
+
+[functions."generate-workout"]
+  timeout = 26

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach Dashboard — Sprayberry Fitness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="coach-manifest.json">
+<meta name="theme-color" content="#1B2430">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SB Coach">
+<style>
+  :root {
+    --ink: #1B2430; --slate: #45596E; --slate-light: #8CA2B5;
+    --mist: #EDF1F4; --white: #FFFFFF; --gold: #B8935A; --gold-deep: #93744A;
+    --hairline: rgba(27,36,48,0.12); --max-w: 720px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif; color: var(--ink); background: var(--mist);
+    line-height: 1.55; -webkit-font-smoothing: antialiased; padding-bottom: 60px;
+  }
+  h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; color: var(--ink); }
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+  a { color: inherit; text-decoration: none; }
+
+  nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--hairline); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; max-width: var(--max-w); }
+  .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+  .logo img { height: 28px; width: 28px; }
+  .logo span { color: var(--gold); }
+
+  .page-head { padding: 32px 0 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .eyebrow { font-weight: 600; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-deep); }
+  .page-head h1 { font-size: 26px; margin-top: 8px; }
+  .logout-btn { background: none; border: 1px solid var(--hairline); color: var(--slate); font-size: 12.5px; padding: 8px 14px; border-radius: 7px; cursor: pointer; white-space: nowrap; }
+  .logout-btn:hover { border-color: var(--gold); color: var(--ink); }
+
+  .card { background: var(--white); border-radius: 14px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--hairline); }
+  .card h2 { font-size: 15px; margin-bottom: 14px; }
+
+  .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .field label { font-size: 11.5px; font-weight: 600; color: var(--slate); text-transform: uppercase; letter-spacing: 0.04em; }
+  .field input { padding: 10px 11px; border: 1px solid var(--hairline); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 14px; }
+  .field input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+  .btn { display: inline-block; font-weight: 600; font-size: 13.5px; padding: 11px 18px; border-radius: 7px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: opacity 0.15s; }
+  .btn-gold { background: var(--gold); color: var(--white); width: 100%; }
+  .btn-gold:hover { opacity: 0.92; }
+  .btn-gold:disabled { opacity: 0.6; cursor: default; }
+  .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--hairline); width: 100%; }
+  .btn-outline:hover { border-color: var(--gold); background: var(--mist); }
+  .btn-danger { background: transparent; color: #b23; border: 1px solid rgba(178,51,51,0.3); width: 100%; }
+  .btn-danger:hover { background: rgba(178,51,51,0.06); }
+
+  .new-client-box { background: var(--mist); border-radius: 10px; padding: 14px; margin-top: 12px; font-size: 13px; }
+  .new-client-box .row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .new-client-box .row b { color: var(--gold-deep); }
+  .new-client-box .link-box { display: flex; gap: 6px; margin-top: 8px; }
+  .new-client-box .link-box input { flex: 1; font-size: 12px; padding: 8px; border: 1px solid var(--hairline); border-radius: 6px; }
+  .new-client-box .link-box button { flex-shrink: 0; padding: 8px 12px; font-size: 12px; }
+
+  .client-list { display: flex; flex-direction: column; gap: 6px; }
+  .client-item {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--mist); border-radius: 9px; padding: 12px 14px; font-size: 13.5px; cursor: pointer; border: 1px solid transparent;
+  }
+  .client-item:hover { border-color: var(--gold); }
+  .client-item.active { background: var(--ink); color: var(--white); }
+  .client-item .cdate { font-size: 11.5px; color: var(--slate-light); }
+  .client-item.active .cdate { color: var(--slate-light); }
+  .empty-note { color: var(--slate-light); font-size: 13.5px; text-align: center; padding: 20px 0; }
+
+  .entry-list { display: flex; flex-direction: column; gap: 8px; }
+  .entry { background: var(--mist); border-radius: 9px; padding: 12px 14px; font-size: 13.5px; }
+  .entry .entry-date { color: var(--slate-light); font-size: 12px; margin-top: 2px; }
+
+  .chart-wrap select { margin-bottom: 12px; width: 100%; padding: 10px 11px; border: 1px solid var(--hairline); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 14px; }
+  svg.chart { width: 100%; height: auto; display: block; }
+  .chart-empty { color: var(--slate-light); font-size: 13px; text-align: center; padding: 30px 0; }
+
+  .gate-wrap { max-width: 380px; margin: 60px auto; padding: 0 20px; }
+  .gate-card { background: var(--white); border-radius: 16px; padding: 32px; border: 1px solid var(--hairline); text-align: center; }
+  .gate-card h1 { font-size: 20px; margin: 4px 0 8px; }
+  .gate-card p { color: var(--slate); font-size: 13.5px; margin-bottom: 22px; }
+  .gate-card input {
+    width: 100%; text-align: center; font-size: 16px; padding: 14px; border: 1px solid var(--hairline); border-radius: 9px; margin-bottom: 14px;
+  }
+  .gate-card input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .gate-error { color: #b23; font-size: 12.5px; margin-top: 12px; min-height: 16px; }
+
+  .dash-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .hidden { display: none; }
+  .detail-placeholder { color: var(--slate-light); font-size: 14px; text-align: center; padding: 60px 20px; }
+
+  @media (min-width: 860px) {
+    :root { --max-w: 1080px; }
+    .dash-grid { grid-template-columns: 320px 1fr; align-items: start; gap: 24px; }
+    .dash-col-left .card { position: sticky; top: 88px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="logo"><img src="assets/icon.svg" alt="Sprayberry Fitness"> Sprayberry <span>Fitness</span></a>
+  </div>
+</nav>
+
+<!-- PASSWORD GATE -->
+<div id="gateScreen" class="gate-wrap">
+  <div class="gate-card">
+    <span class="eyebrow">Coach Only</span>
+    <h1>Coach Dashboard</h1>
+    <p>Enter your password to view client progress.</p>
+    <input type="password" id="passwordInput" placeholder="Password" autocomplete="off">
+    <button class="btn btn-gold" id="passwordSubmitBtn">Log In</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashApp" class="hidden">
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <span class="eyebrow">Coach Only</span>
+        <h1>Client Dashboard</h1>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Log out</button>
+    </div>
+
+    <div class="dash-grid">
+      <div class="dash-col-left">
+        <div class="card">
+          <h2>Add a Client</h2>
+          <div class="field"><label>Client name</label><input type="text" id="newClientName" placeholder="e.g. Jane Smith"></div>
+          <button class="btn btn-gold" id="addClientBtn">Create Client</button>
+          <div id="newClientResult"></div>
+        </div>
+
+        <div class="card">
+          <h2>Your Clients</h2>
+          <div class="client-list" id="clientList"></div>
+        </div>
+      </div>
+
+      <div class="dash-col-right">
+        <div class="card" id="detailCard">
+          <div class="detail-placeholder">Select a client on the left to view their progress.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function fmtDate(dstr) {
+    var parts = dstr.split('-');
+    if (parts.length !== 3) return dstr;
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[parseInt(parts[1], 10) - 1] + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
+  }
+  function fmtDateTime(iso) {
+    try { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+    catch (e) { return iso; }
+  }
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  var currentPassword = null;
+  var selectedClientId = null;
+
+  function callCoach(action, extra) {
+    var body = Object.assign({ action: action, password: currentPassword }, extra || {});
+    return fetch('/.netlify/functions/coach', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }).then(function (res) {
+      return res.json().then(function (data) {
+        if (!res.ok) throw new Error(data.error || 'Something went wrong');
+        return data;
+      });
+    });
+  }
+
+  function renderLineChart(container, points) {
+    if (!points.length) { container.innerHTML = '<div class="chart-empty">No entries yet.</div>'; return; }
+    if (points.length === 1) { container.innerHTML = '<div class="chart-empty">Only one entry so far.</div>'; return; }
+    var w = 640, h = 200, padL = 40, padR = 16, padT = 16, padB = 28;
+    var values = points.map(function (p) { return p.value; });
+    var minV = Math.min.apply(null, values);
+    var maxV = Math.max.apply(null, values);
+    if (minV === maxV) { minV -= 1; maxV += 1; }
+    var range = maxV - minV;
+    var innerW = w - padL - padR;
+    var innerH = h - padT - padB;
+    function x(i) { return padL + (innerW * i) / (points.length - 1); }
+    function y(v) { return padT + innerH - ((v - minV) / range) * innerH; }
+    var pathD = points.map(function (p, i) { return (i === 0 ? 'M' : 'L') + x(i).toFixed(1) + ',' + y(p.value).toFixed(1); }).join(' ');
+    var dots = points.map(function (p, i) { return '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(p.value).toFixed(1) + '" r="3.5" fill="#B8935A"></circle>'; }).join('');
+    var svg = '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+      '<line x1="' + padL + '" y1="' + padT + '" x2="' + padL + '" y2="' + (padT + innerH) + '" stroke="#DCE3EA" stroke-width="1"></line>' +
+      '<line x1="' + padL + '" y1="' + (padT + innerH) + '" x2="' + (padL + innerW) + '" y2="' + (padT + innerH) + '" stroke="#DCE3EA" stroke-width="1"></line>' +
+      '<text x="4" y="' + (padT + 4) + '" font-size="10" fill="#8CA2B5">' + maxV.toFixed(1) + '</text>' +
+      '<text x="4" y="' + (padT + innerH) + '" font-size="10" fill="#8CA2B5">' + minV.toFixed(1) + '</text>' +
+      '<text x="' + padL + '" y="' + (h - 6) + '" font-size="10" fill="#8CA2B5">' + fmtDate(points[0].date) + '</text>' +
+      '<text x="' + (padL + innerW) + '" y="' + (h - 6) + '" font-size="10" fill="#8CA2B5" text-anchor="end">' + fmtDate(points[points.length - 1].date) + '</text>' +
+      '<path d="' + pathD + '" fill="none" stroke="#B8935A" stroke-width="2.5"></path>' + dots + '</svg>';
+    container.innerHTML = svg;
+  }
+
+  // ---------- Gate ----------
+  var gateScreen = document.getElementById('gateScreen');
+  var dashApp = document.getElementById('dashApp');
+  var passwordInput = document.getElementById('passwordInput');
+  var passwordSubmitBtn = document.getElementById('passwordSubmitBtn');
+  var gateError = document.getElementById('gateError');
+
+  function tryLogin(password) {
+    gateError.textContent = '';
+    passwordSubmitBtn.disabled = true;
+    passwordSubmitBtn.textContent = 'Checking...';
+    currentPassword = password;
+    callCoach('login')
+      .then(function () {
+        sessionStorage.setItem('sprayberry_coach_pw', password);
+        gateScreen.classList.add('hidden');
+        dashApp.classList.remove('hidden');
+        loadClientList();
+      })
+      .catch(function () {
+        gateError.textContent = 'Incorrect password.';
+        currentPassword = null;
+      })
+      .finally(function () {
+        passwordSubmitBtn.disabled = false;
+        passwordSubmitBtn.textContent = 'Log In';
+      });
+  }
+
+  passwordSubmitBtn.addEventListener('click', function () {
+    var pw = passwordInput.value;
+    if (!pw) { gateError.textContent = 'Enter your password.'; return; }
+    tryLogin(pw);
+  });
+  passwordInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') passwordSubmitBtn.click(); });
+
+  document.getElementById('logoutBtn').addEventListener('click', function () {
+    sessionStorage.removeItem('sprayberry_coach_pw');
+    window.location.reload();
+  });
+
+  (function tryAutoLogin() {
+    var saved = sessionStorage.getItem('sprayberry_coach_pw');
+    if (saved) tryLogin(saved);
+  })();
+
+  // ---------- Add client ----------
+  document.getElementById('addClientBtn').addEventListener('click', function () {
+    var name = document.getElementById('newClientName').value.trim();
+    if (!name) { alert('Enter a client name.'); return; }
+    var btn = document.getElementById('addClientBtn');
+    btn.disabled = true;
+    callCoach('addClient', { name: name })
+      .then(function (data) {
+        var link = window.location.origin + '/tracker.html?client=' + data.clientId;
+        var box = document.getElementById('newClientResult');
+        box.innerHTML = '<div class="new-client-box">' +
+          '<div class="row"><span>Name</span><b>' + escapeHtml(data.name) + '</b></div>' +
+          '<div class="row"><span>PIN</span><b>' + escapeHtml(data.pin) + '</b></div>' +
+          '<div class="link-box"><input type="text" readonly value="' + escapeHtml(link) + '" id="newClientLink"><button class="btn btn-outline" id="copyLinkBtn" style="width:auto;">Copy</button></div>' +
+          '</div>';
+        document.getElementById('copyLinkBtn').addEventListener('click', function () {
+          var input = document.getElementById('newClientLink');
+          input.select();
+          if (navigator.clipboard) { navigator.clipboard.writeText(input.value); }
+          else { document.execCommand('copy'); }
+          this.textContent = 'Copied!';
+        });
+        document.getElementById('newClientName').value = '';
+        loadClientList();
+      })
+      .catch(function () { alert('Couldn\u2019t create that client — try again.'); })
+      .finally(function () { btn.disabled = false; });
+  });
+
+  // ---------- Client list ----------
+  function loadClientList() {
+    callCoach('listClients').then(function (data) {
+      var list = document.getElementById('clientList');
+      if (!data.clients.length) { list.innerHTML = '<div class="empty-note">No clients yet — add one above.</div>'; return; }
+      list.innerHTML = data.clients.map(function (c) {
+        return '<div class="client-item' + (c.clientId === selectedClientId ? ' active' : '') + '" data-id="' + c.clientId + '">' +
+          '<span>' + escapeHtml(c.name) + '</span><span class="cdate">' + fmtDateTime(c.createdAt) + '</span></div>';
+      }).join('');
+      Array.prototype.forEach.call(list.querySelectorAll('.client-item'), function (el) {
+        el.addEventListener('click', function () {
+          selectedClientId = el.getAttribute('data-id');
+          loadClientList();
+          loadClientDetail(selectedClientId);
+        });
+      });
+    });
+  }
+
+  // ---------- Client detail ----------
+  function loadClientDetail(clientId) {
+    var detailCard = document.getElementById('detailCard');
+    detailCard.innerHTML = '<div class="detail-placeholder">Loading...</div>';
+    callCoach('getClientData', { clientId: clientId }).then(function (data) {
+      var workoutPoints = {};
+      data.workouts.forEach(function (w) {
+        if (!workoutPoints[w.exercise]) workoutPoints[w.exercise] = [];
+        workoutPoints[w.exercise].push(w);
+      });
+      var exerciseNames = Object.keys(workoutPoints);
+      var firstExercise = exerciseNames[0] || '';
+
+      var statsPoints = data.stats.slice().sort(function (a, b) { return a.date.localeCompare(b.date); })
+        .filter(function (s) { return typeof s.weight === 'number'; })
+        .map(function (s) { return { date: s.date, value: s.weight }; });
+
+      detailCard.innerHTML =
+        '<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">' +
+        '<h2 style="margin-bottom:0;">' + escapeHtml(data.name) + '</h2>' +
+        '<button class="btn btn-danger" id="removeClientBtn" style="width:auto; padding:8px 14px; font-size:12px;">Remove Client</button></div>' +
+
+        '<h2>Weight Trend</h2><div id="coachStatsChart" style="margin-bottom:20px;"></div>' +
+
+        '<h2>Exercise Progress</h2>' +
+        (exerciseNames.length
+          ? '<select id="coachExerciseSelect" style="width:100%; margin-bottom:12px; padding:10px; border:1px solid var(--hairline); border-radius:7px;">' +
+            exerciseNames.map(function (n) { return '<option value="' + escapeHtml(n) + '">' + escapeHtml(n) + '</option>'; }).join('') + '</select>' +
+            '<div id="coachWorkoutChart" style="margin-bottom:20px;"></div>'
+          : '<div class="chart-empty">No workouts logged yet.</div>') +
+
+        '<h2>Recent Workouts</h2><div class="entry-list" id="coachWorkoutList" style="margin-bottom:20px;"></div>' +
+        '<h2>Recent Stats</h2><div class="entry-list" id="coachStatsList"></div>';
+
+      renderLineChart(document.getElementById('coachStatsChart'), statsPoints);
+
+      if (exerciseNames.length) {
+        var sel = document.getElementById('coachExerciseSelect');
+        function renderExerciseChart() {
+          var pts = workoutPoints[sel.value].slice().sort(function (a, b) { return a.date.localeCompare(b.date); })
+            .map(function (w) { return { date: w.date, value: w.weight }; });
+          renderLineChart(document.getElementById('coachWorkoutChart'), pts);
+        }
+        sel.addEventListener('change', renderExerciseChart);
+        renderExerciseChart();
+      }
+
+      var wList = document.getElementById('coachWorkoutList');
+      var sortedWorkouts = data.workouts.slice().sort(function (a, b) { return b.date.localeCompare(a.date); }).slice(0, 15);
+      wList.innerHTML = sortedWorkouts.length
+        ? sortedWorkouts.map(function (w) {
+            return '<div class="entry"><strong>' + escapeHtml(w.exercise) + '</strong> — ' + w.sets + ' x ' + w.reps + ' @ ' + w.weight + ' ' + w.unit +
+              '<div class="entry-date">' + fmtDate(w.date) + '</div></div>';
+          }).join('')
+        : '<div class="empty-note">No workouts yet.</div>';
+
+      var sList = document.getElementById('coachStatsList');
+      var sortedStats = data.stats.slice().sort(function (a, b) { return b.date.localeCompare(a.date); }).slice(0, 15);
+      sList.innerHTML = sortedStats.length
+        ? sortedStats.map(function (s) {
+            var parts = [];
+            if (typeof s.weight === 'number') parts.push(s.weight + ' lbs');
+            if (typeof s.waist === 'number') parts.push('Waist ' + s.waist + '"');
+            if (typeof s.chest === 'number') parts.push('Chest ' + s.chest + '"');
+            if (typeof s.arms === 'number') parts.push('Arms ' + s.arms + '"');
+            if (typeof s.hips === 'number') parts.push('Hips ' + s.hips + '"');
+            return '<div class="entry">' + escapeHtml(parts.join(' · ')) + (s.notes ? '<br><span style="color:var(--slate-light);">' + escapeHtml(s.notes) + '</span>' : '') +
+              '<div class="entry-date">' + fmtDate(s.date) + '</div></div>';
+          }).join('')
+        : '<div class="empty-note">No check-ins yet.</div>';
+
+      document.getElementById('removeClientBtn').addEventListener('click', function () {
+        if (!confirm('Remove ' + data.name + ' and all their logged data? This cannot be undone.')) return;
+        callCoach('deleteClient', { clientId: clientId }).then(function () {
+          selectedClientId = null;
+          detailCard.innerHTML = '<div class="detail-placeholder">Select a client on the left to view their progress.</div>';
+          loadClientList();
+        });
+      });
+    });
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>

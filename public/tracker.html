@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Tracker — Sprayberry Fitness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#1B2430">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SB Tracker">
+<style>
+  :root {
+    --ink: #1B2430; --slate: #45596E; --slate-light: #8CA2B5;
+    --mist: #EDF1F4; --white: #FFFFFF; --gold: #B8935A; --gold-deep: #93744A;
+    --sage: #6B8F71; --hairline: rgba(27,36,48,0.12); --max-w: 720px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif; color: var(--ink); background: var(--mist);
+    line-height: 1.55; -webkit-font-smoothing: antialiased; padding-bottom: 60px;
+  }
+  h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.01em; color: var(--ink); }
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 20px; }
+  a { color: inherit; text-decoration: none; }
+
+  nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--hairline); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; max-width: var(--max-w); }
+  .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+  .logo img { height: 28px; width: 28px; }
+  .logo span { color: var(--gold); }
+  .install-btn {
+    background: var(--ink); color: var(--white); border: none; font-size: 12.5px; font-weight: 600;
+    padding: 9px 16px; border-radius: 7px; cursor: pointer; font-family: 'Inter', sans-serif;
+  }
+  .install-btn:hover { opacity: 0.9; }
+
+  .ios-help { background: var(--ink); color: var(--mist); }
+  .ios-help-inner {
+    max-width: var(--max-w); margin: 0 auto; padding: 12px 20px; display: flex; align-items: center;
+    justify-content: space-between; gap: 16px; font-size: 13px; line-height: 1.5;
+  }
+  .ios-help-inner strong { color: var(--gold); }
+  .ios-help-inner button {
+    flex-shrink: 0; background: var(--gold); color: var(--white); border: none; font-size: 12px; font-weight: 600;
+    padding: 7px 14px; border-radius: 6px; cursor: pointer;
+  }
+
+  .page-head { padding: 32px 0 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .eyebrow { font-weight: 600; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-deep); }
+  .page-head h1 { font-size: 26px; margin-top: 8px; }
+  .page-head p { color: var(--slate); font-size: 14.5px; margin-top: 8px; }
+  .logout-btn { background: none; border: 1px solid var(--hairline); color: var(--slate); font-size: 12.5px; padding: 8px 14px; border-radius: 7px; cursor: pointer; white-space: nowrap; }
+  .logout-btn:hover { border-color: var(--gold); color: var(--ink); }
+
+  .tabs { display: flex; gap: 8px; margin: 20px 0; }
+  .tab-btn {
+    flex: 1; padding: 12px; border-radius: 9px; border: 1px solid var(--hairline);
+    background: var(--white); color: var(--slate); font-family: 'Inter', sans-serif;
+    font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.15s;
+  }
+  .tab-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+  .card { background: var(--white); border-radius: 14px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--hairline); }
+  .card h2 { font-size: 15px; margin-bottom: 14px; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 11.5px; font-weight: 600; color: var(--slate); text-transform: uppercase; letter-spacing: 0.04em; }
+  .field input, .field select {
+    padding: 10px 11px; border: 1px solid var(--hairline); border-radius: 7px;
+    font-family: 'Inter', sans-serif; font-size: 14px; background: var(--white); color: var(--ink);
+  }
+  .field input:focus, .field select:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+  .btn { display: inline-block; font-weight: 600; font-size: 13.5px; padding: 11px 18px; border-radius: 7px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: opacity 0.15s, transform 0.15s; }
+  .btn-gold { background: var(--gold); color: var(--white); width: 100%; }
+  .btn-gold:hover { opacity: 0.92; }
+  .btn-gold:disabled { opacity: 0.6; cursor: default; }
+  .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--hairline); }
+  .btn-outline:hover { border-color: var(--gold); background: var(--mist); }
+
+  .entry-list { display: flex; flex-direction: column; gap: 8px; }
+  .entry {
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--mist); border-radius: 9px; padding: 12px 14px; font-size: 13.5px;
+  }
+  .entry .entry-main { color: var(--ink); }
+  .entry .entry-date { color: var(--slate-light); font-size: 12px; margin-top: 2px; }
+  .entry .entry-actions { display: flex; gap: 6px; flex-shrink: 0; }
+  .entry .entry-actions button {
+    background: none; border: none; color: var(--slate-light); cursor: pointer; font-size: 12px;
+    padding: 4px 6px; border-radius: 5px;
+  }
+  .entry .entry-actions button:hover { color: var(--ink); background: var(--white); }
+  .empty-note { color: var(--slate-light); font-size: 13.5px; text-align: center; padding: 20px 0; }
+
+  .chart-wrap { margin-bottom: 16px; }
+  .chart-wrap select { margin-bottom: 12px; width: 100%; padding: 10px 11px; border: 1px solid var(--hairline); border-radius: 7px; font-family: 'Inter', sans-serif; font-size: 14px; }
+  svg.chart { width: 100%; height: auto; display: block; }
+  .chart-empty { color: var(--slate-light); font-size: 13px; text-align: center; padding: 30px 0; }
+
+  .export-row { display: flex; gap: 10px; margin-top: 20px; }
+  .export-row .btn { flex: 1; }
+
+  .tracker-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .hidden { display: none; }
+
+  .gate-wrap { max-width: 380px; margin: 60px auto; padding: 0 20px; }
+  .gate-card { background: var(--white); border-radius: 16px; padding: 32px; border: 1px solid var(--hairline); text-align: center; }
+  .gate-card h1 { font-size: 20px; margin: 4px 0 8px; }
+  .gate-card p { color: var(--slate); font-size: 13.5px; margin-bottom: 22px; }
+  .gate-card input {
+    width: 100%; text-align: center; letter-spacing: 0.3em; font-size: 22px; font-family: 'Space Grotesk', sans-serif;
+    padding: 14px; border: 1px solid var(--hairline); border-radius: 9px; margin-bottom: 14px;
+  }
+  .gate-card input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .gate-error { color: #b23; font-size: 12.5px; margin-top: 12px; min-height: 16px; }
+
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 860px) {
+    :root { --max-w: 1080px; }
+    .page-head h1 { font-size: 30px; }
+    .tracker-grid { grid-template-columns: 340px 1fr; align-items: start; gap: 24px; }
+    .tracker-col-left .card { position: sticky; top: 88px; }
+    .tracker-col-right { display: flex; flex-direction: column; }
+    .card { padding: 24px; }
+    svg.chart { max-height: 260px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="logo"><img src="assets/icon.svg" alt="Sprayberry Fitness"> Sprayberry <span>Fitness</span></a>
+    <button id="installBtn" class="install-btn hidden">Download App</button>
+  </div>
+</nav>
+
+<div id="iosInstallHelp" class="ios-help hidden">
+  <div class="ios-help-inner">
+    <span>Tap <strong>Share</strong> (the box with an arrow) in Safari's toolbar, then choose <strong>Add to Home Screen</strong>.</span>
+    <button id="iosHelpClose">Got it</button>
+  </div>
+</div>
+
+<!-- PIN GATE -->
+<div id="gateScreen" class="gate-wrap">
+  <div class="gate-card">
+    <span class="eyebrow">For Current Clients</span>
+    <h1>Enter Your PIN</h1>
+    <p>Use the 4-digit PIN your coach gave you to open your tracker.</p>
+    <input type="text" id="pinInput" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+    <button class="btn btn-gold" id="pinSubmitBtn">Unlock My Tracker</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- APP CONTENT -->
+<div id="appContent" class="hidden">
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <span class="eyebrow">For Current Clients</span>
+        <h1 id="greetingHeading">Your Progress Tracker</h1>
+        <p>Log your lifts and your stats — everything's saved and synced, so it's here whenever you come back.</p>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Log out</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tabWorkoutsBtn">Workouts</button>
+      <button class="tab-btn" id="tabStatsBtn">Body Stats</button>
+    </div>
+
+    <!-- WORKOUTS TAB -->
+    <div id="workoutsPanel">
+      <div class="tracker-grid">
+        <div class="tracker-col-left">
+          <div class="card">
+            <h2>Log a Lift</h2>
+            <div class="field-row">
+              <div class="field"><label>Date</label><input type="date" id="wDate"></div>
+              <div class="field"><label>Exercise</label><input type="text" id="wExercise" placeholder="e.g. Bench Press" list="exerciseList"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Sets</label><input type="number" id="wSets" min="1" placeholder="3"></div>
+              <div class="field"><label>Reps</label><input type="number" id="wReps" min="1" placeholder="8"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Weight</label><input type="number" id="wWeight" min="0" step="0.5" placeholder="135"></div>
+              <div class="field"><label>Unit</label>
+                <select id="wUnit"><option value="lbs">lbs</option><option value="kg">kg</option></select>
+              </div>
+            </div>
+            <button class="btn btn-gold" id="wAddBtn">Add Entry</button>
+            <datalist id="exerciseList"></datalist>
+          </div>
+        </div>
+
+        <div class="tracker-col-right">
+          <div class="card chart-wrap">
+            <h2>Progress on an Exercise</h2>
+            <select id="wChartSelect"></select>
+            <div id="wChartContainer"><div class="chart-empty">Log a couple entries for the same exercise to see your trend.</div></div>
+          </div>
+
+          <div class="card">
+            <h2>Workout Log</h2>
+            <div class="entry-list" id="wList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BODY STATS TAB -->
+    <div id="statsPanel" class="hidden">
+      <div class="tracker-grid">
+        <div class="tracker-col-left">
+          <div class="card">
+            <h2>Log Your Stats</h2>
+            <div class="field-row">
+              <div class="field"><label>Date</label><input type="date" id="sDate"></div>
+              <div class="field"><label>Weight (lbs)</label><input type="number" id="sWeight" min="0" step="0.1" placeholder="180"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Waist (in)</label><input type="number" id="sWaist" min="0" step="0.1" placeholder="optional"></div>
+              <div class="field"><label>Chest (in)</label><input type="number" id="sChest" min="0" step="0.1" placeholder="optional"></div>
+            </div>
+            <div class="field-row">
+              <div class="field"><label>Arms (in)</label><input type="number" id="sArms" min="0" step="0.1" placeholder="optional"></div>
+              <div class="field"><label>Hips (in)</label><input type="number" id="sHips" min="0" step="0.1" placeholder="optional"></div>
+            </div>
+            <div class="field" style="margin-bottom:10px;"><label>Notes</label><input type="text" id="sNotes" placeholder="optional"></div>
+            <button class="btn btn-gold" id="sAddBtn">Add Entry</button>
+          </div>
+        </div>
+
+        <div class="tracker-col-right">
+          <div class="card chart-wrap">
+            <h2>Weight Trend</h2>
+            <div id="sChartContainer"><div class="chart-empty">Log a couple entries to see your trend.</div></div>
+          </div>
+
+          <div class="card">
+            <h2>Stats Log</h2>
+            <div class="entry-list" id="sList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="export-row">
+      <button class="btn btn-outline" id="exportWorkoutsBtn">Download Workouts CSV</button>
+      <button class="btn btn-outline" id="exportStatsBtn">Download Stats CSV</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function todayStr() {
+    var d = new Date();
+    var m = ('0' + (d.getMonth() + 1)).slice(-2);
+    var day = ('0' + d.getDate()).slice(-2);
+    return d.getFullYear() + '-' + m + '-' + day;
+  }
+  function fmtDate(dstr) {
+    var parts = dstr.split('-');
+    if (parts.length !== 3) return dstr;
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[parseInt(parts[1], 10) - 1] + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
+  }
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  var urlParams = new URLSearchParams(window.location.search);
+  var clientId = urlParams.get('client') || '';
+  var currentPin = null;
+  var workouts = [];
+  var bodyStats = [];
+
+  // The manifest's start_url has to include this client's link, so it's
+  // generated in JS (per visitor) rather than served as a static file.
+  if (clientId) {
+    var manifestObj = {
+      name: 'Sprayberry Fitness Tracker',
+      short_name: 'SB Tracker',
+      start_url: '/tracker.html?client=' + encodeURIComponent(clientId),
+      scope: '/',
+      display: 'standalone',
+      background_color: '#EDF1F4',
+      theme_color: '#1B2430',
+      icons: [
+        { src: '/assets/icon-192.png', sizes: '192x192', type: 'image/png' },
+        { src: '/assets/icon-512.png', sizes: '512x512', type: 'image/png' }
+      ]
+    };
+    var manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
+    var manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = URL.createObjectURL(manifestBlob);
+    document.head.appendChild(manifestLink);
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+  }
+
+  // ---------- Install button ----------
+  (function () {
+    var installBtn = document.getElementById('installBtn');
+    var iosHelp = document.getElementById('iosInstallHelp');
+    var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+    var deferredPrompt = null;
+
+    if (isStandalone) return; // already installed, nothing to do
+
+    if (isIOS) {
+      installBtn.classList.remove('hidden');
+    }
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.classList.remove('hidden');
+    });
+
+    installBtn.addEventListener('click', function () {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.finally(function () {
+          deferredPrompt = null;
+          installBtn.classList.add('hidden');
+        });
+      } else if (isIOS) {
+        iosHelp.classList.toggle('hidden');
+      }
+    });
+
+    document.getElementById('iosHelpClose').addEventListener('click', function () {
+      iosHelp.classList.add('hidden');
+    });
+
+    window.addEventListener('appinstalled', function () {
+      installBtn.classList.add('hidden');
+    });
+  })();
+
+  function callClient(action, extra) {
+    var body = Object.assign({ action: action, clientId: clientId, pin: currentPin }, extra || {});
+    return fetch('/.netlify/functions/client', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    }).then(function (res) {
+      return res.json().then(function (data) {
+        if (!res.ok) throw new Error(data.error || 'Something went wrong');
+        return data;
+      });
+    });
+  }
+
+  var gateScreen = document.getElementById('gateScreen');
+  var appContent = document.getElementById('appContent');
+  var pinInput = document.getElementById('pinInput');
+  var pinSubmitBtn = document.getElementById('pinSubmitBtn');
+  var gateError = document.getElementById('gateError');
+
+  function showGateError(msg) { gateError.textContent = msg; }
+
+  function unlockWithPin(pin) {
+    showGateError('');
+    pinSubmitBtn.disabled = true;
+    pinSubmitBtn.textContent = 'Checking...';
+    currentPin = pin;
+    callClient('getData')
+      .then(function (data) {
+        localStorage.setItem('sprayberry_pin_' + clientId, pin);
+        workouts = data.workouts || [];
+        bodyStats = data.stats || [];
+        document.getElementById('greetingHeading').textContent = data.name ? data.name + '\u2019s Progress Tracker' : 'Your Progress Tracker';
+        gateScreen.classList.add('hidden');
+        appContent.classList.remove('hidden');
+        initApp();
+      })
+      .catch(function (err) {
+        showGateError('That PIN didn\u2019t work — check it and try again.');
+        currentPin = null;
+      })
+      .finally(function () {
+        pinSubmitBtn.disabled = false;
+        pinSubmitBtn.textContent = 'Unlock My Tracker';
+      });
+  }
+
+  pinSubmitBtn.addEventListener('click', function () {
+    var pin = pinInput.value.trim();
+    if (!clientId) { showGateError('This link is missing your client ID — check the link your coach sent you.'); return; }
+    if (pin.length !== 4) { showGateError('Enter your 4-digit PIN.'); return; }
+    unlockWithPin(pin);
+  });
+  pinInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') pinSubmitBtn.click(); });
+
+  document.getElementById('logoutBtn').addEventListener('click', function () {
+    localStorage.removeItem('sprayberry_pin_' + clientId);
+    window.location.reload();
+  });
+
+  // Auto-unlock if we already know this device's PIN for this client
+  (function tryAutoUnlock() {
+    if (!clientId) { showGateError('This link is missing your client ID — check the link your coach sent you.'); return; }
+    var savedPin = localStorage.getItem('sprayberry_pin_' + clientId);
+    if (savedPin) unlockWithPin(savedPin);
+  })();
+
+  function initApp() {
+    document.getElementById('wDate').value = todayStr();
+    document.getElementById('sDate').value = todayStr();
+
+    // ---------- Tabs ----------
+    var tabWorkoutsBtn = document.getElementById('tabWorkoutsBtn');
+    var tabStatsBtn = document.getElementById('tabStatsBtn');
+    var workoutsPanel = document.getElementById('workoutsPanel');
+    var statsPanel = document.getElementById('statsPanel');
+
+    tabWorkoutsBtn.addEventListener('click', function () {
+      tabWorkoutsBtn.classList.add('active');
+      tabStatsBtn.classList.remove('active');
+      workoutsPanel.classList.remove('hidden');
+      statsPanel.classList.add('hidden');
+    });
+    tabStatsBtn.addEventListener('click', function () {
+      tabStatsBtn.classList.add('active');
+      tabWorkoutsBtn.classList.remove('active');
+      statsPanel.classList.remove('hidden');
+      workoutsPanel.classList.add('hidden');
+    });
+
+    // ---------- SVG line chart ----------
+    function renderLineChart(container, points, opts) {
+      opts = opts || {};
+      var unitLabel = opts.unitLabel || '';
+      if (!points.length) { container.innerHTML = '<div class="chart-empty">Log a couple entries to see your trend.</div>'; return; }
+      if (points.length === 1) { container.innerHTML = '<div class="chart-empty">Log one more entry to see a trend line.</div>'; return; }
+      var w = 640, h = 220, padL = 40, padR = 16, padT = 16, padB = 28;
+      var values = points.map(function (p) { return p.value; });
+      var minV = Math.min.apply(null, values);
+      var maxV = Math.max.apply(null, values);
+      if (minV === maxV) { minV -= 1; maxV += 1; }
+      var range = maxV - minV;
+      var innerW = w - padL - padR;
+      var innerH = h - padT - padB;
+      function x(i) { return padL + (innerW * i) / (points.length - 1); }
+      function y(v) { return padT + innerH - ((v - minV) / range) * innerH; }
+      var pathD = points.map(function (p, i) { return (i === 0 ? 'M' : 'L') + x(i).toFixed(1) + ',' + y(p.value).toFixed(1); }).join(' ');
+      var dots = points.map(function (p, i) { return '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(p.value).toFixed(1) + '" r="3.5" fill="#B8935A"></circle>'; }).join('');
+      var firstLabel = fmtDate(points[0].date);
+      var lastLabel = fmtDate(points[points.length - 1].date);
+      var svg = '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+        '<line x1="' + padL + '" y1="' + padT + '" x2="' + padL + '" y2="' + (padT + innerH) + '" stroke="#DCE3EA" stroke-width="1"></line>' +
+        '<line x1="' + padL + '" y1="' + (padT + innerH) + '" x2="' + (padL + innerW) + '" y2="' + (padT + innerH) + '" stroke="#DCE3EA" stroke-width="1"></line>' +
+        '<text x="4" y="' + (padT + 4) + '" font-size="10" fill="#8CA2B5" font-family="Inter, sans-serif">' + maxV.toFixed(1) + unitLabel + '</text>' +
+        '<text x="4" y="' + (padT + innerH) + '" font-size="10" fill="#8CA2B5" font-family="Inter, sans-serif">' + minV.toFixed(1) + unitLabel + '</text>' +
+        '<text x="' + padL + '" y="' + (h - 6) + '" font-size="10" fill="#8CA2B5" font-family="Inter, sans-serif">' + firstLabel + '</text>' +
+        '<text x="' + (padL + innerW) + '" y="' + (h - 6) + '" font-size="10" fill="#8CA2B5" font-family="Inter, sans-serif" text-anchor="end">' + lastLabel + '</text>' +
+        '<path d="' + pathD + '" fill="none" stroke="#B8935A" stroke-width="2.5"></path>' +
+        dots + '</svg>';
+      container.innerHTML = svg;
+    }
+
+    // ---------- Workouts ----------
+    var wList = document.getElementById('wList');
+    var wChartSelect = document.getElementById('wChartSelect');
+    var wChartContainer = document.getElementById('wChartContainer');
+    var exerciseList = document.getElementById('exerciseList');
+
+    function distinctExercises() {
+      var seen = {}; var out = [];
+      workouts.forEach(function (w) { if (!seen[w.exercise]) { seen[w.exercise] = true; out.push(w.exercise); } });
+      return out;
+    }
+    function renderExerciseOptions() {
+      var names = distinctExercises();
+      exerciseList.innerHTML = names.map(function (n) { return '<option value="' + escapeHtml(n) + '">'; }).join('');
+      var current = wChartSelect.value;
+      wChartSelect.innerHTML = names.map(function (n) { return '<option value="' + escapeHtml(n) + '">' + escapeHtml(n) + '</option>'; }).join('');
+      if (names.indexOf(current) !== -1) wChartSelect.value = current;
+    }
+    function renderWorkoutChart() {
+      var selected = wChartSelect.value;
+      if (!selected) { wChartContainer.innerHTML = '<div class="chart-empty">Log a couple entries for the same exercise to see your trend.</div>'; return; }
+      var points = workouts.filter(function (w) { return w.exercise === selected; })
+        .sort(function (a, b) { return a.date.localeCompare(b.date); })
+        .map(function (w) { return { date: w.date, value: w.weight }; });
+      renderLineChart(wChartContainer, points, { unitLabel: '' });
+    }
+    function renderWorkoutList() {
+      if (!workouts.length) { wList.innerHTML = '<div class="empty-note">No entries yet — log your first lift above.</div>'; return; }
+      var sorted = workouts.slice().sort(function (a, b) { return b.date.localeCompare(a.date); });
+      wList.innerHTML = sorted.map(function (w) {
+        return '<div class="entry"><div><div class="entry-main"><strong>' + escapeHtml(w.exercise) + '</strong> — ' + w.sets + ' x ' + w.reps + ' @ ' + w.weight + ' ' + w.unit + '</div>' +
+          '<div class="entry-date">' + fmtDate(w.date) + '</div></div>' +
+          '<div class="entry-actions"><button data-id="' + w.id + '" class="wDeleteBtn">Delete</button></div></div>';
+      }).join('');
+      Array.prototype.forEach.call(wList.querySelectorAll('.wDeleteBtn'), function (btn) {
+        btn.addEventListener('click', function () {
+          callClient('deleteWorkout', { entryId: btn.getAttribute('data-id') }).then(function (data) {
+            workouts = data.workouts || [];
+            renderExerciseOptions(); renderWorkoutChart(); renderWorkoutList();
+          });
+        });
+      });
+    }
+
+    document.getElementById('wAddBtn').addEventListener('click', function () {
+      var date = document.getElementById('wDate').value || todayStr();
+      var exercise = document.getElementById('wExercise').value.trim();
+      var sets = parseFloat(document.getElementById('wSets').value);
+      var reps = parseFloat(document.getElementById('wReps').value);
+      var weight = parseFloat(document.getElementById('wWeight').value);
+      var unit = document.getElementById('wUnit').value;
+      if (!exercise || !sets || !reps || isNaN(weight)) { alert('Fill in exercise, sets, reps, and weight.'); return; }
+      var btn = document.getElementById('wAddBtn');
+      btn.disabled = true;
+      callClient('addWorkout', { entry: { date: date, exercise: exercise, sets: sets, reps: reps, weight: weight, unit: unit } })
+        .then(function (data) {
+          workouts = data.workouts || [];
+          document.getElementById('wExercise').value = '';
+          document.getElementById('wSets').value = '';
+          document.getElementById('wReps').value = '';
+          document.getElementById('wWeight').value = '';
+          renderExerciseOptions();
+          wChartSelect.value = exercise;
+          renderWorkoutChart();
+          renderWorkoutList();
+        })
+        .catch(function () { alert('Couldn\u2019t save that entry — check your connection and try again.'); })
+        .finally(function () { btn.disabled = false; });
+    });
+
+    wChartSelect.addEventListener('change', renderWorkoutChart);
+
+    // ---------- Body Stats ----------
+    var sList = document.getElementById('sList');
+    var sChartContainer = document.getElementById('sChartContainer');
+
+    function renderStatsChart() {
+      var points = bodyStats.slice().sort(function (a, b) { return a.date.localeCompare(b.date); })
+        .filter(function (s) { return typeof s.weight === 'number'; })
+        .map(function (s) { return { date: s.date, value: s.weight }; });
+      renderLineChart(sChartContainer, points, { unitLabel: '' });
+    }
+    function renderStatsList() {
+      if (!bodyStats.length) { sList.innerHTML = '<div class="empty-note">No entries yet — log your first check-in above.</div>'; return; }
+      var sorted = bodyStats.slice().sort(function (a, b) { return b.date.localeCompare(a.date); });
+      sList.innerHTML = sorted.map(function (s) {
+        var parts = [];
+        if (typeof s.weight === 'number') parts.push(s.weight + ' lbs');
+        if (typeof s.waist === 'number') parts.push('Waist ' + s.waist + '"');
+        if (typeof s.chest === 'number') parts.push('Chest ' + s.chest + '"');
+        if (typeof s.arms === 'number') parts.push('Arms ' + s.arms + '"');
+        if (typeof s.hips === 'number') parts.push('Hips ' + s.hips + '"');
+        return '<div class="entry"><div><div class="entry-main">' + escapeHtml(parts.join(' · ')) + (s.notes ? '<br><span style="color:var(--slate-light);">' + escapeHtml(s.notes) + '</span>' : '') + '</div>' +
+          '<div class="entry-date">' + fmtDate(s.date) + '</div></div>' +
+          '<div class="entry-actions"><button data-id="' + s.id + '" class="sDeleteBtn">Delete</button></div></div>';
+      }).join('');
+      Array.prototype.forEach.call(sList.querySelectorAll('.sDeleteBtn'), function (btn) {
+        btn.addEventListener('click', function () {
+          callClient('deleteStat', { entryId: btn.getAttribute('data-id') }).then(function (data) {
+            bodyStats = data.stats || [];
+            renderStatsChart(); renderStatsList();
+          });
+        });
+      });
+    }
+
+    document.getElementById('sAddBtn').addEventListener('click', function () {
+      var date = document.getElementById('sDate').value || todayStr();
+      var weight = parseFloat(document.getElementById('sWeight').value);
+      var waist = parseFloat(document.getElementById('sWaist').value);
+      var chest = parseFloat(document.getElementById('sChest').value);
+      var arms = parseFloat(document.getElementById('sArms').value);
+      var hips = parseFloat(document.getElementById('sHips').value);
+      var notes = document.getElementById('sNotes').value.trim();
+      if (isNaN(weight)) { alert('Weight is required — the rest is optional.'); return; }
+      var entry = { date: date, weight: weight, notes: notes };
+      if (!isNaN(waist)) entry.waist = waist;
+      if (!isNaN(chest)) entry.chest = chest;
+      if (!isNaN(arms)) entry.arms = arms;
+      if (!isNaN(hips)) entry.hips = hips;
+      var btn = document.getElementById('sAddBtn');
+      btn.disabled = true;
+      callClient('addStat', { entry: entry })
+        .then(function (data) {
+          bodyStats = data.stats || [];
+          document.getElementById('sWaist').value = '';
+          document.getElementById('sChest').value = '';
+          document.getElementById('sArms').value = '';
+          document.getElementById('sHips').value = '';
+          document.getElementById('sNotes').value = '';
+          renderStatsChart(); renderStatsList();
+        })
+        .catch(function () { alert('Couldn\u2019t save that entry — check your connection and try again.'); })
+        .finally(function () { btn.disabled = false; });
+    });
+
+    // ---------- CSV export ----------
+    function downloadCsv(filename, rows) {
+      var csv = rows.map(function (row) {
+        return row.map(function (cell) {
+          var s = String(cell === undefined || cell === null ? '' : cell);
+          if (s.indexOf(',') !== -1 || s.indexOf('"') !== -1) s = '"' + s.replace(/"/g, '""') + '"';
+          return s;
+        }).join(',');
+      }).join('\n');
+      var blob = new Blob([csv], { type: 'text/csv' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById('exportWorkoutsBtn').addEventListener('click', function () {
+      var rows = [['Date', 'Exercise', 'Sets', 'Reps', 'Weight', 'Unit']];
+      workouts.slice().sort(function (a, b) { return a.date.localeCompare(b.date); }).forEach(function (w) {
+        rows.push([w.date, w.exercise, w.sets, w.reps, w.weight, w.unit]);
+      });
+      downloadCsv('sprayberry-workouts.csv', rows);
+    });
+    document.getElementById('exportStatsBtn').addEventListener('click', function () {
+      var rows = [['Date', 'Weight', 'Waist', 'Chest', 'Arms', 'Hips', 'Notes']];
+      bodyStats.slice().sort(function (a, b) { return a.date.localeCompare(b.date); }).forEach(function (s) {
+        rows.push([s.date, s.weight, s.waist, s.chest, s.arms, s.hips, s.notes]);
+      });
+      downloadCsv('sprayberry-body-stats.csv', rows);
+    });
+
+    // ---------- Init ----------
+    renderExerciseOptions();
+    renderWorkoutChart();
+    renderWorkoutList();
+    renderStatsChart();
+    renderStatsList();
+  }
+</script>
+</body>
+</html>

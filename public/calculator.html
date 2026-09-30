@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Own Plan — Sprayberry Fitness</title>
+<meta name="description" content="Build your own free 7-day meal plan, grocery list, and workout split — starting with your personalized numbers. From Sprayberry Fitness.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Build Your Own Plan — Sprayberry Fitness">
+<meta property="og:description" content="Build your own free 7-day meal plan, grocery list, and workout split — starting with your personalized numbers. From Sprayberry Fitness.">
+<meta property="og:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
+<meta property="og:url" content="https://sprayberryfitness.com/calculator.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Build Your Own Plan — Sprayberry Fitness">
+<meta name="twitter:description" content="Build your own free 7-day meal plan, grocery list, and workout split — starting with your personalized numbers. From Sprayberry Fitness.">
+<meta name="twitter:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B2430;
+    --slate: #45596E;
+    --slate-light: #8CA2B5;
+    --mist: #EDF1F4;
+    --white: #FFFFFF;
+    --gold: #B8935A;
+    --gold-deep: #93744A;
+    --sage: #6B8F71;
+    --hairline: rgba(27,36,48,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--mist);
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 48px 16px;
+    line-height: 1.55;
+  }
+  .card {
+    width: 100%;
+    max-width: 760px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 30px 60px -25px rgba(27,36,48,0.25);
+    overflow: hidden;
+  }
+  .card-head {
+    background: var(--ink);
+    color: var(--mist);
+    padding: 32px 36px;
+  }
+  .eyebrow {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .card-head {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-head::before {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,147,90,0.22) 0%, rgba(184,147,90,0) 70%);
+    top: -160px;
+    right: -100px;
+    z-index: 0;
+  }
+  .card-head > * { position: relative; z-index: 1; }
+  .card-head h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    margin-top: 8px;
+    font-weight: 700;
+  }
+  .card-head p { color: var(--slate-light); font-size: 14.5px; margin-top: 8px; max-width: 480px; }
+
+  .body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .form-col { padding: 32px 36px; border-right: 1px solid var(--hairline); }
+  .result-col { padding: 32px 36px; background: var(--mist); }
+
+  label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--slate);
+    margin-bottom: 6px;
+    margin-top: 18px;
+    letter-spacing: 0.02em;
+  }
+  label:first-of-type { margin-top: 0; }
+
+  input[type="number"], select {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    background: var(--white);
+    color: var(--ink);
+  }
+  input:focus, select:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .seg {
+    display: flex;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .seg button {
+    flex: 1;
+    padding: 10px 8px;
+    background: var(--white);
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--slate);
+    cursor: pointer;
+    border-right: 1px solid var(--hairline);
+    transition: background 0.15s, color 0.15s;
+  }
+  .seg button:last-child { border-right: none; }
+  .seg button.active { background: var(--ink); color: var(--white); }
+
+  .btn-calc {
+    position: relative;
+    width: 100%;
+    margin-top: 26px;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 14.5px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.2s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s ease;
+    animation: btnCalcPulse 2.6s ease-in-out infinite;
+  }
+  .btn-calc::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.35) 40%, transparent 60%);
+    transform: translateX(-120%);
+    transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    z-index: -1;
+  }
+  .btn-calc:hover::before { transform: translateX(120%); }
+  .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(184,147,90,0.4); }
+  .btn-calc:active { transform: translateY(0) scale(0.98); }
+  @keyframes btnCalcPulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(184,147,90,0.25), 0 0 0 0 rgba(184,147,90,0.35); }
+    50% { box-shadow: 0 4px 14px rgba(184,147,90,0.25), 0 0 0 8px rgba(184,147,90,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-calc { animation: none; }
+  }
+
+  .result-col .eyebrow { color: var(--gold-deep); }
+  .tdee-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    margin: 10px 0 2px;
+  }
+  .tdee-label { font-size: 13px; color: var(--slate); margin-bottom: 24px; }
+
+  .macro-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--hairline);
+  }
+  .macro-row:last-of-type { border-bottom: none; }
+  .macro-name { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; }
+  .dot.p { background: var(--sage); }
+  .dot.c { background: var(--gold); }
+  .dot.f { background: var(--slate); }
+  .macro-grams { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15.5px; }
+  .macro-sub { font-size: 12px; color: var(--slate-light); }
+
+  .verse-note {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    color: var(--slate);
+    font-style: italic;
+  }
+
+  .placeholder-note {
+    color: var(--slate-light);
+    font-size: 13.5px;
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .template-link {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .template-btn {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    background: var(--gold);
+    color: var(--white);
+    border-radius: 7px;
+    font-weight: 600;
+    font-size: 13.5px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .template-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(184,147,90,0.3); }
+  .template-alt {
+    display: block;
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--slate);
+    text-decoration: none;
+  }
+  .template-alt:hover { color: var(--ink); }
+
+  .plan-gen {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline);
+  }
+  .plan-gen .pg-sub { font-size: 12.5px; color: var(--slate-light); margin-bottom: 14px; }
+  .pg-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate);
+    margin-top: 12px;
+    margin-bottom: 5px;
+  }
+  .pg-label:first-of-type { margin-top: 0; }
+  .pg-input {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--hairline);
+    border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    background: var(--white);
+    color: var(--ink);
+  }
+  .pg-checks {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12.5px;
+    color: var(--ink);
+  }
+  .pg-checks label { display: flex; align-items: center; gap: 6px; font-weight: 400; }
+  .pg-submit-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 11px;
+    background: var(--gold);
+    color: var(--white);
+    border: none;
+    border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .pg-submit-btn:hover { opacity: 0.92; }
+  .pg-submit-btn:disabled { opacity: 0.6; cursor: default; }
+  .pg-download-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 11px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+    border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .pg-download-btn:hover { border-color: var(--gold); background: var(--mist); }
+  .pg-loading { font-size: 12.5px; color: var(--slate-light); text-align: center; padding: 14px 0; }
+  .pg-error { font-size: 12.5px; color: #b23; padding: 10px 0; }
+  .pg-plan-output {
+    margin-top: 14px;
+    background: var(--white);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 18px;
+    font-size: 13.5px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .pg-plan-output p { margin-bottom: 12px; }
+  .pg-plan-output p:last-child { margin-bottom: 0; }
+  .pg-plan-output .pg-list { margin: 0 0 12px 18px; padding: 0; }
+  .pg-plan-output .pg-list li { margin-bottom: 4px; }
+  .pg-plan-output strong { color: var(--gold-deep); }
+  .pg-day-header {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    margin: 18px 0 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+  }
+  .pg-plan-output .pg-day-header:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .pg-section-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13.5px;
+    color: var(--gold-deep);
+    margin: 22px 0 4px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+  }
+  .pg-section-label:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .pg-plan-section { margin-top: 18px; }
+  .pg-plan-section:first-child { margin-top: 0; }
+  .pg-result-h {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .capture-block {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hairline);
+  }
+  .capture-block .eyebrow { color: var(--gold-deep); display: block; margin-bottom: 10px; }
+  .capture-block input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--hairline);
+    border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+    background: var(--white);
+    margin-top: 8px;
+  }
+  .capture-block button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 11px;
+    background: var(--ink);
+    color: var(--white);
+    border: none;
+    border-radius: 7px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .capture-block button:hover { opacity: 0.9; }
+  .capture-note { font-size: 11.5px; color: var(--slate-light); margin-top: 8px; }
+  .capture-success { font-size: 13.5px; color: var(--sage); font-weight: 600; text-align: center; padding: 8px 0; }
+
+  @media (max-width: 640px) {
+    .body-grid { grid-template-columns: 1fr; }
+    .form-col { border-right: none; border-bottom: 1px solid var(--hairline); }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1), border-color 0.2s, box-shadow 0.2s;
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-head">
+    <span class="eyebrow">Step 1 of 3 — Your Numbers</span>
+    <h1>Build Your Own Plan</h1>
+    <p>Start with your personalized macros (Mifflin-St Jeor formula — the same starting point used with every new Sprayberry Fitness client), then get your free 7-day meal plan, grocery list, and workout split.</p>
+  </div>
+
+  <div class="body-grid">
+    <div class="form-col">
+      <label for="sex">Sex</label>
+      <div class="seg" id="sexSeg">
+        <button type="button" class="active" data-val="male">Male</button>
+        <button type="button" data-val="female">Female</button>
+      </div>
+
+      <div class="row2">
+        <div>
+          <label for="age">Age</label>
+          <input type="number" id="age" placeholder="30" min="14" max="90">
+        </div>
+        <div>
+          <label for="weight">Weight (lbs)</label>
+          <input type="number" id="weight" placeholder="180" min="60" max="500">
+        </div>
+      </div>
+
+      <label for="height">Height</label>
+      <div class="row2">
+        <input type="number" id="heightFt" placeholder="Feet" min="3" max="8">
+        <input type="number" id="heightIn" placeholder="Inches" min="0" max="11">
+      </div>
+
+      <label for="activity">Activity level</label>
+      <select id="activity">
+        <option value="1.2">Sedentary — desk job, little exercise</option>
+        <option value="1.375">Light — exercise 1-3 days/week</option>
+        <option value="1.55" selected>Moderate — exercise 3-5 days/week</option>
+        <option value="1.725">Active — exercise 6-7 days/week</option>
+        <option value="1.9">Very Active — physical job + training</option>
+      </select>
+
+      <label>Goal</label>
+      <div class="seg" id="goalSeg">
+        <button type="button" data-val="cut">Cut</button>
+        <button type="button" class="active" data-val="maintain">Maintain</button>
+        <button type="button" data-val="bulk">Bulk</button>
+      </div>
+
+      <button class="btn-calc" id="calcBtn">Calculate My Macros</button>
+    </div>
+
+    <div class="result-col" id="resultCol">
+      <div class="placeholder-note">Fill out your numbers and hit calculate — your daily targets will show up here.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let sex = 'male';
+  let goal = 'maintain';
+
+  document.querySelectorAll('#sexSeg button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#sexSeg button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      sex = btn.dataset.val;
+    });
+  });
+
+  document.querySelectorAll('#goalSeg button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#goalSeg button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      goal = btn.dataset.val;
+    });
+  });
+
+  document.getElementById('calcBtn').addEventListener('click', () => {
+    const age = parseFloat(document.getElementById('age').value);
+    const weightLbs = parseFloat(document.getElementById('weight').value);
+    const ft = parseFloat(document.getElementById('heightFt').value) || 0;
+    const inch = parseFloat(document.getElementById('heightIn').value) || 0;
+    const activity = parseFloat(document.getElementById('activity').value);
+
+    if (!age || !weightLbs || (!ft && !inch)) {
+      document.getElementById('resultCol').innerHTML = '<div class="placeholder-note">Fill in age, weight, and height first.</div>';
+      return;
+    }
+
+    const weightKg = weightLbs * 0.453592;
+    const heightCm = (ft * 12 + inch) * 2.54;
+
+    let bmr;
+    if (sex === 'male') {
+      bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5;
+    } else {
+      bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161;
+    }
+
+    let tdee = bmr * activity;
+
+    let goalCalories, goalLabel;
+    if (goal === 'cut') {
+      goalCalories = tdee - 500;
+      goalLabel = 'Cutting — ~1 lb/week loss';
+    } else if (goal === 'bulk') {
+      goalCalories = tdee + 300;
+      goalLabel = 'Bulking — lean gain pace';
+    } else {
+      goalCalories = tdee;
+      goalLabel = 'Maintenance';
+    }
+    goalCalories = Math.round(goalCalories);
+
+    let templateHref, templateName;
+    if (goal === 'cut') { templateHref = 'deficit.html'; templateName = 'Deficit Template'; }
+    else if (goal === 'bulk') { templateHref = 'surplus.html'; templateName = 'Surplus Template'; }
+    else { templateHref = 'maintenance.html'; templateName = 'Maintenance Template'; }
+
+    // Macro split by goal
+    let proteinPerLb, fatPct;
+    if (goal === 'cut') { proteinPerLb = 1.0; fatPct = 0.30; }
+    else if (goal === 'bulk') { proteinPerLb = 0.9; fatPct = 0.25; }
+    else { proteinPerLb = 0.9; fatPct = 0.28; }
+
+    const proteinG = Math.round(weightLbs * proteinPerLb);
+    const proteinCal = proteinG * 4;
+    const fatCal = Math.round(goalCalories * fatPct);
+    const fatG = Math.round(fatCal / 9);
+    const carbCal = goalCalories - proteinCal - fatCal;
+    const carbG = Math.round(Math.max(carbCal, 0) / 4);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefillName = urlParams.get('name') || '';
+    const prefillEmail = urlParams.get('email') || '';
+    const prefillPhone = urlParams.get('phone') || '';
+
+    document.getElementById('resultCol').innerHTML = `
+      <span class="eyebrow">Your Daily Target</span>
+      <div class="tdee-num">${goalCalories}</div>
+      <div class="tdee-label">calories/day — ${goalLabel}</div>
+
+      <div class="macro-row">
+        <div class="macro-name"><span class="dot p"></span>Protein</div>
+        <div style="text-align:right">
+          <div class="macro-grams">${proteinG}g</div>
+          <div class="macro-sub">${proteinCal} cal</div>
+        </div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-name"><span class="dot c"></span>Carbs</div>
+        <div style="text-align:right">
+          <div class="macro-grams">${carbG}g</div>
+          <div class="macro-sub">${carbCal} cal</div>
+        </div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-name"><span class="dot f"></span>Fat</div>
+        <div style="text-align:right">
+          <div class="macro-grams">${fatG}g</div>
+          <div class="macro-sub">${fatCal} cal</div>
+        </div>
+      </div>
+
+      <div class="verse-note">These numbers are a starting line, not a cage — stewardship over obsession, every time.</div>
+
+      <div class="template-link">
+        <a href="${templateHref}" class="template-btn">See Your ${templateName} &rarr;</a>
+        <a href="dietary-restrictions.html" class="template-alt">Have dietary restrictions? Layer this on top &rarr;</a>
+      </div>
+
+      <div class="capture-block" id="captureBlock">
+        <span class="eyebrow">Save These Results</span>
+        <form id="resultsForm">
+          <input type="text" name="name" id="captureName" placeholder="First name" value="${prefillName}" required />
+          <input type="email" name="email" id="captureEmail" placeholder="Email address" value="${prefillEmail}" required />
+          <input type="tel" name="phone" id="capturePhone" placeholder="Phone number" value="${prefillPhone}" required pattern="[0-9\-\+\s\(\)]{7,}" />
+          <input type="hidden" name="_subject" value="New macro plan result — Sprayberry Fitness" />
+          <input type="hidden" name="goal" value="${goalLabel}" />
+          <input type="hidden" name="daily_calories" value="${goalCalories}" />
+          <input type="hidden" name="protein_g" value="${proteinG}" />
+          <input type="hidden" name="carbs_g" value="${carbG}" />
+          <input type="hidden" name="fat_g" value="${fatG}" />
+          <button type="submit" id="resultsSubmitBtn">Email Me These Results</button>
+        </form>
+        <div class="capture-note">We'll also keep a copy so your coach can follow up with a plan built around these numbers.</div>
+      </div>
+
+      <div class="plan-gen" id="planGen">
+        <span class="eyebrow" style="display:block; margin-bottom:12px;">Get Your Free Weekly Meal &amp; Workout Plan</span>
+        <p class="pg-sub">Answer a few quick questions and we'll build a full 7-day meal plan with a grocery list, plus a weekly workout split — all built around these exact numbers.</p>
+
+        <h4 class="pg-section-label">Meal Plan</h4>
+        <label class="pg-label">Meals/snacks per day</label>
+        <select id="pgMeals" class="pg-input">
+          <option value="3">3</option>
+          <option value="4" selected>4</option>
+          <option value="5">5</option>
+        </select>
+
+        <label class="pg-label">Preferred protein sources</label>
+        <div class="pg-checks" id="pgProteinChecks">
+          <label><input type="checkbox" value="chicken/lean meats" checked> Chicken/Lean Meats</label>
+          <label><input type="checkbox" value="beef"> Beef</label>
+          <label><input type="checkbox" value="fish/seafood"> Fish/Seafood</label>
+          <label><input type="checkbox" value="eggs/dairy"> Eggs/Dairy</label>
+          <label><input type="checkbox" value="plant-based"> Plant-Based</label>
+        </div>
+
+        <label class="pg-label">Dietary restriction</label>
+        <select id="pgRestriction" class="pg-input">
+          <option value="none">None</option>
+          <option value="vegetarian">Vegetarian</option>
+          <option value="vegan">Vegan</option>
+          <option value="gluten-free">Gluten-Free</option>
+          <option value="dairy-free">Dairy-Free</option>
+        </select>
+
+        <label class="pg-label">Foods to avoid (optional)</label>
+        <input type="text" id="pgDislikes" class="pg-input" placeholder="e.g. mushrooms, shellfish">
+
+        <h4 class="pg-section-label">Workout Plan</h4>
+        <label class="pg-label">Training days per week</label>
+        <select id="pgDays" class="pg-input">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </select>
+
+        <label class="pg-label">Experience level</label>
+        <select id="pgExperience" class="pg-input">
+          <option value="beginner">Beginner</option>
+          <option value="intermediate" selected>Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+
+        <label class="pg-label">Equipment access</label>
+        <select id="pgEquipment" class="pg-input">
+          <option value="full gym">Full Gym</option>
+          <option value="home gym (dumbbells/bands)">Home Gym (dumbbells/bands)</option>
+          <option value="bodyweight only">Bodyweight Only</option>
+        </select>
+
+        <label class="pg-label">Injuries or limitations (optional)</label>
+        <input type="text" id="pgLimitations" class="pg-input" placeholder="e.g. bad knee, shoulder injury">
+
+        <button type="button" id="pgSubmitBtn" class="pg-submit-btn">Get My Free Plan</button>
+        <div id="pgResult"></div>
+        <button type="button" id="pgDownloadBtn" class="pg-download-btn" style="display:none;">Download My Plan</button>
+      </div>
+    `;
+
+    const resultsForm = document.getElementById('resultsForm');
+    resultsForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById('resultsSubmitBtn');
+      btn.textContent = 'Sending...';
+      try {
+        const response = await fetch('https://formspree.io/f/mrenooal', {
+          method: 'POST',
+          body: new FormData(resultsForm),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (response.ok) {
+          document.getElementById('captureBlock').innerHTML =
+            '<div class="capture-success">✓ Sent! Check your email — your coach has these numbers too.</div>';
+        } else {
+          throw new Error('failed');
+        }
+      } catch (err) {
+        btn.textContent = 'Email Me These Results';
+        alert("Something went wrong — try again, or email sprayberry.fitness@gmail.com directly.");
+      }
+    });
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function formatPlan(raw) {
+      const lines = escapeHtml(raw).split('\n');
+      let html = '';
+      let paragraphBuf = [];
+      let listBuf = [];
+      function flushParagraph() {
+        if (paragraphBuf.length) {
+          html += '<p>' + paragraphBuf.join('<br>') + '</p>';
+          paragraphBuf = [];
+        }
+      }
+      function flushList() {
+        if (listBuf.length) {
+          html += '<ul class="pg-list">' + listBuf.map((item) => '<li>' + item + '</li>').join('') + '</ul>';
+          listBuf = [];
+        }
+      }
+      lines.forEach((line) => {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('## ')) {
+          flushParagraph(); flushList();
+          html += '<h3 class="pg-day-header">' + trimmed.slice(3) + '</h3>';
+        } else if (trimmed.startsWith('- ')) {
+          flushParagraph();
+          listBuf.push(trimmed.slice(2));
+        } else if (trimmed === '') {
+          flushParagraph(); flushList();
+        } else {
+          flushList();
+          paragraphBuf.push(trimmed);
+        }
+      });
+      flushParagraph(); flushList();
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      return html;
+    }
+
+    const PROTEIN_FALLBACK = ['chicken/lean meats', 'eggs/dairy', 'fish/seafood'];
+
+    function buildProteinRotation(restriction, checkedPrefs) {
+      if (restriction === 'vegan') return ['plant-based'];
+      if (restriction === 'vegetarian') return ['plant-based', 'eggs/dairy'];
+      return checkedPrefs.length ? checkedPrefs : PROTEIN_FALLBACK;
+    }
+
+    function buildDayAssignments(rotation) {
+      const days = [];
+      for (let i = 0; i < 7; i++) {
+        days.push({ day: i + 1, protein: rotation[i % rotation.length] });
+      }
+      return days;
+    }
+
+    async function callFunction(name, body) {
+      const res = await fetch('/.netlify/functions/' + name, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Something went wrong');
+      return data;
+    }
+
+    function buildDownloadDoc(name, mealPlanText, groceryListText, workoutText) {
+      const section = (title, text) => text
+        ? '<section class="dl-section"><h2>' + title + '</h2><div class="dl-content">' + formatPlan(text) + '</div></section>'
+        : '';
+      return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+        '<title>' + escapeHtml(name) + '\u2019s Plan \u2014 Sprayberry Fitness</title>' +
+        '<link rel="preconnect" href="https://fonts.googleapis.com">' +
+        '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">' +
+        '<style>' +
+        ':root{--ink:#1B2430;--slate:#45596E;--slate-light:#8CA2B5;--mist:#EDF1F4;--white:#FFFFFF;--gold:#B8935A;--gold-deep:#93744A;--hairline:rgba(27,36,48,0.12);}' +
+        '*{margin:0;padding:0;box-sizing:border-box;}' +
+        'body{font-family:"Inter",sans-serif;color:var(--ink);background:var(--mist);line-height:1.6;padding:40px 20px;}' +
+        '.dl-wrap{max-width:640px;margin:0 auto;background:var(--white);border-radius:18px;overflow:hidden;box-shadow:0 20px 50px -25px rgba(27,36,48,0.3);}' +
+        '.dl-head{background:var(--ink);color:var(--mist);padding:36px 40px;}' +
+        '.dl-head .brand{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:16px;color:var(--white);}' +
+        '.dl-head .brand span{color:var(--gold);}' +
+        '.dl-head h1{font-family:"Space Grotesk",sans-serif;font-size:24px;margin-top:14px;}' +
+        '.dl-head p{color:var(--slate-light);font-size:13.5px;margin-top:8px;}' +
+        '.dl-body{padding:8px 40px 40px;}' +
+        '.dl-section{padding:28px 0;border-bottom:1px solid var(--hairline);}' +
+        '.dl-section:last-child{border-bottom:none;}' +
+        '.dl-section h2{font-family:"Space Grotesk",sans-serif;font-size:18px;color:var(--gold-deep);margin-bottom:12px;}' +
+        '.dl-content h3{font-family:"Space Grotesk",sans-serif;font-size:14px;margin:16px 0 6px;padding-top:12px;border-top:1px solid var(--hairline);}' +
+        '.dl-content h3:first-child{margin-top:0;padding-top:0;border-top:none;}' +
+        '.dl-content p{font-size:14px;margin-bottom:10px;}' +
+        '.dl-content ul{margin:0 0 10px 18px;}' +
+        '.dl-content li{font-size:14px;margin-bottom:4px;}' +
+        '.dl-content strong{color:var(--gold-deep);}' +
+        '.dl-footer{text-align:center;padding:24px 20px 0;font-size:12.5px;color:var(--slate-light);font-style:italic;}' +
+        '@media print{body{background:var(--white);padding:0;}.dl-wrap{box-shadow:none;border-radius:0;}}' +
+        '</style></head><body>' +
+        '<div class="dl-wrap">' +
+        '<div class="dl-head"><div class="brand">Sprayberry <span>Fitness</span></div>' +
+        '<h1>' + escapeHtml(name) + '\u2019s Free Plan</h1>' +
+        '<p>Built ' + new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) + ' \u2014 sprayberryfitness.com</p></div>' +
+        '<div class="dl-body">' +
+        section('7-Day Meal Plan', mealPlanText) +
+        section('Grocery List', groceryListText) +
+        section('Weekly Workout Plan', workoutText) +
+        '</div></div>' +
+        '<p class="dl-footer">\u201cDo you not know that your bodies are temples\u2026? You are not your own.\u201d \u2014 1 Corinthians 6:19</p>' +
+        '</body></html>';
+    }
+
+    function triggerDownload(filename, htmlContent) {
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    let lastName = '', lastMealPlanText = null, lastGroceryListText = null, lastWorkoutText = null;
+
+    const pgSubmitBtn = document.getElementById('pgSubmitBtn');
+    const pgDownloadBtn = document.getElementById('pgDownloadBtn');
+    pgDownloadBtn.addEventListener('click', function () {
+      const doc = buildDownloadDoc(lastName, lastMealPlanText, lastGroceryListText, lastWorkoutText);
+      const safeName = (lastName || 'my').replace(/[^a-z0-9]/gi, '-').toLowerCase();
+      triggerDownload('sprayberry-' + safeName + '-plan.html', doc);
+    });
+
+    pgSubmitBtn.addEventListener('click', async function () {
+      const pgResult = document.getElementById('pgResult');
+      const name = prefillName || document.getElementById('captureName').value || 'there';
+      const proteinPrefs = Array.from(document.querySelectorAll('#pgProteinChecks input:checked')).map(el => el.value);
+      const restriction = document.getElementById('pgRestriction').value;
+      const mealsPerDay = document.getElementById('pgMeals').value;
+      const dislikes = document.getElementById('pgDislikes').value;
+
+      lastName = name;
+      lastMealPlanText = null;
+      lastGroceryListText = null;
+      lastWorkoutText = null;
+      pgDownloadBtn.style.display = 'none';
+
+      const rotation = buildProteinRotation(restriction, proteinPrefs);
+      const dayAssignments = buildDayAssignments(rotation);
+      const chunkADays = dayAssignments.slice(0, 4);
+      const chunkBDays = dayAssignments.slice(4, 7);
+
+      const mealBody = {
+        calories: goalCalories, protein: proteinG, carbs: carbG, fat: fatG,
+        mealsPerDay: mealsPerDay, restriction: restriction, dislikes: dislikes,
+      };
+
+      const workoutBody = {
+        name: name,
+        goalLabel: goalLabel,
+        daysPerWeek: document.getElementById('pgDays').value,
+        experience: document.getElementById('pgExperience').value,
+        equipment: document.getElementById('pgEquipment').value,
+        limitations: document.getElementById('pgLimitations').value,
+      };
+
+      pgSubmitBtn.disabled = true;
+      pgSubmitBtn.textContent = 'Building your plan...';
+      pgResult.innerHTML =
+        '<div class="pg-plan-section" id="pgMealSection"><h4 class="pg-result-h">Your 7-Day Meal Plan</h4><div class="pg-loading">Building your meal plan…</div></div>' +
+        '<div class="pg-plan-section" id="pgGrocerySection"><h4 class="pg-result-h">Grocery List</h4><div class="pg-loading">Waiting on your meal plan…</div></div>' +
+        '<div class="pg-plan-section" id="pgWorkoutSection"><h4 class="pg-result-h">Your Weekly Workout Plan</h4><div class="pg-loading">Building your workout plan…</div></div>';
+
+      const mealSection = document.getElementById('pgMealSection');
+      const grocerySection = document.getElementById('pgGrocerySection');
+      const workoutSection = document.getElementById('pgWorkoutSection');
+
+      function maybeShowDownload() {
+        if (lastMealPlanText || lastWorkoutText) {
+          pgDownloadBtn.style.display = 'block';
+        }
+      }
+
+      // Workout runs independently — render as soon as it's back.
+      const workoutPromise = callFunction('generate-workout', workoutBody)
+        .then((data) => {
+          lastWorkoutText = data.routine;
+          workoutSection.innerHTML = '<h4 class="pg-result-h">Your Weekly Workout Plan</h4><div class="pg-plan-output">' + formatPlan(data.routine) + '</div>';
+          maybeShowDownload();
+        })
+        .catch(() => {
+          workoutSection.innerHTML = '<h4 class="pg-result-h">Your Weekly Workout Plan</h4><div class="pg-error">Couldn\u2019t build your workout plan just now — try Regenerate below.</div>';
+        });
+
+      // Meal plan: two chunks in parallel, then grocery list depends on both.
+      const mealPromise = Promise.all([
+        callFunction('generate-meal-plan', Object.assign({}, mealBody, { days: chunkADays })),
+        callFunction('generate-meal-plan', Object.assign({}, mealBody, { days: chunkBDays })),
+      ])
+        .then(([a, b]) => {
+          const fullPlanText = 'Hey ' + name + ', here\u2019s your week!\n\n' + a.chunk + '\n\n' + b.chunk;
+          lastMealPlanText = fullPlanText;
+          mealSection.innerHTML = '<h4 class="pg-result-h">Your 7-Day Meal Plan</h4><div class="pg-plan-output">' + formatPlan(fullPlanText) + '</div>';
+          grocerySection.innerHTML = '<h4 class="pg-result-h">Grocery List</h4><div class="pg-loading">Building your grocery list…</div>';
+          maybeShowDownload();
+          return callFunction('generate-grocery-list', { mealPlanText: fullPlanText });
+        })
+        .then((data) => {
+          lastGroceryListText = data.groceryList;
+          grocerySection.innerHTML = '<h4 class="pg-result-h">Grocery List</h4><div class="pg-plan-output">' + formatPlan(data.groceryList) + '</div>';
+        })
+        .catch(() => {
+          mealSection.innerHTML = mealSection.innerHTML.includes('pg-plan-output')
+            ? mealSection.innerHTML
+            : '<h4 class="pg-result-h">Your 7-Day Meal Plan</h4><div class="pg-error">Couldn\u2019t build your meal plan just now — try Regenerate below.</div>';
+          grocerySection.innerHTML = '<h4 class="pg-result-h">Grocery List</h4><div class="pg-error">Couldn\u2019t build your grocery list — try Regenerate below.</div>';
+        });
+
+      Promise.allSettled([workoutPromise, mealPromise]).then(() => {
+        pgSubmitBtn.disabled = false;
+        pgSubmitBtn.textContent = 'Regenerate My Free Plan';
+      });
+    });
+  });
+</script>
+
+
+<script>
+(function () {
+  var items = document.querySelectorAll('.reveal');
+  if (!items.length) return;
+  if (!('IntersectionObserver' in window)) {
+    for (var i = 0; i < items.length; i++) items[i].classList.add('is-visible');
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  items.forEach(function (el) { observer.observe(el); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Deficit Template — Sprayberry Fitness</title>
+<meta name="description" content="A free, ready-to-use meal plan template built for a calorie deficit — from Sprayberry Fitness.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Deficit Template — Sprayberry Fitness">
+<meta property="og:description" content="A free, ready-to-use meal plan template built for a calorie deficit — from Sprayberry Fitness.">
+<meta property="og:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
+<meta property="og:url" content="https://sprayberryfitness.com/deficit.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Deficit Template — Sprayberry Fitness">
+<meta name="twitter:description" content="A free, ready-to-use meal plan template built for a calorie deficit — from Sprayberry Fitness.">
+<meta name="twitter:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<style>
+  :root {
+    --ink: #1B2430; --slate: #45596E; --slate-light: #8CA2B5;
+    --mist: #EDF1F4; --white: #FFFFFF; --gold: #B8935A; --gold-deep: #93744A;
+    --sage: #6B8F71; --hairline: rgba(27,36,48,0.12); --max-w: 1120px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'Inter',sans-serif; color:var(--ink); background:var(--white); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,.display { font-family:'Space Grotesk',sans-serif; letter-spacing:-0.01em; color:var(--ink); }
+  .wrap { max-width: var(--max-w); margin:0 auto; padding:0 32px; }
+  a { color:inherit; text-decoration:none; }
+  .eyebrow { font-weight:600; font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--slate); }
+
+  nav { position:sticky; top:0; z-index:50; background:rgba(255,255,255,0.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--hairline); }
+  nav .wrap { display:flex; align-items:center; justify-content:space-between; height:76px; }
+  .logo { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:19px; display:flex; align-items:center; gap:10px; }
+  .logo img { height:34px; width:34px; }
+  .logo span { color:var(--gold); }
+  .nav-links { display:flex; gap:22px; align-items:center; }
+  .nav-links a { font-size:13.5px; font-weight:500; color:var(--slate); transition:color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color:var(--ink); }
+  .btn { display:inline-block; font-weight:600; font-size:14.5px; padding:12px 24px; border-radius:6px; transition:transform 0.15s ease, box-shadow 0.15s ease; border:none; cursor:pointer; font-family:'Inter',sans-serif; }
+  .btn-primary { background:var(--ink); color:var(--white); }
+  .btn-primary:hover { transform:translateY(-1px); box-shadow:0 8px 20px rgba(27,36,48,0.25); }
+  .btn-gold { background:var(--gold); color:var(--white); }
+  .btn-gold:hover { transform:translateY(-1px); box-shadow:0 8px 20px rgba(184,147,90,0.35); }
+  .btn-outline { border:1px solid var(--hairline); color:var(--ink); }
+
+  .page-header { padding:64px 0 48px; background:linear-gradient(180deg, var(--mist) 0%, var(--white) 100%); }
+  .page-header .wrap > a.back { font-size:13.5px; color:var(--slate); font-weight:500; }
+  .page-header .wrap > a.back:hover { color:var(--ink); }
+  .page-header h1 { font-size:42px; line-height:1.1; font-weight:700; margin:16px 0 14px; }
+  .page-header p.sub { font-size:16.5px; color:var(--slate); max-width:600px; }
+  .page-header .calorie-line { margin-top:20px; font-size:14.5px; color:var(--slate); max-width:600px; padding-left:14px; border-left:3px solid var(--gold); }
+
+  section.block { padding:56px 0; border-bottom:1px solid var(--hairline); }
+  section.block:last-of-type { border-bottom:none; }
+  section.block h2 { font-size:24px; font-weight:700; margin-bottom:22px; }
+  section.block p.lead { color:var(--slate); font-size:15px; margin:-10px 0 22px; max-width:600px; }
+
+  .stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .stat-card { background:var(--ink); color:var(--white); border-radius:14px; padding:22px 16px; text-align:center; }
+  .stat-card .num { font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:700; }
+  .stat-card .lbl { font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--slate-light); margin-top:8px; }
+
+  .meal-grid, .food-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .meal-card, .food-card { background:var(--white); border:1px solid var(--hairline); border-radius:14px; padding:22px 24px; transition:border-color 0.2s, transform 0.2s; }
+  .meal-card:hover, .food-card:hover { border-color:var(--gold); transform:translateY(-2px); }
+  .meal-card h3 { font-size:15px; color:var(--gold-deep); margin-bottom:8px; }
+  .meal-card p { margin:0; font-size:14.5px; color:var(--ink); }
+  .food-card h3 { font-size:13px; text-transform:uppercase; letter-spacing:0.06em; color:var(--gold-deep); margin-bottom:12px; }
+  .food-card ul { margin:0; padding-left:18px; font-size:14.5px; color:var(--ink); }
+  .food-card li { margin-bottom:7px; }
+  .food-card li b { color:var(--ink); }
+
+  .sample-day { display:flex; flex-direction:column; gap:10px; }
+  .sample-row { display:grid; grid-template-columns:110px 1fr; gap:18px; background:var(--mist); border-radius:10px; padding:16px 20px; align-items:baseline; }
+  .sample-row .meal-name { font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--ink); font-size:14px; }
+  .sample-row p { margin:0; font-size:14.5px; color:var(--slate); }
+
+  .tips { display:flex; flex-direction:column; gap:10px; }
+  .tip { display:flex; gap:12px; background:var(--mist); border-radius:10px; padding:16px 18px; font-size:14.5px; color:var(--ink); }
+  .tip .mark { color:var(--gold-deep); font-weight:700; flex-shrink:0; }
+
+  .plan-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+  .plan-card { border:1px solid var(--hairline); border-radius:16px; padding:32px; background:var(--white); transition:border-color 0.2s, transform 0.2s; }
+  .plan-card:hover { border-color:var(--gold); transform:translateY(-3px); }
+  .plan-card .num { font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--gold-deep); font-weight:600; letter-spacing:0.08em; }
+  .plan-card h3 { font-size:22px; margin:14px 0 10px; }
+  .plan-card p { color:var(--slate); font-size:14.5px; margin-bottom:18px; }
+
+  .verse-line { text-align:center; font-style:italic; color:var(--slate-light); font-size:13.5px; max-width:500px; margin:0 auto; }
+
+  footer { background:var(--ink); color:var(--slate-light); padding:56px 0 32px; }
+  footer .wrap { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px; }
+  footer .logo { color:var(--white); }
+  footer .foot-cta { font-size:14px; max-width:340px; margin-top:10px; }
+  footer .foot-links { display:flex; gap:20px 28px; font-size:14px; flex-wrap:wrap; }
+  footer .foot-links a:hover { color:var(--white); }
+  .foot-bottom { border-top:1px solid rgba(237,241,244,0.1); margin-top:40px; padding-top:22px; font-size:12.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  @media (max-width: 860px) {
+    .nav-links { display:none; }
+    .stat-grid { grid-template-columns:1fr 1fr; }
+    .meal-grid, .food-grid, .plan-grid { grid-template-columns:1fr; }
+    .page-header h1 { font-size:32px; }
+    .sample-row { grid-template-columns:90px 1fr; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1), border-color 0.2s, box-shadow 0.2s;
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--hairline);
+    box-shadow: 0 16px 28px rgba(27,36,48,0.1);
+    flex-direction: column;
+    padding: 10px 32px 22px;
+    z-index: 55;
+  }
+  .mobile-menu a {
+    padding: 14px 0;
+    font-size: 15.5px;
+    font-weight: 500;
+    color: var(--slate);
+    border-bottom: 1px solid var(--hairline);
+    display: block;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu.open { display: flex; }
+
+  .nav-cta-wrap .nav-book-btn { display: inline-block; }
+  @media (max-width: 860px) {
+    .nav-toggle { display: flex; }
+    .nav-cta-wrap .nav-book-btn { display: none; }
+  }
+
+  .foot-social { display: flex; gap: 18px; margin-top: 16px; }
+  .foot-social a { font-size: 13.5px; font-weight: 600; color: var(--slate-light); text-decoration: none; transition: color 0.2s; }
+  .foot-social a:hover { color: var(--gold); }
+
+  .nav-highlight { color: var(--gold-deep) !important; font-weight: 700 !important; white-space: nowrap; }
+  .nav-badge {
+    display: inline-block;
+    margin-left: 6px;
+    background: var(--gold);
+    color: var(--white);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 20px;
+    vertical-align: 2px;
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <div class="logo"><img src="assets/icon.svg" alt="Sprayberry Fitness"> Sprayberry <span>Fitness</span></div>
+    <div class="nav-links">
+      <a href="index.html#approach">Approach</a>
+      <a href="index.html#mission">Mission</a>
+      <a href="index.html#wins">Client Wins</a>
+      <a href="index.html#calculator" class="nav-highlight">Build My Plan<span class="nav-badge">Free</span></a>
+      <a href="plans.html" class="active">Meal Plans</a>
+    </div>
+    <div class="nav-cta-wrap" style="display:flex; align-items:center; gap:10px;">
+      <a class="btn btn-primary nav-book-btn" href="consult.html">Book a Call</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html#approach">Approach</a>
+      <a href="index.html#mission">Mission</a>
+      <a href="index.html#wins">Client Wins</a>
+      <a href="index.html#calculator" class="nav-highlight">Build My Plan<span class="nav-badge">Free</span></a>
+      <a href="plans.html" class="active">Meal Plans</a>
+    <a href="consult.html" class="btn btn-gold" style="margin-top:10px; text-align:center;">Book a Call</a></div>
+</nav>
+
+<header class="page-header">
+  <div class="wrap">
+    <a href="plans.html" class="back">&larr; Back to Meal Plans</a>
+    <span class="eyebrow" style="display:block; margin-top:18px;">Fat Loss</span>
+    <h1>The Deficit Template</h1>
+    <p class="sub">Sustainable fat loss without wrecking your energy or turning every meal into a negotiation.</p>
+    <p class="calorie-line">Calories: your TDEE minus 15–20% (roughly 500 cal/day for most people). We don't push past a 25% deficit — bigger isn't faster, it's just harder to stick to.</p>
+  </div>
+</header>
+
+<section class="block">
+  <div class="wrap">
+    <h2 class="reveal">Your Macro Targets</h2>
+    <div class="stat-grid">
+        <div class="stat-card"><div class="num">TDEE −15–20%</div><div class="lbl">Calories</div></div>
+        <div class="stat-card"><div class="num">1g / lb bodyweight</div><div class="lbl">Protein</div></div>
+        <div class="stat-card"><div class="num">30–35% of cals</div><div class="lbl">Carbs</div></div>
+        <div class="stat-card"><div class="num">25–30% of cals</div><div class="lbl">Fat</div></div>
+      </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2 class="reveal">How To Build Each Meal</h2>
+    <div class="meal-grid">
+        <div class="meal-card"><h3>Breakfast</h3><p>1 protein + 1 carb + 1 fat (optional fruit or veg)</p></div>
+        <div class="meal-card"><h3>Lunch</h3><p>1 protein + 1 carb + 1-2 veg servings + 1 fat</p></div>
+        <div class="meal-card"><h3>Dinner</h3><p>1 protein + 1 carb + 1-2 veg servings + 1 fat</p></div>
+        <div class="meal-card"><h3>Snack(s)</h3><p>1 protein + 1 carb OR 1 fat — fill remaining calories/macros</p></div>
+      </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2 class="reveal">Food List &amp; Swaps</h2>
+    <p class="lead">Nothing here is locked in. Anything in the same row is an even swap — build the plate that sounds good to you.</p>
+    <div class="food-grid">
+        <div class="food-card"><h3>Protein</h3><ul><li><b>Lean Meats:</b> Chicken breast, 93/7 ground turkey, sirloin, pork tenderloin</li><li><b>Fish & Seafood:</b> Tilapia, cod, salmon, shrimp, canned tuna</li><li><b>Eggs & Dairy:</b> Whole eggs, egg whites, Greek yogurt, cottage cheese</li><li><b>Plant-Based:</b> Tofu, tempeh, edamame, seitan, lentils</li></ul></div>
+        <div class="food-card"><h3>Carbs</h3><ul><li><b>Grains:</b> Rice, oats, quinoa, farro, whole-wheat pasta</li><li><b>Starchy Veg:</b> Potatoes, sweet potatoes, corn, butternut squash</li><li><b>Bread/Wraps:</b> Ezekiel bread, tortillas, whole-grain bread</li><li><b>Fruit:</b> Berries, banana, apple, orange, grapes</li></ul></div>
+        <div class="food-card"><h3>Fats</h3><ul><li><b>Nuts & Seeds:</b> Almonds, walnuts, peanut butter, chia, flax</li><li><b>Oils:</b> Olive oil, avocado oil, coconut oil (measured)</li><li><b>Whole-Food Fats:</b> Avocado, whole eggs, fatty fish</li><li><b>Dairy Fats:</b> Cheese, full-fat Greek yogurt, cream cheese</li></ul></div>
+        <div class="food-card"><h3>Vegetables</h3><ul><li><b>Non-Starchy Veg:</b> Broccoli, spinach, peppers, zucchini, green beans, cauliflower, salad greens — eat freely to fill volume</li></ul></div>
+      </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2 class="reveal">A Sample Day</h2>
+    <div class="sample-day">
+        <div class="sample-row"><div class="meal-name">Breakfast</div><p>3 whole eggs + 1/2 cup oats + 1/2 cup berries</p></div>
+        <div class="sample-row"><div class="meal-name">Lunch</div><p>6oz chicken breast + 1 cup rice + big serving of broccoli + drizzle olive oil</p></div>
+        <div class="sample-row"><div class="meal-name">Dinner</div><p>6oz tilapia + 1 medium sweet potato + green beans</p></div>
+        <div class="sample-row"><div class="meal-name">Snack</div><p>1 cup Greek yogurt + handful of almonds</p></div>
+      </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <h2 class="reveal">Tips For This Template</h2>
+    <div class="tips">
+        <div class="tip"><span class="mark">›</span><p>Protein stays high on purpose — it's what keeps you full while you're eating less overall.</p></div>
+        <div class="tip"><span class="mark">›</span><p>Fill up on the veg list freely. It's the easiest way to add volume to your plate without adding calories.</p></div>
+        <div class="tip"><span class="mark">›</span><p>If your progress stalls for more than two weeks, that's a conversation for your coach — not a reason to cut more on your own.</p></div>
+      </div>
+  </div>
+</section>
+
+<section class="block" style="border-bottom:none; padding-bottom:0;">
+  <div class="wrap">
+    <p class="verse-line">&ldquo;Do you not know that your bodies are temples&hellip;? You are not your own.&rdquo; — 1 Corinthians 6:19</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo">Sprayberry <span>Fitness</span></div>
+      <p class="foot-cta">Online personal training rooted in stewardship, not vanity metrics. One client at a time, done right.</p>
+      <div class="foot-social">
+        <a href="https://instagram.com/sprayberry.fitness" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/share/1JgErd4p1V/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://tiktok.com/@sprayberry.fitness" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+    <div class="foot-links">
+      <a href="index.html#approach">Approach</a>
+      <a href="index.html#mission">Mission</a>
+      <a href="index.html#wins">Client Wins</a>
+      <a href="plans.html">Meal Plans</a>
+    <a href="privacy.html">Privacy</a>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Sprayberry Fitness</span>
+    <span>Built for people, not follower counts.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var items = document.querySelectorAll('.reveal');
+  if (!items.length) return;
+  if (!('IntersectionObserver' in window)) {
+    for (var i = 0; i < items.length; i++) items[i].classList.add('is-visible');
+    return;
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  items.forEach(function (el) { observer.observe(el); });
+})();
+</script>
+
+<script>
+(function () {
+  var toggle = document.getElementById('navToggle');
+  var menu = document.getElementById('mobileMenu');
+  if (!toggle || !menu) return;
+  toggle.addEventListener('click', function () {
+    var isOpen = menu.classList.toggle('open');
+    toggle.classList.toggle('open', isOpen);
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  Array.prototype.forEach.call(menu.querySelectorAll('a'), function (a) {
+    a.addEventListener('click', function () {
+      menu.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+</script>
+</body>
+</html>
