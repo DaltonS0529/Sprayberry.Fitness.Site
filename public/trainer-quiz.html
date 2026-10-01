@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3PXJQ86ERL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3PXJQ86ERL');
+</script>
+<link rel="canonical" href="https://sprayberryfitness.com/trainer-quiz.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do You Need a Personal Trainer? — Sprayberry Fitness</title>
+<meta name="description" content="Take the free 1-minute quiz to find out whether a personal trainer would actually move the needle for you — and get a straight answer, not a sales pitch.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Do You Need a Personal Trainer? — Sprayberry Fitness">
+<meta property="og:description" content="Take the free 1-minute quiz to find out whether a personal trainer would actually move the needle for you — and get a straight answer, not a sales pitch.">
+<meta property="og:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
+<meta property="og:url" content="https://sprayberryfitness.com/trainer-quiz.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Do You Need a Personal Trainer? — Sprayberry Fitness">
+<meta name="twitter:description" content="Take the free 1-minute quiz to find out whether a personal trainer would actually move the needle for you — and get a straight answer, not a sales pitch.">
+<meta name="twitter:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<style>
+  :root {
+    --ink: #1B2430;
+    --slate: #45596E;
+    --slate-light: #8CA2B5;
+    --mist: #EDF1F4;
+    --white: #FFFFFF;
+    --gold: #B8935A;
+    --gold-deep: #93744A;
+    --sage: #6B8F71;
+    --hairline: rgba(27,36,48,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--mist);
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 48px 16px;
+    line-height: 1.55;
+  }
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 30px 60px -25px rgba(27,36,48,0.25);
+    overflow: hidden;
+  }
+  .card-head {
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--mist);
+    padding: 36px 40px;
+  }
+  .card-head::before {
+    content: '';
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,147,90,0.22) 0%, rgba(184,147,90,0) 70%);
+    top: -160px;
+    right: -100px;
+    z-index: 0;
+  }
+  .card-head > * { position: relative; z-index: 1; }
+  .brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .brand-row img { height: 28px; width: 28px; }
+  .brand-row span { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; color: var(--white); }
+  .brand-row span .gold { color: var(--gold); }
+  .eyebrow {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .card-head h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 27px;
+    margin-top: 8px;
+    font-weight: 700;
+  }
+  .card-head p.sub { color: var(--slate-light); font-size: 14.5px; margin-top: 8px; max-width: 460px; }
+
+  .progress-wrap { margin-top: 22px; }
+  .progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(237,241,244,0.18);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--gold);
+    border-radius: 99px;
+    transition: width 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  .progress-label {
+    font-size: 12px;
+    color: var(--slate-light);
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  .quiz-body { padding: 40px; min-height: 260px; }
+
+  .q-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+  }
+  .q-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 22px;
+    line-height: 1.35;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1.5px solid var(--hairline);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 14.5px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    background: var(--white);
+  }
+  .option:hover { border-color: var(--gold); background: rgba(184,147,90,0.05); }
+  .option.selected { border-color: var(--gold); background: rgba(184,147,90,0.09); }
+  .option .dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--hairline);
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.15s;
+  }
+  .option.selected .dot { border-color: var(--gold); }
+  .option.selected .dot::after {
+    content: '';
+    position: absolute;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+  .quiz-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 26px;
+  }
+  .btn-back {
+    background: none;
+    border: none;
+    color: var(--slate);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 10px 4px;
+    visibility: hidden;
+  }
+  .btn-back.visible { visibility: visible; }
+  .btn-next {
+    padding: 13px 26px;
+    background: var(--gold);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14.5px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s;
+  }
+  .btn-next:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(184,147,90,0.35); }
+  .btn-next:disabled { opacity: 0.4; cursor: default; transform: none; box-shadow: none; }
+
+  /* Results */
+  .result-wrap { padding: 40px; display: none; }
+  .result-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 99px;
+    margin-bottom: 16px;
+  }
+  .result-wrap h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+  .result-wrap p.result-copy {
+    color: var(--slate);
+    font-size: 14.5px;
+    margin-bottom: 10px;
+  }
+  .result-meter {
+    margin: 22px 0;
+  }
+  .result-meter-track {
+    width: 100%;
+    height: 10px;
+    background: var(--mist);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .result-meter-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .result-meter-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--slate-light);
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .result-ctas { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+  .btn-primary {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--white);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(184,147,90,0.35); }
+  .btn-secondary {
+    display: block;
+    text-align: center;
+    padding: 13px;
+    border: 1px solid var(--hairline);
+    color: var(--ink);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .result-retake {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 12.5px;
+    color: var(--slate-light);
+  }
+  .result-retake a { color: var(--gold-deep); font-weight: 600; text-decoration: none; }
+
+  @media (max-width: 520px) {
+    .card-head, .quiz-body, .result-wrap { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-head">
+    <div class="brand-row">
+      <img src="assets/icon.svg" alt="Sprayberry Fitness">
+      <span>Sprayberry <span class="gold">Fitness</span></span>
+    </div>
+    <span class="eyebrow">Free 60-Second Quiz</span>
+    <h1>Do you actually need a personal trainer?</h1>
+    <p class="sub">Six quick questions, a straight answer — no guessing, no sales pitch.</p>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-label" id="progressLabel">Question 1 of 6</div>
+    </div>
+  </div>
+
+  <div class="quiz-body" id="quizBody">
+    <!-- JS renders questions here -->
+  </div>
+
+  <div class="result-wrap" id="resultWrap">
+    <!-- JS renders results here -->
+  </div>
+</div>
+
+<script>
+  const questions = [
+    {
+      text: "How would you describe your current workout routine?",
+      options: [
+        { label: "I don't really work out right now", score: 3 },
+        { label: "I work out sometimes, no real plan", score: 2 },
+        { label: "I follow a program, but inconsistently", score: 1 },
+        { label: "I train consistently with a solid plan", score: 0 }
+      ]
+    },
+    {
+      text: "Have you hit a plateau, or stopped seeing results?",
+      options: [
+        { label: "Yes — stuck for months", score: 3 },
+        { label: "Yes, pretty recently", score: 2 },
+        { label: "A little, but still moving", score: 1 },
+        { label: "No, I'm still making progress", score: 0 }
+      ]
+    },
+    {
+      text: "Do you know how to structure training for your actual goal (fat loss, muscle, strength)?",
+      options: [
+        { label: "Not really — I just wing it", score: 3 },
+        { label: "Rough idea, not confident", score: 2 },
+        { label: "Pretty confident in my approach", score: 1 },
+        { label: "Yes, I program this myself", score: 0 }
+      ]
+    },
+    {
+      text: "How's your consistency and accountability been?",
+      options: [
+        { label: "I quit after a week or two, every time", score: 3 },
+        { label: "I'm on-again, off-again", score: 2 },
+        { label: "Mostly consistent", score: 1 },
+        { label: "Very consistent, rarely miss", score: 0 }
+      ]
+    },
+    {
+      text: "Do you have an injury, past injury, or physical limitation you're training around?",
+      options: [
+        { label: "Yes, and it worries me when I train", score: 3 },
+        { label: "Yes, but it's minor", score: 2 },
+        { label: "Not really a concern", score: 1 },
+        { label: "No limitations", score: 0 }
+      ]
+    },
+    {
+      text: "What's your nutrition like alongside your training?",
+      options: [
+        { label: "No plan at all", score: 3 },
+        { label: "Winging it most days", score: 2 },
+        { label: "Mostly dialed in", score: 1 },
+        { label: "Fully dialed in and tracked", score: 0 }
+      ]
+    }
+  ];
+
+  const answers = new Array(questions.length).fill(null);
+  let current = 0;
+
+  const quizBody = document.getElementById('quizBody');
+  const resultWrap = document.getElementById('resultWrap');
+  const progressBar = document.getElementById('progressBar');
+  const progressLabel = document.getElementById('progressLabel');
+
+  function renderQuestion() {
+    const q = questions[current];
+    progressBar.style.width = ((current) / questions.length * 100) + '%';
+    progressLabel.textContent = `Question ${current + 1} of ${questions.length}`;
+
+    let optionsHtml = q.options.map((opt, i) => `
+      <div class="option ${answers[current] === i ? 'selected' : ''}" data-index="${i}">
+        <div class="dot"></div>
+        <div>${opt.label}</div>
+      </div>
+    `).join('');
+
+    quizBody.innerHTML = `
+      <div class="q-eyebrow">Step ${current + 1}</div>
+      <div class="q-text">${q.text}</div>
+      <div id="optionsList">${optionsHtml}</div>
+      <div class="quiz-nav">
+        <button class="btn-back ${current > 0 ? 'visible' : ''}" id="backBtn">&larr; Back</button>
+        <button class="btn-next" id="nextBtn" ${answers[current] === null ? 'disabled' : ''}>
+          ${current === questions.length - 1 ? 'See My Result' : 'Next'}
+        </button>
+      </div>
+    `;
+
+    document.querySelectorAll('.option').forEach(el => {
+      el.addEventListener('click', () => {
+        answers[current] = parseInt(el.getAttribute('data-index'));
+        renderQuestion();
+      });
+    });
+
+    document.getElementById('backBtn').addEventListener('click', () => {
+      if (current > 0) { current--; renderQuestion(); }
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (answers[current] === null) return;
+      if (current === questions.length - 1) {
+        showResult();
+      } else {
+        current++;
+        renderQuestion();
+      }
+    });
+  }
+
+  function showResult() {
+    const total = answers.reduce((sum, aIndex, qIndex) => sum + questions[qIndex].options[aIndex].score, 0);
+    const maxScore = questions.length * 3;
+    const pct = Math.round((total / maxScore) * 100);
+
+    progressBar.style.width = '100%';
+    progressLabel.textContent = 'Results';
+
+    let tier;
+    if (total <= 4) {
+      tier = {
+        badgeText: 'Low Need',
+        badgeBg: 'rgba(107,143,113,0.14)',
+        badgeColor: '#4d7054',
+        meterColor: 'var(--sage)',
+        heading: "You've got a solid handle on this.",
+        copy: "You're consistent, you know what you're doing, and you're still progressing. A trainer isn't a must right now — but a second pair of eyes every few months can still catch things you can't see on your own and keep you from plateauing.",
+      };
+    } else if (total <= 9) {
+      tier = {
+        badgeText: 'Moderate Need',
+        badgeBg: 'rgba(184,147,90,0.14)',
+        badgeColor: 'var(--gold-deep)',
+        meterColor: 'var(--gold)',
+        heading: "You'd likely benefit from some real guidance.",
+        copy: "You've got pieces in place, but something's missing — structure, consistency, or confidence in the plan. That's usually the exact gap a coach closes fastest, without needing to rebuild everything you're already doing.",
+      };
+    } else if (total <= 14) {
+      tier = {
+        badgeText: 'High Need',
+        badgeBg: 'rgba(184,147,90,0.2)',
+        badgeColor: 'var(--gold-deep)',
+        meterColor: 'var(--gold-deep)',
+        heading: "A trainer would make a real, measurable difference.",
+        copy: "Between the lack of a clear plan, the consistency struggles, and the uncertainty around what to actually do, you're spending effort without a system behind it. That's the gap coaching is built to close.",
+      };
+    } else {
+      tier = {
+        badgeText: 'Very High Need',
+        badgeBg: 'rgba(178,58,58,0.12)',
+        badgeColor: '#b23a3a',
+        meterColor: '#b23a3a',
+        heading: "Honestly? You need a coach in your corner now.",
+        copy: "No real plan, inconsistent effort, maybe an injury concern, and nutrition that's not dialed in — that combination is exactly why people spin their wheels for years. A structured program with real accountability would change this fast.",
+      };
+    }
+
+    resultWrap.innerHTML = `
+      <span class="result-badge" style="background:${tier.badgeBg}; color:${tier.badgeColor};">${tier.badgeText}</span>
+      <h2>${tier.heading}</h2>
+      <p class="result-copy">${tier.copy}</p>
+      <div class="result-meter">
+        <div class="result-meter-track"><div class="result-meter-fill" style="width:${pct}%; background:${tier.meterColor};"></div></div>
+        <div class="result-meter-labels"><span>Doing fine on your own</span><span>Could use a coach</span></div>
+      </div>
+      <div class="result-ctas">
+        <a href="consult.html" class="btn-primary">Book My Free Consultation</a>
+        <a href="calculator.html" class="btn-secondary">Build My Free Plan First</a>
+      </div>
+      <div class="result-retake">Want to double check your answers? <a href="#" id="retakeLink">Retake the quiz</a></div>
+    `;
+
+    quizBody.style.display = 'none';
+    resultWrap.style.display = 'block';
+
+    document.getElementById('retakeLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      answers.fill(null);
+      current = 0;
+      resultWrap.style.display = 'none';
+      quizBody.style.display = 'block';
+      renderQuestion();
+    });
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'trainer_quiz_complete', { score: total, tier: tier.badgeText });
+    }
+  }
+
+  renderQuestion();
+</script>
+
+</body>
+</html>
