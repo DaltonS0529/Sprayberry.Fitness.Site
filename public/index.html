@@ -356,6 +356,25 @@
   @media (prefers-reduced-motion: reduce) {
     .hero-chip { animation: none; }
   }
+  .hero-quiz-link {
+    display: inline-block;
+    font-size: 13.5px;
+    color: var(--slate);
+    margin-bottom: 26px;
+    opacity: 0;
+    animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s forwards;
+  }
+  .hero-quiz-link span {
+    color: var(--gold-deep);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(184,147,90,0.45);
+  }
+  .hero-quiz-link:hover span { text-decoration-color: var(--gold-deep); }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-quiz-link { animation: none; opacity: 1; }
+  }
   .hero .hang-tag {
     opacity: 0;
     animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s forwards;
@@ -1050,6 +1069,7 @@
         <span class="hero-chip">✅ 100% Free</span>
         <span class="hero-chip">📋 Grocery List Included</span>
       </div>
+      <a href="trainer-quiz.html" class="hero-quiz-link">Not sure a trainer's even what you need? <span>Take the 60-second quiz &rarr;</span></a>
       <div class="hang-tag">
         <span>Every plan starts with</span>
         <span class="verse-font">"fearfully &amp; wonderfully made"</span>
