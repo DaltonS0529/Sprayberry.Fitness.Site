@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /tracker.html
-Disallow: /coach.html
 Disallow: /start.html
 
 Sitemap: https://sprayberryfitness.com/sitemap.xml
