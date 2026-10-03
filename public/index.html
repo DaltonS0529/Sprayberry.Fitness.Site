@@ -998,6 +998,27 @@
     border-radius: 20px;
     vertical-align: 2px;
   }
+  /* ---- Pricing ---- */
+  .price-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .price-card { position: relative; border: 1px solid var(--hairline); border-radius: 14px; padding: 26px 22px; background: var(--white); display: flex; flex-direction: column; }
+  .price-card.featured { border: 2px solid var(--gold); box-shadow: 0 14px 34px rgba(184,147,90,0.18); }
+  .price-card .badge { position: absolute; top: -12px; left: 22px; background: var(--gold); color: var(--white); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+  .price-card .term { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--slate); }
+  .price-card .amt { font-size: 40px; font-weight: 700; color: var(--ink); margin: 10px 0 2px; letter-spacing: -0.02em; }
+  .price-card .amt span { font-size: 15px; font-weight: 500; color: var(--slate); letter-spacing: 0; }
+  .price-card .total { font-size: 14px; color: var(--slate); }
+  .price-card .save { margin-top: 12px; font-size: 13px; font-weight: 700; color: var(--gold-deep); }
+  .price-includes { margin: 26px 0 0; padding: 18px 22px; border-radius: 12px; background: var(--mist); color: var(--ink); font-size: 15px; }
+  .price-extras { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+  .price-extra { border: 1px solid var(--hairline); border-radius: 14px; padding: 22px; background: var(--white); }
+  .price-extra h3 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
+  .price-extra p { color: var(--slate); font-size: 15px; margin: 0; }
+  .price-extra .line { margin-top: 10px; font-size: 15px; color: var(--ink); }
+  .price-cta { margin-top: 30px; text-align: center; }
+  .price-cta .btn { display: inline-block; text-decoration: none; }
+  .price-cta p { margin-top: 12px; color: var(--slate); font-size: 14px; }
+  @media (max-width: 960px) { .price-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .price-grid, .price-extras { grid-template-columns: 1fr; } .price-card .amt { font-size: 34px; } }
 </style>
 <script type="application/ld+json">
 {
@@ -1033,6 +1054,7 @@
       <a href="#approach">Approach</a>
       <a href="#mission">Mission</a>
       <a href="#wins">Client Wins</a>
+      <a href="#pricing">Pricing</a>
       <a href="#calculator" class="nav-highlight">Build My Plan<span class="nav-badge">Free</span></a>
       <a href="plans.html">Meal Plans</a>
       <a href="trainer-quiz.html">Need a Trainer?</a>
@@ -1048,6 +1070,7 @@
       <a href="#approach">Approach</a>
       <a href="#mission">Mission</a>
       <a href="#wins">Client Wins</a>
+      <a href="#pricing">Pricing</a>
       <a href="#calculator" class="nav-highlight">Build My Plan<span class="nav-badge">Free</span></a>
       <a href="plans.html">Meal Plans</a>
       <a href="trainer-quiz.html">Need a Trainer?</a>
@@ -1215,6 +1238,59 @@
   </div>
 </section>
 
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Pricing</span>
+      <h2>Pick your commitment</h2>
+      <p>Full nutrition plus strength &amp; conditioning coaching. The longer you lock in, the more you save.</p>
+    </div>
+    <div class="price-grid reveal">
+      <div class="price-card">
+        <div class="term">1 Month</div>
+        <div class="amt">$400<span>/mo</span></div>
+        <div class="total">$400 total</div>
+      </div>
+      <div class="price-card featured">
+        <span class="badge">Recommended</span>
+        <div class="term">3 Months</div>
+        <div class="amt">$333<span>/mo</span></div>
+        <div class="total">$1,000 total</div>
+        <div class="save">Save 17%</div>
+      </div>
+      <div class="price-card">
+        <div class="term">6 Months</div>
+        <div class="amt">$283<span>/mo</span></div>
+        <div class="total">$1,700 total</div>
+        <div class="save">Save 29%</div>
+      </div>
+      <div class="price-card">
+        <div class="term">12 Months</div>
+        <div class="amt">$242<span>/mo</span></div>
+        <div class="total">$2,900 total</div>
+        <div class="save">Save 40%</div>
+      </div>
+    </div>
+    <div class="price-includes reveal">Every full coaching plan includes a custom training program, custom nutrition targets, daily check-ins, and a coach who adjusts your plan as life happens.</div>
+    <div class="price-extras reveal">
+      <div class="price-extra">
+        <h3>Just one piece of the puzzle?</h3>
+        <p>Nutrition-only or training-only coaching, month-to-month.</p>
+        <div class="line"><strong>$250/mo</strong> each</div>
+      </div>
+      <div class="price-extra">
+        <h3>Better together</h3>
+        <p>Train with your spouse, partner or friend on the same term and save 15% versus two sign-ups.</p>
+        <div class="line">From <strong>$680/mo</strong> for two, as low as <strong>$205/person</strong> on 12 months</div>
+      </div>
+    </div>
+    <div class="price-cta reveal">
+      <a href="consult.html" class="btn btn-gold">Book Your Free Consultation</a>
+      <p>Not sure which plan fits? We'll figure it out together on a free 15-minute call.</p>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <div class="cta-band reveal">
@@ -1336,6 +1412,7 @@
       <a href="#approach">Approach</a>
       <a href="#mission">Mission</a>
       <a href="#wins">Client Wins</a>
+      <a href="#pricing">Pricing</a>
       <a href="#calculator">Build My Plan</a>
       <a href="plans.html">Meal Plans</a>
       <a href="trainer-quiz.html">Need a Trainer?</a>
