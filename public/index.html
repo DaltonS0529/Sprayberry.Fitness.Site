@@ -1015,6 +1015,14 @@
   .price-extra h3 { font-size: 19px; font-weight: 700; margin-bottom: 6px; }
   .price-extra p { color: var(--slate); font-size: 15px; margin: 0; }
   .price-extra .line { margin-top: 10px; font-size: 15px; color: var(--ink); }
+  .price-spacer { flex: 1; min-height: 18px; }
+  .price-card .price-buy { display: block; text-align: center; text-decoration: none; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); border: 1px solid var(--hairline); border-radius: 999px; padding: 10px 14px; transition: border-color 0.2s, background 0.2s; }
+  .price-card .price-buy:hover { border-color: var(--ink); }
+  .price-card .price-buy.gold { background: var(--gold); border-color: var(--gold); color: var(--white); }
+  .price-card .price-buy.gold:hover { background: var(--gold-deep); border-color: var(--gold-deep); }
+  .extra-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .extra-links a { font-size: 13px; font-weight: 600; color: var(--gold-deep); text-decoration: none; border: 1px solid var(--hairline); border-radius: 999px; padding: 7px 12px; }
+  .extra-links a:hover { border-color: var(--gold); }
   .price-cta { margin-top: 30px; text-align: center; }
   .price-cta .btn { display: inline-block; text-decoration: none; }
   .price-cta p { margin-top: 12px; color: var(--slate); font-size: 14px; }
@@ -1247,6 +1255,8 @@
         <div class="term">1 Month</div>
         <div class="amt">$400<span>/mo</span></div>
         <div class="total">$400 total</div>
+        <div class="price-spacer"></div>
+        <a class="price-buy" href="https://buy.stripe.com/3cI7sL9DLdNt6HjemLf7i00">Start now</a>
       </div>
       <div class="price-card featured">
         <span class="badge">Recommended</span>
@@ -1254,18 +1264,24 @@
         <div class="amt">$333<span>/mo</span></div>
         <div class="total">$1,000 total</div>
         <div class="save">Save 17%</div>
+        <div class="price-spacer"></div>
+        <a class="price-buy gold" href="https://buy.stripe.com/aFa9AT4jrbFle9LfqPf7i01">Start now</a>
       </div>
       <div class="price-card">
         <div class="term">6 Months</div>
         <div class="amt">$283<span>/mo</span></div>
         <div class="total">$1,700 total</div>
         <div class="save">Save 29%</div>
+        <div class="price-spacer"></div>
+        <a class="price-buy" href="https://buy.stripe.com/7sY00j2bjbFl9Tv0vVf7i02">Start now</a>
       </div>
       <div class="price-card">
         <div class="term">12 Months</div>
         <div class="amt">$242<span>/mo</span></div>
         <div class="total">$2,900 total</div>
         <div class="save">Save 40%</div>
+        <div class="price-spacer"></div>
+        <a class="price-buy" href="https://buy.stripe.com/9B65kD9DLbFl1mZ7Ynf7i03">Start now</a>
       </div>
     </div>
     <div class="price-includes reveal">Every full coaching plan includes a custom training program, custom nutrition targets, daily check-ins, and a coach who adjusts your plan as life happens.</div>
@@ -1274,16 +1290,18 @@
         <h3>Just one piece of the puzzle?</h3>
         <p>Nutrition-only or training-only coaching, month-to-month.</p>
         <div class="line"><strong>$250/mo</strong> each</div>
+        <div class="extra-links"><a href="https://buy.stripe.com/dRm6oH8zHaBh6HjguTf7i04">Start nutrition</a><a href="https://buy.stripe.com/cNi6oH4jr7p57LnfqPf7i05">Start training</a></div>
       </div>
       <div class="price-extra">
         <h3>Better together</h3>
         <p>Train with your spouse, partner or friend on the same term and save 15% versus two sign-ups.</p>
         <div class="line">From <strong>$680/mo</strong> for two, as low as <strong>$205/person</strong> on 12 months</div>
+        <div class="extra-links"><a href="https://buy.stripe.com/28EcN5dU15gX8Pra6vf7i06">Monthly</a><a href="https://buy.stripe.com/4gM4gzdU17p5c1DdiHf7i07">3 months · $1,700</a><a href="https://buy.stripe.com/eVq7sL17fdNt1mZa6vf7i08">6 months · $2,890</a><a href="https://buy.stripe.com/5kQfZhg299xdd5Ha6vf7i09">12 months · $4,930</a></div>
       </div>
     </div>
     <div class="price-cta reveal">
       <a href="consult.html" class="btn btn-gold">Book Your Free Consultation</a>
-      <p>Not sure which plan fits? We'll figure it out together on a free 15-minute call.</p>
+      <p>Not sure which plan fits? We'll figure it out together on a free 15-minute call. Secure checkout by Stripe.</p>
     </div>
   </div>
 </section>
