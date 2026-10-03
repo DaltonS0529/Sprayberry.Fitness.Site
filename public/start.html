@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3PXJQ86ERL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3PXJQ86ERL');
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<title>Client Onboarding — Sprayberry Fitness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap">
+<style>
+/* Layout: left step rail + single focused panel; stacks to a top progress bar on phones */
+:root{
+  --ink:#1B1F27; --ink-2:#232834; --ink-3:#2D3341; --line:#3A4152;
+  --gold:#C9A24B; --gold-soft:rgba(201,162,75,.14);
+  --mist:#EDEFF3; --mist-2:#A9B0BE;
+  --warn:#E0A74A; --ok:#7FB98A;
+  --bg:var(--ink); --surface:var(--ink-2); --surface-2:var(--ink-3); --fg:var(--mist); --muted:var(--mist-2);
+  --display:"Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --body:"Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#F3F2EE; --surface:#FFFFFF; --surface-2:#F6F4EE; --line:#DCD8CC; --fg:#1B1F27; --muted:#5C6372;
+  --gold:#A8832F; --gold-soft:rgba(168,131,47,.12); --warn:#A86A12; --ok:#3E7C4B; color-scheme:light }}
+:root[data-theme="light"]{
+  --bg:#F3F2EE; --surface:#FFFFFF; --surface-2:#F6F4EE; --line:#DCD8CC; --fg:#1B1F27; --muted:#5C6372;
+  --gold:#A8832F; --gold-soft:rgba(168,131,47,.12); --warn:#A86A12; --ok:#3E7C4B; color-scheme:light }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body);padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:240px 1fr;gap:32px;align-items:start}
+@media (max-width:760px){.wrap{grid-template-columns:1fr;gap:20px}}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.brand b{font:700 15px/1.1 var(--display);letter-spacing:.02em}
+.brand small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px)}
+@media (max-width:760px){aside{position:static}}
+.rail{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.rail button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;width:100%;padding:9px 10px;border-radius:8px;color:var(--muted);font-size:14px}
+.rail button:hover{background:var(--surface)}
+.rail button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.rail .n{width:24px;height:24px;flex:none;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font:600 12px var(--display);font-variant-numeric:tabular-nums}
+.rail .cur{color:var(--fg);background:var(--surface)}
+.rail .cur .n{border-color:var(--gold);color:var(--gold)}
+.rail .done .n{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.rail button:disabled{cursor:default;opacity:.45}
+.rail button:disabled:hover{background:none}
+.bar{display:none;height:4px;background:var(--surface-2);border-radius:4px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;background:var(--gold);transition:width .3s}
+@media (max-width:760px){.rail{display:none}.bar{display:block}.brand{margin-bottom:8px}}
+.mstep{display:none;font-size:13px;color:var(--muted);margin-top:8px}
+@media (max-width:760px){.mstep{display:block}}
+
+main{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,4vw,40px)}
+.eyebrow{font:600 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+h1,h2{font-family:var(--display);font-weight:700;text-wrap:balance;margin:0 0 12px;line-height:1.15}
+h1{font-size:clamp(28px,4.4vw,40px)} h1 em{font-style:normal;color:var(--gold)}
+h2{font-size:clamp(22px,3vw,28px)}
+h3{font:700 16px var(--display);margin:24px 0 10px}
+.lede{color:var(--muted);max-width:60ch;margin:0 0 24px}
+.verse{border-left:2px solid var(--gold);padding:4px 0 4px 14px;color:var(--muted);font-size:14px;max-width:60ch;margin:24px 0}
+.steps-preview{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:24px 0}
+.sp{background:var(--surface-2);border-radius:10px;padding:14px}
+.sp b{display:block;font:700 14px var(--display);margin-bottom:4px}
+.sp span{font-size:13px;color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+label.f{display:grid;gap:6px;font-size:13px;font-weight:600}
+label.f .hint{font-weight:400;color:var(--muted)}
+input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{
+  width:100%;font:15px var(--body);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+.req::after{content:" *";color:var(--gold)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;padding:8px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;cursor:pointer;user-select:none}
+.chip input:checked + span{background:var(--gold-soft);border-color:var(--gold);color:var(--fg)}
+.chip input:focus-visible + span{outline:2px solid var(--gold);outline-offset:2px}
+
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.plans{grid-template-columns:1fr}}
+.plan{position:relative;display:block;cursor:pointer}
+.plan input{position:absolute;opacity:0}
+.plan .card{height:100%;border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--bg);display:grid;gap:6px;align-content:start}
+.plan .card b{font:700 16px var(--display)}
+.plan .card span{font-size:13px;color:var(--muted)}
+.plan .price{font:700 22px var(--display);font-variant-numeric:tabular-nums}
+.plan .price small{font:400 13px var(--body);color:var(--muted)}
+.plan input:checked + .card{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.plan input:focus-visible + .card{outline:2px solid var(--gold);outline-offset:2px}
+.tag{justify-self:start;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:2px 6px}
+
+.terms{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin-top:8px}
+.terms td,.terms th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
+.terms th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.terms tr.sel td{color:var(--gold)}
+.terms input{accent-color:var(--gold)}
+.tablewrap{overflow-x:auto}
+.toggle{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:14px}
+.toggle input{accent-color:var(--gold);width:18px;height:18px}
+.total{margin-top:16px;padding:14px 16px;border-radius:10px;background:var(--gold-soft);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.total b{font:700 18px var(--display)}
+
+.parq{display:grid;gap:8px}
+.pq{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;font-size:14px}
+.pq .yn{display:flex;gap:6px;flex:none}
+.pq .chip span{padding:4px 12px;font-size:13px}
+.alert{margin-top:12px;padding:12px 14px;border-radius:8px;border:1px solid var(--warn);color:var(--fg);font-size:14px}
+.alert b{color:var(--warn)}
+
+.check{display:grid;gap:8px}
+.ck{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);cursor:pointer}
+.ck input{accent-color:var(--gold);width:18px;height:18px;margin-top:2px;flex:none}
+.ck b{display:block;font-size:14px}
+.ck span{font-size:13px;color:var(--muted)}
+
+.timeline{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:0}
+.timeline li{display:grid;grid-template-columns:88px 1fr;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.timeline li b{font:700 13px var(--display);color:var(--gold)}
+.summary{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:340px;overflow:auto;margin:0}
+
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:32px;padding-top:20px;border-top:1px solid var(--line);flex-wrap:wrap}
+.btn{font:600 14px var(--body);border-radius:8px;padding:11px 20px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--fg)}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:#1B1F27}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.btn:hover{filter:brightness(1.06)}
+.err{color:var(--warn);font-size:13px;margin-top:12px;min-height:1em}
+.note{font-size:13px;color:var(--muted)}
+.copied{color:var(--ok);font-size:13px;margin-left:10px}
+section[data-step]{animation:in .25s ease}
+@keyframes in{from{transform:translateY(6px)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){section[data-step]{animation:none}.bar i{transition:none}}
+.gear-group{margin-top:20px}
+.gear-group > p{font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.gear{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);margin-bottom:8px}
+.gear.have{opacity:.6}
+.gear input{accent-color:var(--gold);width:18px;height:18px;margin-top:3px}
+.gear b{display:block;font-size:15px}
+.gear .why{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.gear a{font-size:13px;color:var(--gold);text-underline-offset:3px}
+.gear .meta{text-align:right;font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gear .kind{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:4px;padding:1px 6px;color:var(--muted);margin-bottom:4px}
+.gear .opt{color:var(--muted);font-size:12px}
+@media (max-width:480px){.gear{grid-template-columns:auto 1fr}.gear .meta{grid-column:2;text-align:left}}
+.sent{display:grid;gap:12px;padding:20px;border:1px solid var(--ok);border-radius:12px;margin-top:8px}
+.sent b{font:700 18px var(--display);color:var(--ok)}
+details.fallback{margin-top:16px}
+details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
+.btn:disabled{opacity:.6;cursor:progress}
+</style>
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <aside>
+    <div class="brand">
+      <svg width="34" height="42" viewBox="0 0 34 42" aria-hidden="true">
+        <path d="M4 10 L17 2 L30 10 V38 a2 2 0 0 1-2 2 H6 a2 2 0 0 1-2-2Z" fill="none" stroke="var(--gold)" stroke-width="2"/>
+        <rect x="15.5" y="8" width="3" height="10" fill="var(--gold)"/><rect x="12" y="11" width="10" height="3" fill="var(--gold)"/>
+        <text x="17" y="33" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-weight="700" font-size="11" fill="var(--fg)">SF</text>
+      </svg>
+      <div><small>Sprayberry Fitness</small><b>Client Onboarding</b></div>
+    </div>
+    <ol class="rail" id="rail"></ol>
+    <div class="mstep" id="mstep"></div>
+    <div class="bar"><i id="barfill"></i></div>
+  </aside>
+
+  <main>
+    <form id="ob" name="onboarding" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+    <input type="hidden" name="form-name" value="onboarding">
+    <input type="hidden" name="plan_summary" id="h_plan">
+    <input type="hidden" name="health_flag" id="h_health">
+    <input type="hidden" name="still_needs" id="h_needs">
+    <textarea name="summary" id="h_summary" hidden></textarea>
+    <p hidden><label>Leave this empty <input name="bot-field" id="bot"></label></p>
+
+    <section data-step="0" data-name="Welcome">
+      <p class="eyebrow">You're in</p>
+      <h1>Welcome to the <em>team</em>.</h1>
+      <p class="lede">You took the hard step already. This setup takes about 10 minutes and gives me everything I need to build your custom plan. Answer honestly. There are no wrong answers, only a starting point.</p>
+      <div class="steps-preview">
+        <div class="sp"><b>Pick your plan</b><span>Coaching track and term length</span></div>
+        <div class="sp"><b>Tell me about you</b><span>Goals, training history, health screen</span></div>
+        <div class="sp"><b>Lifestyle & food</b><span>Schedule, sleep, how you eat now</span></div>
+        <div class="sp"><b>Set your baseline</b><span>Photos, weigh-in, measurements</span></div>
+        <div class="sp"><b>Get set up</b><span>The apps and gear you'll need, nothing extra</span></div>
+      </div>
+      <p class="verse">"Whatever you do, work at it with all your heart, as working for the Lord." Colossians 3:23. That's the standard I hold myself to as your coach.</p>
+      <p class="note">Your answers save on this device as you go, so you can close the page and pick up later.</p>
+    </section>
+
+    <section data-step="1" data-name="Your plan" hidden>
+      <p class="eyebrow">Step 1</p>
+      <h2>Choose your coaching</h2>
+      <p class="lede">Full coaching covers both nutrition and strength &amp; conditioning. Single-focus plans are month-to-month.</p>
+      <div class="plans" role="radiogroup" aria-label="Coaching plan">
+        <label class="plan"><input type="radio" name="plan" value="full" id="plan-full"><div class="card"><span class="tag">Most complete</span><b>Full Coaching</b><span>Nutrition + strength &amp; conditioning, daily check-ins, weekly adjustments</span><div class="price">$400<small> /mo</small></div></div></label>
+        <label class="plan"><input type="radio" name="plan" value="nutrition" id="plan-nutrition"><div class="card"><b>Nutrition Only</b><span>Custom macros or meal plan built around your schedule</span><div class="price">$250<small> /mo</small></div></div></label>
+        <label class="plan"><input type="radio" name="plan" value="training" id="plan-training"><div class="card"><b>Training Only</b><span>Programmed lifting, conditioning, or race training</span><div class="price">$250<small> /mo</small></div></div></label>
+      </div>
+      <div id="termbox" hidden>
+        <h3>Term length</h3>
+        <div class="tablewrap">
+        <table class="terms" id="terms">
+          <thead><tr><th></th><th>Term</th><th>Total</th><th>Per month</th><th>You save</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        </div>
+        <label class="toggle"><input type="checkbox" id="couples" name="couples"> Signing up with a partner (couples rate: 15% off two sign-ups, same term for both)</label>
+        <div id="partnerbox" hidden style="margin-top:12px">
+          <label class="f">Partner's name<input type="text" id="partner" name="partner"></label>
+        </div>
+      </div>
+      <div class="total" id="total" hidden><span id="totalLabel"></span><b id="totalAmt"></b></div>
+    </section>
+
+    <section data-step="2" data-name="About you" hidden>
+      <p class="eyebrow">Step 2</p>
+      <h2>About you</h2>
+      <div class="grid">
+        <label class="f"><span class="req">Full name</span><input type="text" id="name" name="name" autocomplete="name" required></label>
+        <label class="f"><span class="req">Email</span><input type="email" id="email" name="email" autocomplete="email" required></label>
+        <label class="f">Phone<input type="tel" id="phone" name="phone" autocomplete="tel"></label>
+        <label class="f">Age<input type="number" id="age" name="age" min="14" max="99"></label>
+        <label class="f">Height <span class="hint">e.g. 5'10"</span><input type="text" id="height" name="height"></label>
+        <label class="f">Current weight (lb)<input type="number" id="weight" name="weight" min="60" max="600"></label>
+        <div class="full">
+          <p class="f" style="margin:0 0 8px;font-size:13px;font-weight:600"><span class="req">Main goal</span></p>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="goal" value="Fat loss" id="g1"><span>Fat loss</span></label>
+            <label class="chip"><input type="radio" name="goal" value="Muscle gain" id="g2"><span>Muscle gain</span></label>
+            <label class="chip"><input type="radio" name="goal" value="Race training" id="g3"><span>Race training</span></label>
+          </div>
+        </div>
+        <label class="f full">What does success look like in 90 days? <span class="hint">Be specific: a number, an event, a feeling</span><textarea id="success" name="success"></textarea></label>
+        <label class="f full">Why now? What made you decide to start?<textarea id="why" name="why"></textarea></label>
+      </div>
+    </section>
+
+    <section data-step="3" data-name="Training" hidden>
+      <p class="eyebrow">Step 3</p>
+      <h2>Training background</h2>
+      <div class="grid">
+        <label class="f">Experience level
+          <select id="exp" name="exp"><option value="">Select</option><option>New to training</option><option>Under 1 year</option><option>1–3 years</option><option>3+ years</option></select></label>
+        <label class="f">Days per week you can train
+          <select id="days" name="days"><option value="">Select</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
+        <label class="f">Session length
+          <select id="len" name="len"><option value="">Select</option><option>30 min</option><option>45 min</option><option>60 min</option><option>75+ min</option></select></label>
+        <label class="f">Where you train
+          <select id="where" name="where"><option value="">Select</option><option>Commercial gym</option><option>Home gym</option><option>Minimal equipment / bodyweight</option><option>Outdoors / track</option></select></label>
+        <label class="f full">Injuries, surgeries, or movements that bother you<textarea id="injuries" name="injuries" placeholder="e.g. right shoulder pinches on overhead press"></textarea></label>
+      </div>
+      <h3>Health screen</h3>
+      <p class="note" style="margin-top:-4px">Based on the standard PAR-Q. A "yes" doesn't disqualify you; it means we get a doctor's okay first.</p>
+      <div class="parq" id="parq"></div>
+      <div class="alert" id="parqAlert" hidden><b>Doctor's clearance needed.</b> You answered yes to at least one question. Please get written clearance from your physician before your first session. Your plan will still be built so you're ready to go.</div>
+    </section>
+
+    <section data-step="4" data-name="Lifestyle" hidden>
+      <p class="eyebrow">Step 4</p>
+      <h2>Lifestyle &amp; nutrition</h2>
+      <div class="grid">
+        <label class="f">Work schedule
+          <select id="work" name="work"><option value="">Select</option><option>Standard daytime</option><option>Rotating shifts</option><option>Night shift</option><option>Physically demanding job</option><option>Student</option></select></label>
+        <label class="f">Average sleep per night
+          <select id="sleep" name="sleep"><option value="">Select</option><option>Under 5 hrs</option><option>5–6 hrs</option><option>7–8 hrs</option><option>8+ hrs</option></select></label>
+        <label class="f">Meals per day right now
+          <select id="meals" name="meals"><option value="">Select</option><option>1–2</option><option>3</option><option>4+</option><option>It varies a lot</option></select></label>
+        <label class="f">Cooking comfort
+          <select id="cook" name="cook"><option value="">Select</option><option>I don't cook</option><option>Basic meals</option><option>Comfortable</option><option>I meal prep already</option></select></label>
+        <div class="full">
+          <p style="margin:0 0 8px;font-size:13px;font-weight:600">Eating style <span class="note" style="font-weight:400">select any</span></p>
+          <div class="chips" id="diet"></div>
+        </div>
+        <label class="f">Food allergies or intolerances<input type="text" id="allergies" name="allergies"></label>
+        <label class="f">Foods you won't eat<input type="text" id="dislikes" name="dislikes"></label>
+        <label class="f">Weekly grocery budget
+          <select id="budget" name="budget"><option value="">Select</option><option>Under $75</option><option>$75–125</option><option>$125–200</option><option>$200+</option></select></label>
+        <label class="f">Daily water intake
+          <select id="water" name="water"><option value="">Select</option><option>Barely any</option><option>Under 64 oz</option><option>64–100 oz</option><option>100+ oz</option></select></label>
+        <label class="f full">Anything else I should know? <span class="hint">Stress, travel, family schedule, past diets that did or didn't work</span><textarea id="other" name="other"></textarea></label>
+      </div>
+    </section>
+
+    <section data-step="5" data-name="Baseline" hidden>
+      <p class="eyebrow">Step 5</p>
+      <h2>Set your baseline</h2>
+      <p class="lede">These give us a true starting line. Do them in the next 48 hours, first thing in the morning, before eating.</p>
+      <div class="check" id="baseline"></div>
+      <h3>Starting measurements <span class="note" style="font-weight:400">optional, fill in once taken</span></h3>
+      <div class="grid">
+        <label class="f">Morning weight (lb)<input type="number" id="mWeight" name="mWeight" step="0.1"></label>
+        <label class="f">Waist at navel (in)<input type="number" id="mWaist" name="mWaist" step="0.25"></label>
+        <label class="f">Hips, widest point (in)<input type="number" id="mHips" name="mHips" step="0.25"></label>
+        <label class="f">Chest (in)<input type="number" id="mChest" name="mChest" step="0.25"></label>
+      </div>
+    </section>
+
+    <section data-step="6" data-name="Get set up" hidden>
+      <p class="eyebrow">Step 6</p>
+      <h2>Your setup list</h2>
+      <p class="lede">Everything you need before Day 1, based on your answers. Tick what you already have. Nothing here is expensive, and you don't need any of it until your plan arrives.</p>
+      <div id="gear"></div>
+      <div class="total" id="gearTotal"><span>Estimated cost of what you still need</span><b id="gearAmt">$0</b></div>
+    </section>
+
+    <section data-step="7" data-name="Review & send" hidden>
+      <p class="eyebrow">Last step</p>
+      <h2>Review and send</h2>
+      <div id="presend">
+        <p class="lede">Look it over, then send it. It goes straight to me, and I'll start building your plan.</p>
+        <pre class="summary" id="summary"></pre>
+      </div>
+      <div class="sent" id="sentBox" hidden aria-live="polite">
+        <b>Sent. You're officially on the roster.</b>
+        <span>I'll have your custom plan ready within 48 hours. Watch your texts and email for your kickoff call time. In the meantime, grab anything left on your setup list.</span>
+      </div>
+      <details class="fallback" id="fallback">
+        <summary>Having trouble sending? Copy your answers instead</summary>
+        <p class="note">Copy this and DM it to <b>@sprayberry.fitness</b> on Instagram.</p>
+        <div><button type="button" class="btn" id="copy">Copy summary</button><span class="copied" id="copied" aria-live="polite"></span></div>
+      </details>
+      <h3>What happens next</h3>
+      <ol class="timeline">
+        <li><b>Within 48 hrs</b><span>I build your custom plan from these answers.</span></li>
+        <li><b>Kickoff call</b><span>15 minutes to walk through your plan and answer questions.</span></li>
+        <li><b>Day 1</b><span>You start training and logging your daily check-in.</span></li>
+        <li><b>End of week 1</b><span>First weekly review. I adjust based on how you felt and what the numbers show.</span></li>
+      </ol>
+      <p class="verse">Progress comes from showing up on the ordinary days. Let's get to work.</p>
+    </section>
+
+    <p class="err" id="err" role="alert"></p>
+    <div class="nav">
+      <button type="button" class="btn" id="back">Back</button>
+      <button type="button" class="btn primary" id="next">Get started</button>
+    </div>
+    </form>
+  </main>
+</div>
+
+<script>
+(function(){
+  const PRICES = {
+    full: [{t:"Month-to-month",m:1,p:400},{t:"3 months",m:3,p:1000},{t:"6 months",m:6,p:1700},{t:"12 months",m:12,p:2900}],
+    nutrition: [{t:"Month-to-month",m:1,p:250}],
+    training: [{t:"Month-to-month",m:1,p:250}]
+  };
+  const PLAN_NAMES = {full:"Full Coaching", nutrition:"Nutrition Only", training:"Training Only"};
+  const PARQ = [
+    "Has a doctor ever said you have a heart condition or high blood pressure?",
+    "Do you feel chest pain at rest, during daily activity, or when you exercise?",
+    "Do you lose balance from dizziness, or have you lost consciousness in the past year?",
+    "Have you been diagnosed with another chronic medical condition?",
+    "Are you currently taking prescribed medication for a chronic condition?",
+    "Do you have a bone, joint, or soft-tissue problem that could get worse with activity?",
+    "Has a doctor ever said you should only do medically supervised activity?"
+  ];
+  const DIET = ["No restrictions","Vegetarian","Vegan","Pescatarian","Dairy-free","Gluten-free","Intermittent fasting","Eat out often"];
+  const BASE = [
+    ["photos","Progress photos","Front, side, and back. Same lighting, fitted clothes, phone at chest height."],
+    ["weigh","Morning weigh-in","After the bathroom, before food or water. Write it below."],
+    ["tape","Tape measurements","Waist at the navel, hips at the widest point, chest across the nipple line."],
+    ["contract","Sign your coaching agreement","Sent separately. Your plan goes live once it's signed."]
+  ];
+
+  // ---- Submission settings ----
+  // Submissions go to the same Formspree form as the consult page. Clear FORMSPREE_ID to use Netlify Forms instead.
+  const FORMSPREE_ID = "mrenooal";
+
+  // Setup list. show(a) decides who sees each item; lo/hi are rough price ranges in USD.
+  const amz = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q);
+  const GEAR = [
+    {id:"cron", group:"Download", kind:"Free app", name:"Cronometer", why:"Log everything you eat. The free version is all you need. Enter the calorie and macro targets I send with your plan.", link:"https://cronometer.com", linkText:"cronometer.com", lo:0, hi:0, req:true, show:a=>a.plan!=="training"},
+    {id:"checkin", group:"Download", kind:"Bookmark", name:"Daily check-in form", why:"I'll text you the link with your plan. Save it to your home screen; it takes under a minute a day.", lo:0, hi:0, req:true, show:()=>true},
+    {id:"tracker", group:"Download", kind:"Bookmark", name:"Sprayberry Progress Tracker", why:"Your lift log and weight trend. I'll send your PIN with your plan. Open it on your phone and add it to your home screen.", link:"/tracker.html", linkText:"Open tracker", lo:0, hi:0, req:true, show:()=>true},
+    {id:"strava", group:"Download", kind:"Free app", name:"Strava", why:"Logs your runs with pace and distance so I can see your training load.", link:"https://www.strava.com", linkText:"strava.com", lo:0, hi:0, req:true, show:a=>a.goal==="Race training"},
+    {id:"foodscale", group:"Buy", kind:"Kitchen", name:"Digital food scale", why:"Weigh food in grams for the first few weeks. It's the fastest way to learn real portion sizes.", link:amz("digital food scale grams"), linkText:"Shop food scales", lo:10, hi:20, req:true, show:a=>a.plan!=="training"},
+    {id:"bodyscale", group:"Buy", kind:"Bathroom", name:"Digital bathroom scale", why:"Daily morning weigh-ins. I coach off your weekly average, so one high day never matters.", link:amz("digital bathroom scale"), linkText:"Shop bathroom scales", lo:20, hi:35, req:true, show:a=>a.goal!=="Race training" || a.plan!=="training"},
+    {id:"tape", group:"Buy", kind:"Measuring", name:"Body tape measure", why:"A retractable, one-handed body tape locks at the same tension every time, so your waist numbers are consistent.", link:amz("body tape measure retractable lock"), linkText:"Shop body tapes", lo:5, hi:10, req:true, show:()=>true},
+    {id:"bands", group:"Buy", kind:"Training", name:"Resistance band set", why:"Loop and handle bands let me program real strength work at home.", link:amz("resistance bands set with handles"), linkText:"Shop band sets", lo:20, hi:35, req:true, show:a=>/Home gym|Minimal/.test(a.where)},
+    {id:"containers", group:"Buy", kind:"Kitchen", name:"Meal prep containers", why:"Makes cooking once for several days easy. Glass holds up better than plastic.", link:amz("glass meal prep containers"), linkText:"Shop containers", lo:15, hi:30, req:false, show:a=>a.plan!=="training"},
+    {id:"watch", group:"Buy", kind:"Training", name:"GPS running watch", why:"Helpful for pacing workouts. Your phone with Strava works fine to start.", link:amz("gps running watch"), linkText:"Shop watches", lo:100, hi:250, req:false, show:a=>a.goal==="Race training"}
+  ];
+  const haveGear = {};
+  const fmt = n => "$" + n.toLocaleString("en-US",{maximumFractionDigits:0});
+  const $ = id => document.getElementById(id);
+  const form = $("ob");
+  const steps = [...document.querySelectorAll("section[data-step]")];
+  let cur = 0, maxReached = 0;
+
+  // Build dynamic pieces
+  $("parq").innerHTML = PARQ.map((q,i)=>`<div class="pq"><span>${q}</span><span class="yn">
+    <label class="chip"><input type="radio" name="pq${i}" value="Yes" id="pq${i}y"><span>Yes</span></label>
+    <label class="chip"><input type="radio" name="pq${i}" value="No" id="pq${i}n"><span>No</span></label></span></div>`).join("");
+  $("diet").innerHTML = DIET.map((d,i)=>`<label class="chip"><input type="checkbox" name="diet" value="${d}" id="d${i}"><span>${d}</span></label>`).join("");
+  $("baseline").innerHTML = BASE.map(([k,t,s])=>`<label class="ck"><input type="checkbox" name="base" value="${t}" id="b-${k}"><div><b>${t}</b><span>${s}</span></div></label>`).join("");
+  $("rail").innerHTML = steps.map((s,i)=>`<li><button type="button" data-go="${i}"><span class="n">${i===0?"•":i}</span>${s.dataset.name}</button></li>`).join("");
+
+  function val(n){ const el = form.elements[n]; if(!el) return ""; if(el instanceof RadioNodeList){ return el.value; } return el.value.trim(); }
+  function multi(n){ return [...form.querySelectorAll(`input[name="${n}"]:checked`)].map(i=>i.value); }
+
+  function renderTerms(){
+    const plan = val("plan");
+    $("termbox").hidden = !plan;
+    if(!plan){ $("total").hidden = true; return; }
+    const couples = plan==="full" && $("couples").checked;
+    $("couples").closest(".toggle").hidden = plan!=="full";
+    $("partnerbox").hidden = !couples;
+    const rows = PRICES[plan];
+    let chosen = form.dataset.term || "0";
+    if(+chosen >= rows.length) chosen = "0";
+    const tb = $("terms").querySelector("tbody");
+    tb.innerHTML = rows.map((r,i)=>{
+      const tot = couples ? Math.round(r.p*2*0.85) : r.p;
+      const base = (couples? PRICES[plan][0].p*2*0.85 : PRICES[plan][0].p) * r.m;
+      const save = Math.round(base - tot);
+      return `<tr class="${String(i)===chosen?"sel":""}"><td><input type="radio" name="term" value="${i}" id="term${i}" ${String(i)===chosen?"checked":""} aria-label="${r.t}"></td>
+        <td>${r.t}</td><td>${fmt(tot)}</td><td>${fmt(tot/r.m)}</td><td>${save>0?fmt(save):"—"}</td></tr>`;
+    }).join("");
+    const r = rows[+chosen];
+    const tot = couples ? Math.round(r.p*2*0.85) : r.p;
+    $("total").hidden = false;
+    $("totalLabel").textContent = `${PLAN_NAMES[plan]} · ${r.t}${couples?" · couples (2 people)":""}`;
+    $("totalAmt").textContent = fmt(tot) + (r.m===1 ? " /mo" : " total");
+  }
+  $("terms").addEventListener("change", e=>{ if(e.target.name==="term"){ form.dataset.term = e.target.value; renderTerms(); save(); }});
+  $("terms").addEventListener("click", e=>{ const tr = e.target.closest("tr"); if(tr && tr.querySelector("input")){ tr.querySelector("input").checked = true; form.dataset.term = tr.querySelector("input").value; renderTerms(); save(); }});
+
+  function answers(){ return {plan:val("plan"), goal:val("goal"), where:val("where"), cook:val("cook")}; }
+  function gearList(){ const a = answers(); return GEAR.filter(g=>g.show(a)); }
+  function renderGear(){
+    const list = gearList();
+    const groups = ["Download","Buy"];
+    $("gear").innerHTML = groups.map(gr=>{
+      const items = list.filter(g=>g.group===gr); if(!items.length) return "";
+      return `<div class="gear-group"><p>${gr==="Download"?"Download &amp; bookmark":"Buy"}</p>` + items.map(g=>{
+        const price = g.hi===0 ? "Free" : `$${g.lo}–${g.hi}`;
+        return `<label class="gear ${haveGear[g.id]?"have":""}" for="gear-${g.id}">
+          <input type="checkbox" id="gear-${g.id}" data-gear="${g.id}" ${haveGear[g.id]?"checked":""} aria-label="I have ${g.name}">
+          <span><b>${g.name}</b><span class="why">${g.why}</span>${g.link?`<a href="${g.link}" target="_blank" rel="noopener">${g.linkText} ↗</a>`:""}</span>
+          <span class="meta"><span class="kind">${g.kind}</span><br>${price}${g.req?"":'<br><span class="opt">optional</span>'}</span>
+        </label>`;
+      }).join("") + `</div>`;
+    }).join("");
+    updateGearTotal();
+  }
+  function updateGearTotal(){
+    const need = gearList().filter(g=>g.req && !haveGear[g.id]);
+    const lo = need.reduce((s,g)=>s+g.lo,0), hi = need.reduce((s,g)=>s+g.hi,0);
+    $("gearAmt").textContent = hi===0 ? "$0" : `$${lo}–${hi}`;
+  }
+  $("gear").addEventListener("change", e=>{
+    const id = e.target.dataset.gear; if(!id) return;
+    haveGear[id] = e.target.checked; e.target.closest(".gear").classList.toggle("have", e.target.checked);
+    updateGearTotal(); save();
+  });
+
+  function parqCheck(){ $("parqAlert").hidden = !PARQ.some((_,i)=>val("pq"+i)==="Yes"); }
+
+  function validate(i){
+    if(i===1 && !val("plan")) return "Choose a coaching plan to continue.";
+    if(i===2){
+      if(!val("name")) return "Add your full name.";
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val("email"))) return "Add an email address I can reach you at.";
+      if(!val("goal")) return "Pick your main goal.";
+    }
+    if(i===3 && PARQ.some((_,k)=>!val("pq"+k))) return "Answer all seven health screen questions.";
+    return "";
+  }
+
+  function stillNeeds(){ return gearList().filter(g=>g.req && !haveGear[g.id]).map(g=>g.name).join(", "); }
+  function summary(){
+    const plan = val("plan"); const rows = plan?PRICES[plan]:[]; const r = rows[+(form.dataset.term||0)]||rows[0];
+    const couples = plan==="full" && $("couples").checked;
+    const tot = r ? (couples? Math.round(r.p*2*0.85): r.p) : 0;
+    const L = [];
+    const line = (k,v)=>{ if(v && String(v).length) L.push(`${k}: ${v}`); };
+    L.push("SPRAYBERRY FITNESS · NEW CLIENT ONBOARDING","");
+    L.push("PLAN");
+    line("Coaching", plan?PLAN_NAMES[plan]:""); line("Term", r?r.t:""); line("Price", r?fmt(tot)+(r.m===1?"/mo":" total"):"");
+    if(couples){ line("Couples rate","Yes"); line("Partner", val("partner")); }
+    L.push("","ABOUT");
+    ["name","email","phone","age","height"].forEach(k=>line(k[0].toUpperCase()+k.slice(1), val(k)));
+    line("Weight (lb)", val("weight")); line("Goal", val("goal")); line("90-day success", val("success")); line("Why now", val("why"));
+    L.push("","TRAINING");
+    line("Experience", val("exp")); line("Days/week", val("days")); line("Session length", val("len")); line("Trains at", val("where")); line("Injuries/limits", val("injuries"));
+    const yes = PARQ.filter((_,i)=>val("pq"+i)==="Yes");
+    line("Health screen", yes.length ? `YES to ${yes.length}: clearance needed\n  - ` + yes.join("\n  - ") : (PARQ.every((_,i)=>val("pq"+i)) ? "All no" : "Incomplete"));
+    L.push("","LIFESTYLE & NUTRITION");
+    line("Work", val("work")); line("Sleep", val("sleep")); line("Meals/day", val("meals")); line("Cooking", val("cook"));
+    line("Eating style", multi("diet").join(", ")); line("Allergies", val("allergies")); line("Won't eat", val("dislikes"));
+    line("Grocery budget", val("budget")); line("Water", val("water")); line("Notes", val("other"));
+    L.push("","BASELINE");
+    line("Completed", multi("base").join(", ") || "None yet");
+    line("Morning weight", val("mWeight")); line("Waist", val("mWaist")); line("Hips", val("mHips")); line("Chest", val("mChest"));
+    const gl = gearList();
+    L.push("","SETUP");
+    line("Has", gl.filter(g=>haveGear[g.id]).map(g=>g.name).join(", ") || "Nothing yet");
+    line("Still needs", stillNeeds() || "Nothing");
+    return L.join("\n");
+  }
+
+  function show(i){
+    cur = i; maxReached = Math.max(maxReached, i);
+    steps.forEach((s,k)=>s.hidden = k!==i);
+    $("err").textContent = "";
+    $("back").style.visibility = i===0 ? "hidden" : "visible";
+    $("next").textContent = i===0 ? "Get started" : i===steps.length-1 ? "Send to Dalton" : "Continue";
+    $("next").hidden = (i===steps.length-1 && submitted);
+    if(i===steps.length-2) renderGear();
+    document.querySelectorAll("#rail button").forEach((b,k)=>{
+      b.classList.toggle("cur", k===i); b.classList.toggle("done", k<i || (k<=maxReached && k!==i && k<maxReached));
+      b.disabled = k>maxReached;
+      if(k<i) b.querySelector(".n").textContent = "✓"; else b.querySelector(".n").textContent = k===0?"•":k;
+    });
+    $("mstep").textContent = `Step ${i+1} of ${steps.length} · ${steps[i].dataset.name}`;
+    $("barfill").style.width = ((i)/(steps.length-1)*100)+"%";
+    if(i===steps.length-1) $("summary").textContent = summary();
+    if(i===1) renderTerms();
+    save();
+    if(window.scrollY > 200) window.scrollTo({top:0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto":"smooth"});
+  }
+
+  async function copy(){
+    const text = summary();
+    try { await navigator.clipboard.writeText(text); $("copied").textContent = "Copied. Paste it into your message to Dalton."; }
+    catch(e){
+      const r = document.createRange(); r.selectNodeContents($("summary"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      $("copied").textContent = "Summary selected. Copy it with your device's copy command.";
+    }
+  }
+
+  let submitted = false;
+  async function send(){
+    const btn = $("next");
+    const plan = val("plan"); const r = plan ? (PRICES[plan][+(form.dataset.term||0)]||PRICES[plan][0]) : null;
+    const yes = PARQ.filter((_,i)=>val("pq"+i)==="Yes").length;
+    $("h_plan").value = plan ? `${PLAN_NAMES[plan]} · ${r.t}${plan==="full"&&$("couples").checked?" · couples":""}` : "";
+    $("h_health").value = yes ? `CLEARANCE NEEDED (${yes} yes)` : "Clear";
+    $("h_needs").value = stillNeeds();
+    $("h_summary").value = summary();
+    btn.disabled = true; btn.textContent = "Sending…"; $("err").textContent = "";
+    try{
+      let res;
+      if(FORMSPREE_ID){
+        res = await fetch("https://formspree.io/f/" + FORMSPREE_ID, {method:"POST", headers:{"Accept":"application/json","Content-Type":"application/json"},
+          body: JSON.stringify({name:val("name"), email:val("email"), _replyto:val("email"), phone:val("phone"), goal:val("goal"), plan_summary:$("h_plan").value, health_flag:$("h_health").value, still_needs:$("h_needs").value, summary:$("h_summary").value, _subject:"New client onboarding: "+val("name")})});
+      } else {
+        const fd = new URLSearchParams();
+        ["form-name","name","email","phone","goal","plan_summary","health_flag","still_needs","summary","bot-field"].forEach(k=>fd.append(k, (form.elements[k] && form.elements[k].value) || ""));
+        res = await fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: fd.toString()});
+      }
+      if(!res.ok) throw new Error(res.status);
+      submitted = true;
+      $("presend").hidden = true; $("sentBox").hidden = false; $("fallback").hidden = true;
+      btn.hidden = true; save();
+    }catch(e){
+      btn.disabled = false; btn.textContent = "Try again";
+      $("err").textContent = "That didn't go through. Check your connection and try again, or use the copy option below.";
+      $("fallback").open = true;
+    }
+  }
+
+  $("next").addEventListener("click", ()=>{
+    if(cur===steps.length-1){ send(); return; }
+    const e = validate(cur); if(e){ $("err").textContent = e; return; }
+    show(cur+1);
+  });
+  $("back").addEventListener("click", ()=>{ if(cur>0) show(cur-1); });
+  $("copy").addEventListener("click", copy);
+  $("rail").addEventListener("click", e=>{
+    const b = e.target.closest("button[data-go]"); if(!b || b.disabled) return;
+    const to = +b.dataset.go;
+    if(to>cur){ for(let k=cur;k<to;k++){ const er = validate(k); if(er){ show(k); $("err").textContent = er; return; } } }
+    show(to);
+  });
+  form.addEventListener("change", e=>{
+    if(e.target.name==="plan" || e.target.id==="couples") renderTerms();
+    if(/^pq/.test(e.target.name)) parqCheck();
+    save();
+  });
+  form.addEventListener("input", save);
+  form.addEventListener("submit", e=>e.preventDefault());
+
+  // Draft saving (this device only)
+  const KEY = "sf-onboarding-v1";
+  function save(){
+    try{
+      const d = {cur, maxReached, term: form.dataset.term||"0", gear: haveGear, submitted, f:{}};
+      [...form.elements].forEach(el=>{ if(!el.id) return; d.f[el.id] = (el.type==="checkbox"||el.type==="radio") ? el.checked : el.value; });
+      localStorage.setItem(KEY, JSON.stringify(d));
+    }catch(e){}
+  }
+  function load(){
+    try{
+      const d = JSON.parse(localStorage.getItem(KEY)||"null"); if(!d) return;
+      Object.entries(d.f||{}).forEach(([id,v])=>{ const el = $(id); if(!el) return; if(el.type==="checkbox"||el.type==="radio") el.checked = !!v; else el.value = v; });
+      Object.assign(haveGear, d.gear||{});
+      if(d.submitted){ submitted = true; $("presend").hidden = true; $("sentBox").hidden = false; $("fallback").hidden = true; }
+      form.dataset.term = d.term||"0"; maxReached = d.maxReached||0; cur = Math.min(d.cur||0, steps.length-1);
+    }catch(e){}
+  }
+  load(); parqCheck(); show(cur);
+})();
+</script>
+
+</body>
+</html>
