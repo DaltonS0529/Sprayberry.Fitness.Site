@@ -13,15 +13,15 @@
 <link rel="canonical" href="https://sprayberryfitness.com/calculator.html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Build Your Own Plan — Sprayberry Fitness</title>
-<meta name="description" content="Build your own free 7-day meal plan, grocery list, and workout split — starting with your personalized numbers. From Sprayberry Fitness.">
+<meta name="description" content="Build your own free 7-day meal plan, grocery list, workout split, and running plan — starting with your personalized numbers. From Sprayberry Fitness.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Build Your Own Plan — Sprayberry Fitness">
-<meta property="og:description" content="Build your own free 7-day meal plan, grocery list, and workout split — starting with your personalized numbers. From Sprayberry Fitness.">
+<meta property="og:description" content="Build your own free 7-day meal plan, grocery list, workout split, and running plan — starting with your personalized numbers. From Sprayberry Fitness.">
 <meta property="og:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
 <meta property="og:url" content="https://sprayberryfitness.com/calculator.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Build Your Own Plan — Sprayberry Fitness">
-<meta name="twitter:description" content="Build your own free 7-day meal plan, grocery list, and workout split — starting with your personalized numbers. From Sprayberry Fitness.">
+<meta name="twitter:description" content="Build your own free 7-day meal plan, grocery list, workout split, and running plan — starting with your personalized numbers. From Sprayberry Fitness.">
 <meta name="twitter:image" content="https://sprayberryfitness.com/assets/coach-hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -415,6 +415,56 @@
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
   }
+  /* ---- Step 2: plan builder panel ---- */
+  .plan-panel { padding: 36px; border-top: 1px solid var(--hairline); background: var(--white); }
+  .pg-intro h2 { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.01em; margin-top: 8px; }
+  .pg-intro p { color: var(--slate); font-size: 14.5px; margin-top: 8px; max-width: 560px; }
+  .pg-block { margin-top: 22px; border: 1px solid var(--hairline); border-radius: 16px; padding: 22px 24px; background: var(--white); }
+  .pg-block-head { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 18px; }
+  .pg-num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--white); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .pg-block-head h3 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 700; line-height: 1.25; }
+  .pg-block-head p { font-size: 13px; color: var(--slate-light); margin-top: 2px; }
+  .pg-block-head .pg-head-text { flex: 1; }
+  .pg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px; }
+  .pg-span { grid-column: 1 / -1; }
+  .plan-panel .pg-label { display: block; font-size: 11.5px; font-weight: 700; color: var(--slate); letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 9px; }
+  .plan-panel .pg-label em { text-transform: none; font-style: normal; letter-spacing: 0; font-weight: 500; color: var(--slate-light); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .plan-panel label.chip { position: relative; display: inline-flex; margin: 0; font-size: inherit; letter-spacing: 0; }
+  .chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .chip span { display: inline-block; padding: 8px 14px; border: 1px solid var(--hairline); border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--slate); background: var(--white); cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; user-select: none; }
+  .chip span:hover { border-color: var(--gold); color: var(--ink); }
+  .chip input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--white); }
+  .chip input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .plan-panel .pg-input { padding: 11px 13px; font-size: 14px; border-radius: 10px; }
+  .plan-panel .pg-input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .plan-panel label.switch { display: inline-flex; align-items: center; gap: 10px; margin: 0; cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--ink); letter-spacing: 0; flex: none; }
+  .switch input { position: absolute; opacity: 0; pointer-events: none; }
+  .switch .slider { position: relative; width: 44px; height: 26px; border-radius: 999px; background: rgba(27,36,48,0.18); transition: background 0.2s; flex: none; }
+  .switch .slider::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--white); box-shadow: 0 1px 3px rgba(0,0,0,0.25); transition: transform 0.2s; }
+  .switch input:checked + .slider { background: var(--gold); }
+  .switch input:checked + .slider::after { transform: translateX(18px); }
+  .switch input:focus-visible + .slider { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .pg-run .pg-block-head { margin-bottom: 0; align-items: center; }
+  .pg-run.on { border-color: var(--gold); }
+  .pg-run.on .pg-block-head { margin-bottom: 18px; }
+  .plan-panel .pg-submit-btn { margin-top: 26px; padding: 16px; font-size: 14.5px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border-radius: 10px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-deep) 100%); transition: transform 0.2s, box-shadow 0.2s; }
+  .plan-panel .pg-submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(184,147,90,0.4); opacity: 1; }
+  .pg-fine { text-align: center; font-size: 12.5px; color: var(--slate-light); margin-top: 10px; }
+  .plan-panel #pgResult:not(:empty) { margin-top: 28px; }
+  .plan-panel .pg-plan-section { margin-top: 16px; border: 1px solid var(--hairline); border-radius: 16px; padding: 22px 24px; background: var(--mist); }
+  .plan-panel .pg-result-h { font-size: 17px; margin-bottom: 4px; }
+  .plan-panel .pg-plan-output { font-size: 14px; }
+  .plan-panel .pg-download-btn { margin-top: 16px; padding: 14px; border-radius: 10px; }
+  .next-step-link { display: block; text-align: center; margin-top: 14px; font-size: 13.5px; font-weight: 700; color: var(--gold-deep); text-decoration: none; }
+  .next-step-link:hover { color: var(--ink); }
+  @media (max-width: 640px) {
+    .plan-panel { padding: 26px 18px; }
+    .pg-grid { grid-template-columns: 1fr; }
+    .pg-block { padding: 18px; }
+    .pg-intro h2 { font-size: 22px; }
+    .pg-run .pg-block-head { flex-wrap: wrap; }
+  }
 </style>
 </head>
 <body>
@@ -423,7 +473,7 @@
   <div class="card-head">
     <span class="eyebrow">Step 1 of 3 — Your Numbers</span>
     <h1>Build Your Own Plan</h1>
-    <p>Start with your personalized macros (Mifflin-St Jeor formula — the same starting point used with every new Sprayberry Fitness client), then get your free 7-day meal plan, grocery list, and workout split.</p>
+    <p>Start with your personalized macros (Mifflin-St Jeor formula — the same starting point used with every new Sprayberry Fitness client), then get your free 7-day meal plan, grocery list, workout split, and running plan.</p>
   </div>
 
   <div class="body-grid">
@@ -474,6 +524,7 @@
       <div class="placeholder-note">Fill out your numbers and hit calculate — your daily targets will show up here.</div>
     </div>
   </div>
+  <div id="planGenWrap" class="plan-panel" hidden></div>
 </div>
 
 <script>
@@ -609,71 +660,68 @@
         <div class="capture-note">We'll also keep a copy so your coach can follow up with a plan built around these numbers.</div>
       </div>
 
-      <div class="plan-gen" id="planGen">
-        <span class="eyebrow" style="display:block; margin-bottom:12px;">Get Your Free Weekly Meal &amp; Workout Plan</span>
-        <p class="pg-sub">Answer a few quick questions and we'll build a full 7-day meal plan with a grocery list, plus a weekly workout split — all built around these exact numbers.</p>
-
-        <h4 class="pg-section-label">Meal Plan</h4>
-        <label class="pg-label">Meals/snacks per day</label>
-        <select id="pgMeals" class="pg-input">
-          <option value="3">3</option>
-          <option value="4" selected>4</option>
-          <option value="5">5</option>
-        </select>
-
-        <label class="pg-label">Preferred protein sources</label>
-        <div class="pg-checks" id="pgProteinChecks">
-          <label><input type="checkbox" value="chicken/lean meats" checked> Chicken/Lean Meats</label>
-          <label><input type="checkbox" value="beef"> Beef</label>
-          <label><input type="checkbox" value="fish/seafood"> Fish/Seafood</label>
-          <label><input type="checkbox" value="eggs/dairy"> Eggs/Dairy</label>
-          <label><input type="checkbox" value="plant-based"> Plant-Based</label>
-        </div>
-
-        <label class="pg-label">Dietary restriction</label>
-        <select id="pgRestriction" class="pg-input">
-          <option value="none">None</option>
-          <option value="vegetarian">Vegetarian</option>
-          <option value="vegan">Vegan</option>
-          <option value="gluten-free">Gluten-Free</option>
-          <option value="dairy-free">Dairy-Free</option>
-        </select>
-
-        <label class="pg-label">Foods to avoid (optional)</label>
-        <input type="text" id="pgDislikes" class="pg-input" placeholder="e.g. mushrooms, shellfish">
-
-        <h4 class="pg-section-label">Workout Plan</h4>
-        <label class="pg-label">Training days per week</label>
-        <select id="pgDays" class="pg-input">
-          <option value="2">2</option>
-          <option value="3" selected>3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-        </select>
-
-        <label class="pg-label">Experience level</label>
-        <select id="pgExperience" class="pg-input">
-          <option value="beginner">Beginner</option>
-          <option value="intermediate" selected>Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-
-        <label class="pg-label">Equipment access</label>
-        <select id="pgEquipment" class="pg-input">
-          <option value="full gym">Full Gym</option>
-          <option value="home gym (dumbbells/bands)">Home Gym (dumbbells/bands)</option>
-          <option value="bodyweight only">Bodyweight Only</option>
-        </select>
-
-        <label class="pg-label">Injuries or limitations (optional)</label>
-        <input type="text" id="pgLimitations" class="pg-input" placeholder="e.g. bad knee, shoulder injury">
-
-        <button type="button" id="pgSubmitBtn" class="pg-submit-btn">Get My Free Plan</button>
-        <div id="pgResult"></div>
-        <button type="button" id="pgDownloadBtn" class="pg-download-btn" style="display:none;">Download My Plan</button>
-      </div>
+      <a href="#planGenWrap" class="next-step-link">Next: build your free week &darr;</a>
     `;
+
+    const chips = (name, opts, def, type) => opts.map(([v, l]) =>
+      '<label class="chip"><input type="' + (type || 'radio') + '" name="' + name + '" value="' + v + '"' +
+      ((Array.isArray(def) ? def.includes(v) : v === def) ? ' checked' : '') + '><span>' + l + '</span></label>').join('');
+
+    const planGenWrap = document.getElementById('planGenWrap');
+    planGenWrap.hidden = false;
+    planGenWrap.innerHTML = `
+      <div class="pg-intro">
+        <span class="eyebrow">Step 2 of 3 — Build Your Week</span>
+        <h2>Your free week, built from these numbers</h2>
+        <p>Tap what fits your life. We'll build a 7-day meal plan with a grocery list, a weekly workout split, and a running plan if you want one.</p>
+      </div>
+
+      <div class="pg-block">
+        <div class="pg-block-head"><span class="pg-num">1</span><div class="pg-head-text"><h3>Meals</h3><p>Built to hit about ${goalCalories} calories and ${proteinG}g of protein a day.</p></div></div>
+        <div class="pg-grid">
+          <div><span class="pg-label">Meals &amp; snacks per day</span><div class="chips">${chips('pgMeals', [['3','3'],['4','4'],['5','5']], '4')}</div></div>
+          <div><span class="pg-label">Dietary restriction</span><div class="chips">${chips('pgRestriction', [['none','None'],['vegetarian','Vegetarian'],['vegan','Vegan'],['gluten-free','Gluten-free'],['dairy-free','Dairy-free']], 'none')}</div></div>
+          <div class="pg-span"><span class="pg-label">Proteins you like</span><div class="chips" id="pgProteinChecks">${chips('pgProtein', [['chicken/lean meats','Chicken &amp; lean meats'],['beef','Beef'],['fish/seafood','Fish &amp; seafood'],['eggs/dairy','Eggs &amp; dairy'],['plant-based','Plant-based']], ['chicken/lean meats'], 'checkbox')}</div></div>
+          <div class="pg-span"><label class="pg-label" for="pgDislikes">Foods to avoid <em>(optional)</em></label><input type="text" id="pgDislikes" class="pg-input" placeholder="e.g. mushrooms, shellfish"></div>
+        </div>
+      </div>
+
+      <div class="pg-block">
+        <div class="pg-block-head"><span class="pg-num">2</span><div class="pg-head-text"><h3>Training</h3><p>A weekly lifting split matched to your goal and equipment.</p></div></div>
+        <div class="pg-grid">
+          <div><span class="pg-label">Training days per week</span><div class="chips">${chips('pgDays', [['2','2'],['3','3'],['4','4'],['5','5'],['6','6']], '3')}</div></div>
+          <div><span class="pg-label">Experience</span><div class="chips">${chips('pgExperience', [['beginner','Beginner'],['intermediate','Intermediate'],['advanced','Advanced']], 'intermediate')}</div></div>
+          <div class="pg-span"><span class="pg-label">Equipment</span><div class="chips">${chips('pgEquipment', [['full gym','Full gym'],['home gym (dumbbells/bands)','Home gym (dumbbells/bands)'],['bodyweight only','Bodyweight only']], 'full gym')}</div></div>
+          <div class="pg-span"><label class="pg-label" for="pgLimitations">Injuries or limitations <em>(optional)</em></label><input type="text" id="pgLimitations" class="pg-input" placeholder="e.g. bad knee, shoulder injury"></div>
+        </div>
+      </div>
+
+      <div class="pg-block pg-run" id="pgRunBlock">
+        <div class="pg-block-head"><span class="pg-num">3</span><div class="pg-head-text"><h3>Running</h3><p>A week-by-week plan from a coach who ran college track.</p></div>
+          <label class="switch"><input type="checkbox" id="pgRunToggle"><span class="slider"></span><span>Add a running plan</span></label>
+        </div>
+        <div class="pg-grid" id="pgRunFields" hidden>
+          <div class="pg-span"><span class="pg-label">Running goal</span><div class="chips">${chips('pgRunGoal', [['Start running from scratch','Start running'],['5K','5K'],['10K','10K'],['Half marathon','Half marathon'],['Marathon','Marathon'],['Build general endurance','Build endurance']], '5K')}</div></div>
+          <div class="pg-span"><span class="pg-label">Where you are now</span><div class="chips">${chips('pgRunLevel', [['Brand new to running','Brand new'],['Doing run/walk intervals','Run/walk'],['Can run 2-3 miles continuously','Can run 2–3 miles'],['Run regularly, 10+ miles a week','Run 10+ mi/week']], 'Doing run/walk intervals')}</div></div>
+          <div><span class="pg-label">Runs per week</span><div class="chips">${chips('pgRunsPerWeek', [['2','2'],['3','3'],['4','4'],['5','5']], '3')}</div></div>
+          <div><span class="pg-label">Plan length</span><div class="chips">${chips('pgRunWeeks', [['4','4 weeks'],['6','6 weeks'],['8','8 weeks']], '6')}</div></div>
+          <div><label class="pg-label" for="pgRunMiles">Current miles per week <em>(optional)</em></label><input type="number" id="pgRunMiles" class="pg-input" min="0" max="100" placeholder="e.g. 8"></div>
+          <div><label class="pg-label" for="pgRaceDate">Race date <em>(optional)</em></label><input type="date" id="pgRaceDate" class="pg-input"></div>
+        </div>
+      </div>
+
+      <button type="button" id="pgSubmitBtn" class="pg-submit-btn">Build My Free Plan</button>
+      <p class="pg-fine">Takes about 30 seconds. Free, no strings attached.</p>
+      <div id="pgResult"></div>
+      <button type="button" id="pgDownloadBtn" class="pg-download-btn" style="display:none;">Download My Plan</button>
+    `;
+
+    const rv = (n) => { const el = document.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : ''; };
+    const runToggle = document.getElementById('pgRunToggle');
+    runToggle.addEventListener('change', () => {
+      document.getElementById('pgRunFields').hidden = !runToggle.checked;
+      document.getElementById('pgRunBlock').classList.toggle('on', runToggle.checked);
+    });
 
     const resultsForm = document.getElementById('resultsForm');
     resultsForm.addEventListener('submit', async function (e) {
@@ -764,7 +812,7 @@
       return data;
     }
 
-    function buildDownloadDoc(name, mealPlanText, groceryListText, workoutText) {
+    function buildDownloadDoc(name, mealPlanText, groceryListText, workoutText, runText) {
       const section = (title, text) => text
         ? '<section class="dl-section"><h2>' + title + '</h2><div class="dl-content">' + formatPlan(text) + '</div></section>'
         : '';
@@ -804,6 +852,7 @@
         section('7-Day Meal Plan', mealPlanText) +
         section('Grocery List', groceryListText) +
         section('Weekly Workout Plan', workoutText) +
+        section('Running Plan', runText) +
         '</div></div>' +
         '<p class="dl-footer">\u201cDo you not know that your bodies are temples\u2026? You are not your own.\u201d \u2014 1 Corinthians 6:19</p>' +
         '</body></html>';
@@ -821,12 +870,12 @@
       URL.revokeObjectURL(url);
     }
 
-    let lastName = '', lastMealPlanText = null, lastGroceryListText = null, lastWorkoutText = null;
+    let lastName = '', lastMealPlanText = null, lastGroceryListText = null, lastWorkoutText = null, lastRunText = null;
 
     const pgSubmitBtn = document.getElementById('pgSubmitBtn');
     const pgDownloadBtn = document.getElementById('pgDownloadBtn');
     pgDownloadBtn.addEventListener('click', function () {
-      const doc = buildDownloadDoc(lastName, lastMealPlanText, lastGroceryListText, lastWorkoutText);
+      const doc = buildDownloadDoc(lastName, lastMealPlanText, lastGroceryListText, lastWorkoutText, lastRunText);
       const safeName = (lastName || 'my').replace(/[^a-z0-9]/gi, '-').toLowerCase();
       triggerDownload('sprayberry-' + safeName + '-plan.html', doc);
     });
@@ -835,15 +884,17 @@
       const pgResult = document.getElementById('pgResult');
       const name = prefillName || document.getElementById('captureName').value || 'there';
       const proteinPrefs = Array.from(document.querySelectorAll('#pgProteinChecks input:checked')).map(el => el.value);
-      const restriction = document.getElementById('pgRestriction').value;
-      const mealsPerDay = document.getElementById('pgMeals').value;
+      const restriction = rv('pgRestriction');
+      const mealsPerDay = rv('pgMeals');
       const dislikes = document.getElementById('pgDislikes').value;
 
       lastName = name;
       lastMealPlanText = null;
       lastGroceryListText = null;
       lastWorkoutText = null;
+      lastRunText = null;
       pgDownloadBtn.style.display = 'none';
+      const wantRun = runToggle.checked;
 
       const rotation = buildProteinRotation(restriction, proteinPrefs);
       const dayAssignments = buildDayAssignments(rotation);
@@ -858,9 +909,21 @@
       const workoutBody = {
         name: name,
         goalLabel: goalLabel,
-        daysPerWeek: document.getElementById('pgDays').value,
-        experience: document.getElementById('pgExperience').value,
-        equipment: document.getElementById('pgEquipment').value,
+        daysPerWeek: rv('pgDays'),
+        experience: rv('pgExperience'),
+        equipment: rv('pgEquipment'),
+        limitations: document.getElementById('pgLimitations').value,
+      };
+
+      const runBody = {
+        name: name,
+        runGoal: rv('pgRunGoal'),
+        runLevel: rv('pgRunLevel'),
+        runsPerWeek: rv('pgRunsPerWeek'),
+        weeks: rv('pgRunWeeks'),
+        weeklyMiles: document.getElementById('pgRunMiles').value,
+        raceDate: document.getElementById('pgRaceDate').value,
+        liftDays: rv('pgDays'),
         limitations: document.getElementById('pgLimitations').value,
       };
 
@@ -869,14 +932,16 @@
       pgResult.innerHTML =
         '<div class="pg-plan-section" id="pgMealSection"><h4 class="pg-result-h">Your 7-Day Meal Plan</h4><div class="pg-loading">Building your meal plan…</div></div>' +
         '<div class="pg-plan-section" id="pgGrocerySection"><h4 class="pg-result-h">Grocery List</h4><div class="pg-loading">Waiting on your meal plan…</div></div>' +
-        '<div class="pg-plan-section" id="pgWorkoutSection"><h4 class="pg-result-h">Your Weekly Workout Plan</h4><div class="pg-loading">Building your workout plan…</div></div>';
+        '<div class="pg-plan-section" id="pgWorkoutSection"><h4 class="pg-result-h">Your Weekly Workout Plan</h4><div class="pg-loading">Building your workout plan…</div></div>' +
+        (wantRun ? '<div class="pg-plan-section" id="pgRunSection"><h4 class="pg-result-h">Your Running Plan</h4><div class="pg-loading">Building your running plan…</div></div>' : '');
+      pgResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
       const mealSection = document.getElementById('pgMealSection');
       const grocerySection = document.getElementById('pgGrocerySection');
       const workoutSection = document.getElementById('pgWorkoutSection');
 
       function maybeShowDownload() {
-        if (lastMealPlanText || lastWorkoutText) {
+        if (lastMealPlanText || lastWorkoutText || lastRunText) {
           pgDownloadBtn.style.display = 'block';
         }
       }
@@ -891,6 +956,19 @@
         .catch(() => {
           workoutSection.innerHTML = '<h4 class="pg-result-h">Your Weekly Workout Plan</h4><div class="pg-error">Couldn\u2019t build your workout plan just now — try Regenerate below.</div>';
         });
+
+      // Running plan (optional) runs independently too.
+      const runPromise = wantRun
+        ? callFunction('generate-running-plan', runBody)
+            .then((data) => {
+              lastRunText = data.plan;
+              document.getElementById('pgRunSection').innerHTML = '<h4 class="pg-result-h">Your Running Plan</h4><div class="pg-plan-output">' + formatPlan(data.plan) + '</div>';
+              maybeShowDownload();
+            })
+            .catch(() => {
+              document.getElementById('pgRunSection').innerHTML = '<h4 class="pg-result-h">Your Running Plan</h4><div class="pg-error">Couldn\u2019t build your running plan just now — try Regenerate below.</div>';
+            })
+        : Promise.resolve();
 
       // Meal plan: two chunks in parallel, then grocery list depends on both.
       const mealPromise = Promise.all([
@@ -916,7 +994,7 @@
           grocerySection.innerHTML = '<h4 class="pg-result-h">Grocery List</h4><div class="pg-error">Couldn\u2019t build your grocery list — try Regenerate below.</div>';
         });
 
-      Promise.allSettled([workoutPromise, mealPromise]).then(() => {
+      Promise.allSettled([workoutPromise, mealPromise, runPromise]).then(() => {
         pgSubmitBtn.disabled = false;
         pgSubmitBtn.textContent = 'Regenerate My Free Plan';
       });
