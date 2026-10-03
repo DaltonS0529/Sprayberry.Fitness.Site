@@ -199,7 +199,9 @@
   </div>
 
   <div class="form-body" id="formBody">
-    <form id="consultForm" action="https://formspree.io/f/mrenooal" method="POST">
+    <form id="consultForm" name="consult" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="consult" />
+      <p hidden><label>Leave this empty <input name="bot-field"></label></p>
       <input type="hidden" name="_subject" value="New free consultation request — Sprayberry Fitness" />
 
       <label for="name">Full name</label>
@@ -237,6 +239,18 @@
 </div>
 
 <script>
+  // Netlify Forms: POST url-encoded to "/" with form-name. Repeated fields (checkboxes) are joined.
+  function netlifyEncode(form) {
+    const p = new URLSearchParams();
+    for (const [k, v] of new FormData(form)) {
+      if (k === '_subject') continue;
+      if (p.has(k)) p.set(k, p.get(k) + ', ' + v); else p.append(k, v);
+    }
+    return p.toString();
+  }
+  function netlifySubmit(form) {
+    return fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: netlifyEncode(form) });
+  }
   const consultForm = document.getElementById('consultForm');
   const consultBtn = document.getElementById('consultSubmitBtn');
   const consultError = document.getElementById('consultError');
@@ -248,11 +262,7 @@
     consultBtn.textContent = 'Sending...';
 
     try {
-      const response = await fetch(consultForm.action, {
-        method: 'POST',
-        body: new FormData(consultForm),
-        headers: { 'Accept': 'application/json' }
-      });
+      const response = await netlifySubmit(consultForm);
 
       if (response.ok) {
         document.getElementById('formBody').innerHTML = `

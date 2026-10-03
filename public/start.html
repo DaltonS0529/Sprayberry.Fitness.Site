@@ -382,8 +382,8 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
   ];
 
   // ---- Submission settings ----
-  // Submissions go to the same Formspree form as the consult page. Clear FORMSPREE_ID to use Netlify Forms instead.
-  const FORMSPREE_ID = "mrenooal";
+  // Submissions go to Netlify Forms ("onboarding"). Set FORMSPREE_ID to route them to Formspree instead.
+  const FORMSPREE_ID = "";
 
   // Setup list. show(a) decides who sees each item; lo/hi are rough price ranges in USD.
   const amz = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q);

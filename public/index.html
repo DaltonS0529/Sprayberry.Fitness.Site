@@ -1253,7 +1253,9 @@
       </div>
       <div class="calc-form">
         <span class="eyebrow">Get Your Number</span>
-        <form id="leadForm" action="https://formspree.io/f/mrenooal" method="POST">
+        <form id="leadForm" name="lead" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="lead" />
+          <p hidden><label>Leave this empty <input name="bot-field"></label></p>
           <input type="email" name="email" placeholder="Email address" required />
           <input type="text" name="name" placeholder="First name" required />
           <input type="tel" name="phone" placeholder="Phone number" required pattern="[0-9\-\+\s\(\)]{7,}" />
@@ -1267,6 +1269,18 @@
 </section>
 
 <script>
+  // Netlify Forms: POST url-encoded to "/" with form-name. Repeated fields (checkboxes) are joined.
+  function netlifyEncode(form) {
+    const p = new URLSearchParams();
+    for (const [k, v] of new FormData(form)) {
+      if (k === '_subject') continue;
+      if (p.has(k)) p.set(k, p.get(k) + ', ' + v); else p.append(k, v);
+    }
+    return p.toString();
+  }
+  function netlifySubmit(form) {
+    return fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: netlifyEncode(form) });
+  }
   const leadForm = document.getElementById('leadForm');
   const leadBtn = document.getElementById('leadSubmitBtn');
   const leadErr = document.getElementById('leadFormError');
@@ -1277,11 +1291,7 @@
     leadBtn.textContent = 'Sending...';
 
     try {
-      const response = await fetch(leadForm.action, {
-        method: 'POST',
-        body: new FormData(leadForm),
-        headers: { 'Accept': 'application/json' }
-      });
+      const response = await netlifySubmit(leadForm);
 
       if (response.ok) {
         const params = new URLSearchParams({
