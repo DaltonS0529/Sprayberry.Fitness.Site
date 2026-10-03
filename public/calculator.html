@@ -592,7 +592,9 @@
 
       <div class="capture-block" id="captureBlock">
         <span class="eyebrow">Save These Results</span>
-        <form id="resultsForm">
+        <form id="resultsForm" name="results" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="results" />
+          <p hidden><label>Leave this empty <input name="bot-field"></label></p>
           <input type="text" name="name" id="captureName" placeholder="First name" value="${prefillName}" required />
           <input type="email" name="email" id="captureEmail" placeholder="Email address" value="${prefillEmail}" required />
           <input type="tel" name="phone" id="capturePhone" placeholder="Phone number" value="${prefillPhone}" required pattern="[0-9\-\+\s\(\)]{7,}" />
@@ -679,11 +681,9 @@
       const btn = document.getElementById('resultsSubmitBtn');
       btn.textContent = 'Sending...';
       try {
-        const response = await fetch('https://formspree.io/f/mrenooal', {
-          method: 'POST',
-          body: new FormData(resultsForm),
-          headers: { 'Accept': 'application/json' }
-        });
+        const p = new URLSearchParams();
+        for (const [k, v] of new FormData(resultsForm)) { if (k !== '_subject') p.append(k, v); }
+        const response = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: p.toString() });
         if (response.ok) {
           document.getElementById('captureBlock').innerHTML =
             '<div class="capture-success">✓ Sent! Check your email — your coach has these numbers too.</div>';
@@ -944,5 +944,11 @@
   items.forEach(function (el) { observer.observe(el); });
 })();
 </script>
+<!-- Static copy of the results form so Netlify detects it at deploy time (the visible form is rendered by JS). -->
+<form name="results" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" /><input type="email" name="email" /><input type="tel" name="phone" />
+  <input type="text" name="goal" /><input type="text" name="daily_calories" /><input type="text" name="protein_g" />
+  <input type="text" name="carbs_g" /><input type="text" name="fat_g" /><input name="bot-field" />
+</form>
 </body>
 </html>
