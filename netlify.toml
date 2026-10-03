@@ -13,3 +13,6 @@
 
 [functions."generate-workout"]
   timeout = 26
+
+[functions."generate-running-plan"]
+  timeout = 26
