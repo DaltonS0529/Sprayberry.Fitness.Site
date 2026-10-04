@@ -183,6 +183,13 @@
     .row2, .check-grid { grid-template-columns: 1fr; }
     .card-head, .form-body { padding: 28px 22px; }
   }
+  .book-now { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; margin-bottom: 26px; border: 1px solid var(--gold); border-radius: 12px; background: rgba(184,147,90,0.08); }
+  .book-now strong { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 16px; color: var(--ink); }
+  .book-now span { display: block; font-size: 13px; color: var(--slate); margin-top: 2px; }
+  .book-now a { flex: none; padding: 11px 18px; border-radius: 8px; background: var(--ink); color: var(--white); font-weight: 700; font-size: 13.5px; text-decoration: none; white-space: nowrap; }
+  .book-now a:hover { opacity: 0.9; }
+  .or-divider { text-align: center; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--slate-light); margin: -8px 0 18px; }
+  @media (max-width: 520px) { .book-now { flex-direction: column; align-items: stretch; text-align: center; } }
 </style>
 </head>
 <body>
@@ -199,6 +206,11 @@
   </div>
 
   <div class="form-body" id="formBody">
+    <div class="book-now">
+      <div><strong>Pick a time right now</strong><span>See open slots and book your free 15-minute call instantly.</span></div>
+      <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ26TacagBhLZgy2zLCYElxEJrItZ3yar2FdB2KmgAmWR97tMUNgNWNKAUUDgCBFy6a3723ZB2ee" target="_blank" rel="noopener">Book a Call</a>
+    </div>
+    <div class="or-divider">or send me a message</div>
     <form id="consultForm" name="consult" method="POST" data-netlify="true" netlify-honeypot="bot-field">
       <input type="hidden" name="form-name" value="consult" />
       <p hidden><label>Leave this empty <input name="bot-field"></label></p>
@@ -269,7 +281,7 @@
           <div class="success-state">
             <div class="check-circle">✓</div>
             <h2>Got it — talk soon.</h2>
-            <p>Thanks for reaching out. I'll personally follow up within 24 hours to find a time that works. In the meantime, feel free to check your <a href="calculator.html">macro numbers</a> so we've got a starting point.</p>
+            <p>Thanks for reaching out. I'll personally follow up within 24 hours. Want to lock in a time now? <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ26TacagBhLZgy2zLCYElxEJrItZ3yar2FdB2KmgAmWR97tMUNgNWNKAUUDgCBFy6a3723ZB2ee" target="_blank" rel="noopener">Book your call here</a>. In the meantime, feel free to check your <a href="calculator.html">macro numbers</a> so we've got a starting point.</p>
           </div>
         `;
       } else {
