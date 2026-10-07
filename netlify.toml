@@ -16,3 +16,6 @@
 
 [functions."generate-running-plan"]
   timeout = 26
+
+[functions."food-log"]
+  timeout = 26
