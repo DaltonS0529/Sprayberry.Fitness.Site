@@ -16,3 +16,25 @@
 
 [functions."generate-running-plan"]
   timeout = 26
+
+[functions."food-log"]
+  timeout = 26
+
+# Food log lives at its own address, not on the main site.
+[[redirects]]
+  from = "https://log.sprayberryfitness.com/"
+  to = "/log.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "https://sprayberryfitness.com/log*"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.sprayberryfitness.com/log*"
+  to = "/"
+  status = 301
+  force = true
