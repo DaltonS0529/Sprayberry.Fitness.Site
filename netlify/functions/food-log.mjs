@@ -6,7 +6,8 @@
 // Config (Netlify env vars, never in this public repo):
 //   ANTHROPIC_API_KEY  – already set for the plan generators
 //   FOOD_LOG_CLIENTS   – JSON object keyed by each client's private code:
-//     {"eli-7k2q": {"name":"Eli","calories":2200,"protein":200,"carbs":200,"fat":70}, ...}
+//     {"eli-7k2q": {"name":"Eli","calories":2200,"protein":200,"carbs":200,"fat":70,
+//                   "days": {"sat": {"calories":1850,"carbs":115}}}, ...}   ("days" optional)
 //   COACH_KEY          – secret for the coach summary (GET /api/food-log?coach=KEY)
 
 import { getStore } from "@netlify/blobs";
@@ -63,19 +64,25 @@ async function lastNDays(store, code, date, n) {
   return days;
 }
 
-const publicTargets = (c) => ({
-  calories: c.calories || null,
-  protein: c.protein || null,
-  carbs: c.carbs || null,
-  fat: c.fat || null,
-});
+// Optional per-weekday overrides, e.g. "days": {"sat": {"calories": 1850, "carbs": 115}}
+const WEEKDAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+const publicTargets = (c, date) => {
+  const wd = date ? WEEKDAYS[new Date(date + "T12:00:00Z").getUTCDay()] : null;
+  const t = { ...c, ...((wd && c.days && c.days[wd]) || {}) };
+  return {
+    calories: t.calories || null,
+    protein: t.protein || null,
+    carbs: t.carbs || null,
+    fat: t.fat || null,
+  };
+};
 
 async function dayPayload(store, code, client, date) {
   const entries = await readDay(store, code, date);
   return {
     name: client.name,
     date,
-    targets: publicTargets(client),
+    targets: publicTargets(client, date),
     entries,
     totals: sumEntries(entries),
     week: await lastNDays(store, code, date, 7),
@@ -174,7 +181,7 @@ export default async (req) => {
     const day = DATE_RE.test(date || "") ? date : new Date().toISOString().slice(0, 10);
     const out = [];
     for (const [code, c] of Object.entries(clients)) {
-      out.push({ name: c.name, targets: publicTargets(c), week: await lastNDays(store, code, day, 7), today: await readDay(store, code, day) });
+      out.push({ name: c.name, targets: publicTargets(c, day), week: await lastNDays(store, code, day, 7), today: await readDay(store, code, day) });
     }
     return json(200, { date: day, clients: out });
   }
