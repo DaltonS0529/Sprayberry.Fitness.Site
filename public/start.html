@@ -143,6 +143,8 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-of
 section[data-step]{animation:in .25s ease}
 @keyframes in{from{transform:translateY(6px)}to{transform:none}}
 @media (prefers-reduced-motion:reduce){section[data-step]{animation:none}.bar i{transition:none}}
+.planline{display:inline-block;margin:4px 0 14px;padding:8px 12px;border:1px solid var(--gold);border-radius:8px;font-size:14px}
+.planline b{color:var(--gold)}
 .gear-group{margin-top:20px}
 .gear-group > p{font:600 11px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
 .gear{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);margin-bottom:8px}
@@ -194,9 +196,9 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     <section data-step="0" data-name="Welcome">
       <p class="eyebrow">You're in</p>
       <h1>Welcome to the <em>team</em>.</h1>
+      <p class="planline" id="planLine" hidden></p>
       <p class="lede">You took the hard step already. This setup takes about 10 minutes and gives me everything I need to build your custom plan. Answer honestly. There are no wrong answers, only a starting point.</p>
       <div class="steps-preview">
-        <div class="sp"><b>Pick your plan</b><span>Coaching track and term length</span></div>
         <div class="sp"><b>Tell me about you</b><span>Goals, training history, health screen</span></div>
         <div class="sp"><b>Lifestyle & food</b><span>Schedule, sleep, how you eat now</span></div>
         <div class="sp"><b>Set your baseline</b><span>Photos, weigh-in, measurements</span></div>
@@ -206,33 +208,12 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
       <p class="note">Your answers save on this device as you go, so you can close the page and pick up later.</p>
     </section>
 
-    <section data-step="1" data-name="Your plan" hidden>
-      <p class="eyebrow">Step 1</p>
-      <h2>Choose your coaching</h2>
-      <p class="lede">Full coaching covers both nutrition and strength &amp; conditioning. Single-focus plans are month-to-month.</p>
-      <div class="plans" role="radiogroup" aria-label="Coaching plan">
-        <label class="plan"><input type="radio" name="plan" value="full" id="plan-full"><div class="card"><span class="tag">Most complete</span><b>Full Coaching</b><span>Nutrition + strength &amp; conditioning, daily check-ins, weekly adjustments</span><div class="price">$400<small> /mo</small></div></div></label>
-        <label class="plan"><input type="radio" name="plan" value="nutrition" id="plan-nutrition"><div class="card"><b>Nutrition Only</b><span>Custom macros or meal plan built around your schedule</span><div class="price">$250<small> /mo</small></div></div></label>
-        <label class="plan"><input type="radio" name="plan" value="training" id="plan-training"><div class="card"><b>Training Only</b><span>Programmed lifting, conditioning, or race training</span><div class="price">$250<small> /mo</small></div></div></label>
-      </div>
-      <div id="termbox" hidden>
-        <h3>Term length</h3>
-        <div class="tablewrap">
-        <table class="terms" id="terms">
-          <thead><tr><th></th><th>Term</th><th>Total</th><th>Per month</th><th>You save</th></tr></thead>
-          <tbody></tbody>
-        </table>
-        </div>
-        <label class="toggle"><input type="checkbox" id="couples" name="couples"> Signing up with a partner (couples rate: 15% off two sign-ups, same term for both)</label>
-        <div id="partnerbox" hidden style="margin-top:12px">
-          <label class="f">Partner's name<input type="text" id="partner" name="partner"></label>
-        </div>
-      </div>
-      <div class="total" id="total" hidden><span id="totalLabel"></span><b id="totalAmt"></b></div>
-    </section>
+    <input type="hidden" name="plan" id="plan">
+    <input type="hidden" id="planTerm">
+    <input type="hidden" id="planCouples">
 
     <section data-step="2" data-name="About you" hidden>
-      <p class="eyebrow">Step 2</p>
+      <p class="eyebrow">Step 1</p>
       <h2>About you</h2>
       <div class="grid">
         <label class="f"><span class="req">Full name</span><input type="text" id="name" name="name" autocomplete="name" required></label>
@@ -255,7 +236,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     </section>
 
     <section data-step="3" data-name="Training" hidden>
-      <p class="eyebrow">Step 3</p>
+      <p class="eyebrow">Step 2</p>
       <h2>Training background</h2>
       <div class="grid">
         <label class="f">Experience level
@@ -275,7 +256,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     </section>
 
     <section data-step="4" data-name="Lifestyle" hidden>
-      <p class="eyebrow">Step 4</p>
+      <p class="eyebrow">Step 3</p>
       <h2>Lifestyle &amp; nutrition</h2>
       <div class="grid">
         <label class="f">Work schedule
@@ -301,7 +282,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     </section>
 
     <section data-step="5" data-name="Baseline" hidden>
-      <p class="eyebrow">Step 5</p>
+      <p class="eyebrow">Step 4</p>
       <h2>Set your baseline</h2>
       <p class="lede">These give us a true starting line. Do them in the next 48 hours, first thing in the morning, before eating.</p>
       <div class="check" id="baseline"></div>
@@ -315,7 +296,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     </section>
 
     <section data-step="6" data-name="Get set up" hidden>
-      <p class="eyebrow">Step 6</p>
+      <p class="eyebrow">Step 5</p>
       <h2>Your setup list</h2>
       <p class="lede">Everything you need before Day 1, based on your answers. Tick what you already have. Nothing here is expensive, and you don't need any of it until your plan arrives.</p>
       <div id="gear"></div>
@@ -392,7 +373,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
   // Setup list. show(a) decides who sees each item; lo/hi are rough price ranges in USD.
   const amz = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q);
   const GEAR = [
-    {id:"cron", group:"Download", kind:"Free app", name:"Cronometer", why:"Log everything you eat. The free version is all you need. Enter the calorie and macro targets I send with your plan.", link:"https://cronometer.com", linkText:"cronometer.com", lo:0, hi:0, req:true, show:a=>a.plan!=="training"},
+    {id:"foodlog", group:"Download", kind:"Your private link", name:"Sprayberry Fitness Food Log", why:"Your personal food log. I'll text you your private link with your plan. Open it, then tap Share and Add to Home Screen so it works like an app. Type what you ate or snap a photo, and it tracks your calories and macros against the targets I set for you.", lo:0, hi:0, req:true, show:a=>a.plan!=="training"},
     {id:"checkin", group:"Download", kind:"Bookmark", name:"Daily check-in form", why:"I'll text you the link with your plan. Save it to your home screen; it takes under a minute a day.", lo:0, hi:0, req:true, show:()=>true},
     {id:"strava", group:"Download", kind:"Free app", name:"Strava", why:"Logs your runs with pace and distance so I can see your training load.", link:"https://www.strava.com", linkText:"strava.com", lo:0, hi:0, req:true, show:a=>a.goal==="Race training"},
     {id:"foodscale", group:"Buy", kind:"Kitchen", name:"Digital food scale", why:"Weigh food in grams for the first few weeks. It's the fastest way to learn real portion sizes.", link:amz("digital food scale grams"), linkText:"Shop food scales", lo:10, hi:20, req:true, show:a=>a.plan!=="training"},
@@ -420,32 +401,26 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
   function val(n){ const el = form.elements[n]; if(!el) return ""; if(el instanceof RadioNodeList){ return el.value; } return el.value.trim(); }
   function multi(n){ return [...form.querySelectorAll(`input[name="${n}"]:checked`)].map(i=>i.value); }
 
-  function renderTerms(){
-    const plan = val("plan");
-    $("termbox").hidden = !plan;
-    if(!plan){ $("total").hidden = true; return; }
-    const couples = plan==="full" && $("couples").checked;
-    $("couples").closest(".toggle").hidden = plan!=="full";
-    $("partnerbox").hidden = !couples;
-    const rows = PRICES[plan];
-    let chosen = form.dataset.term || "0";
-    if(+chosen >= rows.length) chosen = "0";
-    const tb = $("terms").querySelector("tbody");
-    tb.innerHTML = rows.map((r,i)=>{
-      const tot = couples ? Math.round(r.p*2*0.85) : r.p;
-      const base = (couples? PRICES[plan][0].p*2*0.85 : PRICES[plan][0].p) * r.m;
-      const save = Math.round(base - tot);
-      return `<tr class="${String(i)===chosen?"sel":""}"><td><input type="radio" name="term" value="${i}" id="term${i}" ${String(i)===chosen?"checked":""} aria-label="${r.t}"></td>
-        <td>${r.t}</td><td>${fmt(tot)}</td><td>${fmt(tot/r.m)}</td><td>${save>0?fmt(save):"—"}</td></tr>`;
-    }).join("");
-    const r = rows[+chosen];
-    const tot = couples ? Math.round(r.p*2*0.85) : r.p;
-    $("total").hidden = false;
-    $("totalLabel").textContent = `${PLAN_NAMES[plan]} · ${r.t}${couples?" · couples (2 people)":""}`;
-    $("totalAmt").textContent = fmt(tot) + (r.m===1 ? " /mo" : " total");
+  // The plan comes from the Stripe payment link (?plan=full_3mo, couples_6mo, nutrition, training ...).
+  const TERM_IDX = {"1mo":0,"3mo":1,"6mo":2,"12mo":3};
+  function planFromUrl(){
+    const q = (new URLSearchParams(location.search).get("plan") || "").toLowerCase();
+    let m;
+    if(q==="nutrition" || q==="training") return {plan:q, term:0, couples:false};
+    if((m = q.match(/^(full|couples)_(1mo|3mo|6mo|12mo)$/))) return {plan:"full", term:TERM_IDX[m[2]], couples:m[1]==="couples"};
+    return null;
   }
-  $("terms").addEventListener("change", e=>{ if(e.target.name==="term"){ form.dataset.term = e.target.value; renderTerms(); save(); }});
-  $("terms").addEventListener("click", e=>{ const tr = e.target.closest("tr"); if(tr && tr.querySelector("input")){ tr.querySelector("input").checked = true; form.dataset.term = tr.querySelector("input").value; renderTerms(); save(); }});
+  function couplesOn(){ return $("planCouples").value==="1"; }
+  function termRow(){ const plan = val("plan"); if(!plan) return null; const rows = PRICES[plan]; return rows[+($("planTerm").value||0)] || rows[0]; }
+  function planLabel(){
+    const plan = val("plan"); const r = termRow();
+    return plan ? `${PLAN_NAMES[plan]} · ${r.t}${couplesOn()?" · couples":""}` : "";
+  }
+  function showPlan(){
+    const label = planLabel();
+    $("planLine").hidden = !label;
+    $("planLine").innerHTML = label ? `Your plan: <b>${label}</b>` : "";
+  }
 
   function answers(){ return {plan:val("plan"), goal:val("goal"), where:val("where"), cook:val("cook")}; }
   function gearList(){ const a = answers(); return GEAR.filter(g=>g.show(a)); }
@@ -479,27 +454,27 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
   function parqCheck(){ $("parqAlert").hidden = !PARQ.some((_,i)=>val("pq"+i)==="Yes"); }
 
   function validate(i){
-    if(i===1 && !val("plan")) return "Choose a coaching plan to continue.";
-    if(i===2){
+    if(i===1){
       if(!val("name")) return "Add your full name.";
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val("email"))) return "Add an email address I can reach you at.";
       if(!val("goal")) return "Pick your main goal.";
     }
-    if(i===3 && PARQ.some((_,k)=>!val("pq"+k))) return "Answer all seven health screen questions.";
+    if(i===2 && PARQ.some((_,k)=>!val("pq"+k))) return "Answer all seven health screen questions.";
     return "";
   }
 
   function stillNeeds(){ return gearList().filter(g=>g.req && !haveGear[g.id]).map(g=>g.name).join(", "); }
   function summary(){
-    const plan = val("plan"); const rows = plan?PRICES[plan]:[]; const r = rows[+(form.dataset.term||0)]||rows[0];
-    const couples = plan==="full" && $("couples").checked;
+    const plan = val("plan"); const r = termRow();
+    const couples = couplesOn();
     const tot = r ? (couples? Math.round(r.p*2*0.85): r.p) : 0;
     const L = [];
     const line = (k,v)=>{ if(v && String(v).length) L.push(`${k}: ${v}`); };
     L.push("SPRAYBERRY FITNESS · NEW CLIENT ONBOARDING","");
     L.push("PLAN");
-    line("Coaching", plan?PLAN_NAMES[plan]:""); line("Term", r?r.t:""); line("Price", r?fmt(tot)+(r.m===1?"/mo":" total"):"");
-    if(couples){ line("Couples rate","Yes"); line("Partner", val("partner")); }
+    if(plan){ line("Coaching", PLAN_NAMES[plan]); line("Term", r.t); line("Price paid", fmt(tot)+(r.m===1?"/mo":" total")); }
+    else line("Coaching", "Not passed from checkout. Check Stripe for what they bought.");
+    if(couples) line("Couples rate","Yes (partner's name is on the Stripe payment)");
     L.push("","ABOUT");
     ["name","email","phone","age","height"].forEach(k=>line(k[0].toUpperCase()+k.slice(1), val(k)));
     line("Weight (lb)", val("weight")); line("Goal", val("goal")); line("90-day success", val("success")); line("Why now", val("why"));
@@ -537,7 +512,6 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     $("mstep").textContent = `Step ${i+1} of ${steps.length} · ${steps[i].dataset.name}`;
     $("barfill").style.width = ((i)/(steps.length-1)*100)+"%";
     if(i===steps.length-1) $("summary").textContent = summary();
-    if(i===1) renderTerms();
     save();
     if(window.scrollY > 200) window.scrollTo({top:0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto":"smooth"});
   }
@@ -558,9 +532,8 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     if(!$("agree").checked){ $("err").textContent = "Check the box to agree to the Coaching Agreement."; return; }
     if(val("sig").trim().length < 3){ $("err").textContent = "Type your full name to sign the agreement."; return; }
     $("h_agree").value = `Agreed to Coaching Agreement (version Oct 9, 2026) · Signed: ${val("sig").trim()} · ${new Date().toLocaleString()}`;
-    const plan = val("plan"); const r = plan ? (PRICES[plan][+(form.dataset.term||0)]||PRICES[plan][0]) : null;
     const yes = PARQ.filter((_,i)=>val("pq"+i)==="Yes").length;
-    $("h_plan").value = plan ? `${PLAN_NAMES[plan]} · ${r.t}${plan==="full"&&$("couples").checked?" · couples":""}` : "";
+    $("h_plan").value = planLabel() || "Unknown (check Stripe)";
     $("h_health").value = yes ? `CLEARANCE NEEDED (${yes} yes)` : "Clear";
     $("h_needs").value = stillNeeds();
     $("h_summary").value = summary();
@@ -600,7 +573,6 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     show(to);
   });
   form.addEventListener("change", e=>{
-    if(e.target.name==="plan" || e.target.id==="couples") renderTerms();
     if(/^pq/.test(e.target.name)) parqCheck();
     save();
   });
@@ -625,7 +597,10 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
       form.dataset.term = d.term||"0"; maxReached = d.maxReached||0; cur = Math.min(d.cur||0, steps.length-1);
     }catch(e){}
   }
-  load(); parqCheck(); show(cur);
+  load();
+  const fromUrl = planFromUrl();
+  if(fromUrl){ $("plan").value = fromUrl.plan; $("planTerm").value = String(fromUrl.term); $("planCouples").value = fromUrl.couples ? "1" : ""; }
+  showPlan(); parqCheck(); show(cur); save();
 })();
 </script>
 
