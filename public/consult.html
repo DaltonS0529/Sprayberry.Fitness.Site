@@ -245,11 +245,13 @@
         <option value="" disabled selected>Choose one</option>
         <option>Instagram</option>
         <option>TikTok</option>
+        <option>Instagram/Facebook ad</option>
         <option>Rack card (in a local business)</option>
         <option>A friend or client referred me</option>
         <option>Google search</option>
         <option>Other</option>
       </select>
+      <input type="hidden" name="campaign" id="campaign" value="">
 
       <label for="message">Anything you want me to know before we talk?</label>
       <textarea name="message" id="message" placeholder="Optional — injuries, timeline, past experience, whatever's relevant"></textarea>
@@ -274,6 +276,17 @@
   function netlifySubmit(form) {
     return fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: netlifyEncode(form) });
   }
+  // Ad tracking: Meta ad links carry ?utm_source=meta&utm_medium=paid&utm_campaign=NAME
+  (function () {
+    const q = new URLSearchParams(location.search);
+    const src = (q.get('utm_source') || '').toLowerCase();
+    const med = (q.get('utm_medium') || '').toLowerCase();
+    const tags = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].map(k => q.get(k)).filter(Boolean);
+    if (tags.length) document.getElementById('campaign').value = tags.join(' / ');
+    if (/^(meta|facebook|fb|instagram|ig)$/.test(src) && /^(paid|cpc|ad|ads|paid_social)$/.test(med)) {
+      document.getElementById('source').value = 'Instagram/Facebook ad';
+    }
+  })();
   const consultForm = document.getElementById('consultForm');
   const consultBtn = document.getElementById('consultSubmitBtn');
   const consultError = document.getElementById('consultError');
