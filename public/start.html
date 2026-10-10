@@ -188,6 +188,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     <input type="hidden" name="health_flag" id="h_health">
     <input type="hidden" name="still_needs" id="h_needs">
     <textarea name="summary" id="h_summary" hidden></textarea>
+    <input type="hidden" name="agreement" id="h_agree">
     <p hidden><label>Leave this empty <input name="bot-field" id="bot"></label></p>
 
     <section data-step="0" data-name="Welcome">
@@ -327,6 +328,10 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
       <div id="presend">
         <p class="lede">Look it over, then send it. It goes straight to me, and I'll start building your plan.</p>
         <pre class="summary" id="summary"></pre>
+        <h3>Coaching agreement</h3>
+        <p class="note" style="margin-top:-4px">Please read the <a href="/terms.html" target="_blank" rel="noopener">Sprayberry Fitness Coaching Agreement</a>. It covers billing, cancellations, refunds, and health and safety.</p>
+        <label class="ck" style="margin-top:12px"><input type="checkbox" id="agree"><div><b>I've read and agree to the Coaching Agreement, including the health and safety waiver.</b><span>I understand I'm responsible for getting my doctor's clearance if I answered yes on the health screen.</span></div></label>
+        <label class="f" style="margin-top:14px"><span class="req">Type your full name to sign</span><input type="text" id="sig" autocomplete="name"></label>
       </div>
       <div class="sent" id="sentBox" hidden aria-live="polite">
         <b>Sent. You're officially on the roster.</b>
@@ -377,8 +382,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
   const BASE = [
     ["photos","Progress photos","Front, side, and back. Same lighting, fitted clothes, phone at chest height."],
     ["weigh","Morning weigh-in","After the bathroom, before food or water. Write it below."],
-    ["tape","Tape measurements","Waist at the navel, hips at the widest point, chest across the nipple line."],
-    ["contract","Sign your coaching agreement","Sent separately. Your plan goes live once it's signed."]
+    ["tape","Tape measurements","Waist at the navel, hips at the widest point, chest across the nipple line."]
   ];
 
   // ---- Submission settings ----
@@ -551,6 +555,9 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
   let submitted = false;
   async function send(){
     const btn = $("next");
+    if(!$("agree").checked){ $("err").textContent = "Check the box to agree to the Coaching Agreement."; return; }
+    if(val("sig").trim().length < 3){ $("err").textContent = "Type your full name to sign the agreement."; return; }
+    $("h_agree").value = `Agreed to Coaching Agreement (version Oct 9, 2026) · Signed: ${val("sig").trim()} · ${new Date().toLocaleString()}`;
     const plan = val("plan"); const r = plan ? (PRICES[plan][+(form.dataset.term||0)]||PRICES[plan][0]) : null;
     const yes = PARQ.filter((_,i)=>val("pq"+i)==="Yes").length;
     $("h_plan").value = plan ? `${PLAN_NAMES[plan]} · ${r.t}${plan==="full"&&$("couples").checked?" · couples":""}` : "";
@@ -562,10 +569,10 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
       let res;
       if(FORMSPREE_ID){
         res = await fetch("https://formspree.io/f/" + FORMSPREE_ID, {method:"POST", headers:{"Accept":"application/json","Content-Type":"application/json"},
-          body: JSON.stringify({name:val("name"), email:val("email"), _replyto:val("email"), phone:val("phone"), goal:val("goal"), plan_summary:$("h_plan").value, health_flag:$("h_health").value, still_needs:$("h_needs").value, summary:$("h_summary").value, _subject:"New client onboarding: "+val("name")})});
+          body: JSON.stringify({name:val("name"), email:val("email"), _replyto:val("email"), phone:val("phone"), goal:val("goal"), plan_summary:$("h_plan").value, health_flag:$("h_health").value, still_needs:$("h_needs").value, summary:$("h_summary").value, agreement:$("h_agree").value, _subject:"New client onboarding: "+val("name")})});
       } else {
         const fd = new URLSearchParams();
-        ["form-name","name","email","phone","goal","plan_summary","health_flag","still_needs","summary","bot-field"].forEach(k=>fd.append(k, (form.elements[k] && form.elements[k].value) || ""));
+        ["form-name","name","email","phone","goal","plan_summary","health_flag","still_needs","summary","agreement","bot-field"].forEach(k=>fd.append(k, (form.elements[k] && form.elements[k].value) || ""));
         res = await fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: fd.toString()});
       }
       if(!res.ok) throw new Error(res.status);
