@@ -367,8 +367,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
   ];
 
   // ---- Submission settings ----
-  // Submissions go to Netlify Forms ("onboarding"). Set FORMSPREE_ID to route them to Formspree instead.
-  const FORMSPREE_ID = "";
+  // Submissions go to Netlify Forms ("onboarding") and are copied to Formspree (see assets/formspree.js).
 
   // Setup list. show(a) decides who sees each item; lo/hi are rough price ranges in USD.
   const amz = q => "https://www.amazon.com/s?k=" + encodeURIComponent(q);
@@ -540,14 +539,10 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
     btn.disabled = true; btn.textContent = "Sending…"; $("err").textContent = "";
     try{
       let res;
-      if(FORMSPREE_ID){
-        res = await fetch("https://formspree.io/f/" + FORMSPREE_ID, {method:"POST", headers:{"Accept":"application/json","Content-Type":"application/json"},
-          body: JSON.stringify({name:val("name"), email:val("email"), _replyto:val("email"), phone:val("phone"), goal:val("goal"), plan_summary:$("h_plan").value, health_flag:$("h_health").value, still_needs:$("h_needs").value, summary:$("h_summary").value, agreement:$("h_agree").value, _subject:"New client onboarding: "+val("name")})});
-      } else {
-        const fd = new URLSearchParams();
-        ["form-name","name","email","phone","goal","plan_summary","health_flag","still_needs","summary","agreement","bot-field"].forEach(k=>fd.append(k, (form.elements[k] && form.elements[k].value) || ""));
-        res = await fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: fd.toString()});
-      }
+      const fd = new URLSearchParams();
+      ["form-name","name","email","phone","goal","plan_summary","health_flag","still_needs","summary","agreement","bot-field"].forEach(k=>fd.append(k, (form.elements[k] && form.elements[k].value) || ""));
+      const fsData = {name:val("name"), email:val("email"), phone:val("phone"), goal:val("goal"), plan_summary:$("h_plan").value, health_flag:$("h_health").value, still_needs:$("h_needs").value, summary:$("h_summary").value, agreement:$("h_agree").value, "bot-field": (form.elements["bot-field"]||{}).value || ""};
+      [res] = await Promise.all([fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: fd.toString()}), sendToFormspree("New client onboarding", fsData)]);
       if(!res.ok) throw new Error(res.status);
       submitted = true;
       $("presend").hidden = true; $("sentBox").hidden = false; $("fallback").hidden = true;
@@ -604,5 +599,6 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
 })();
 </script>
 
+<script src="assets/formspree.js"></script>
 </body>
 </html>

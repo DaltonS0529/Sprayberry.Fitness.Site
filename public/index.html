@@ -1359,6 +1359,7 @@
   </div>
 </section>
 
+<script src="assets/formspree.js"></script>
 <script>
   // Netlify Forms: POST url-encoded to "/" with form-name. Repeated fields (checkboxes) are joined.
   function netlifyEncode(form) {
@@ -1382,7 +1383,7 @@
     leadBtn.textContent = 'Sending...';
 
     try {
-      const response = await netlifySubmit(leadForm);
+      const [response] = await Promise.all([netlifySubmit(leadForm), sendToFormspree('Free calculator sign-up', formToObject(leadForm))]);
 
       if (response.ok) {
         const params = new URLSearchParams({
