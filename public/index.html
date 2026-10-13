@@ -864,7 +864,11 @@
     margin-top: 14px;
   }
   .calc-form input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
-  .calc-form .btn { width: 100%; text-align: center; margin-top: 18px; border: none; cursor: pointer; }
+  .calc-form .btn { width: 100%; text-align: center; margin-top: 18px; border: none; cursor: pointer; display: block; }
+  .calc-list { list-style: none; padding: 0; margin: 10px 0 0; }
+  .calc-list li { position: relative; padding: 9px 0 9px 28px; font-size: 15px; color: var(--ink); border-bottom: 1px solid var(--hairline); }
+  .calc-list li::before { content: "\2713"; position: absolute; left: 0; top: 9px; color: var(--gold); font-weight: 700; }
+  .calc-note { font-size: 13px; color: var(--slate); text-align: center; margin-top: 12px; }
 
   /* FOOTER */
   footer {
@@ -1062,7 +1066,7 @@
       <a href="#wins">Client Wins</a>
       <a href="#pricing">Pricing</a>
       <a href="plans.html">Meal Plans</a>
-      <a href="#calculator" class="nav-highlight">Build My Plan<span class="nav-badge">Free</span></a>
+      <a href="calculator.html" class="nav-highlight">Build My Plan<span class="nav-badge">Free</span></a>
     </div>
     <div class="nav-cta-wrap" style="display:flex; align-items:center; gap:10px;">
       <a href="consult.html" class="btn btn-primary nav-book-btn">Book a Call</a>
@@ -1076,7 +1080,7 @@
       <a href="#mission">Mission</a>
       <a href="#wins">Client Wins</a>
       <a href="#pricing">Pricing</a>
-      <a href="#calculator" class="nav-highlight">Build My Plan<span class="nav-badge">Free</span></a>
+      <a href="calculator.html" class="nav-highlight">Build My Plan<span class="nav-badge">Free</span></a>
       <a href="plans.html">Meal Plans</a>
       <a href="trainer-quiz.html">Need a Trainer?</a>
     <a href="consult.html" class="btn btn-gold" style="margin-top:10px; text-align:center;">Book a Call</a></div>
@@ -1089,7 +1093,7 @@
       <h1>Get a free week of <em>meals &amp; workouts</em>, built from your exact numbers — not a generic template.</h1>
       <p class="sub">Answer a few quick questions and Sprayberry Fitness builds your 7-day meal plan (with a grocery list) and a weekly workout split — free, in about two minutes, no strings attached.</p>
       <div class="hero-ctas">
-        <a href="#calculator" class="btn btn-gold">Build My Plan — It's Free</a>
+        <a href="calculator.html" class="btn btn-gold">Build My Plan — It's Free</a>
         <a href="#approach" class="btn" style="border:1px solid var(--hairline); color:var(--ink);">See the Approach</a>
       </div>
       <div class="hero-chips">
@@ -1343,65 +1347,20 @@
         </div>
       </div>
       <div class="calc-form">
-        <span class="eyebrow">Get Your Number</span>
-        <form id="leadForm" name="lead" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="lead" />
-          <p hidden><label>Leave this empty <input name="bot-field"></label></p>
-          <input type="email" name="email" placeholder="Email address" required />
-          <input type="text" name="name" placeholder="First name" required />
-          <input type="tel" name="phone" placeholder="Phone number" required pattern="[0-9\-\+\s\(\)]{7,}" />
-          <input type="hidden" name="_subject" value="New calorie calculator lead — Sprayberry Fitness" />
-          <button type="submit" class="btn btn-gold" id="leadSubmitBtn" style="display:block; width:100%; text-align:center; margin-top:18px;">Start Building My Plan</button>
-          <div id="leadFormError" style="display:none; color:#b23; font-size:13px; margin-top:10px;"></div>
-        </form>
+        <span class="eyebrow">What You'll Walk Away With</span>
+        <ul class="calc-list">
+          <li>Your daily calories, protein, carbs and fat</li>
+          <li>A 7-day meal plan built to those numbers</li>
+          <li>A grocery list for the week</li>
+          <li>A weekly workout split (plus a running plan if you want one)</li>
+        </ul>
+        <a href="calculator.html" class="btn btn-gold">Build My Free Plan &rarr;</a>
+        <div class="calc-note">No sign-up to start. Download it when you're done.</div>
       </div>
     </div>
   </div>
 </section>
 
-<script src="assets/formspree.js"></script>
-<script>
-  // Netlify Forms: POST url-encoded to "/" with form-name. Repeated fields (checkboxes) are joined.
-  function netlifyEncode(form) {
-    const p = new URLSearchParams();
-    for (const [k, v] of new FormData(form)) {
-      if (k === '_subject') continue;
-      if (p.has(k)) p.set(k, p.get(k) + ', ' + v); else p.append(k, v);
-    }
-    return p.toString();
-  }
-  function netlifySubmit(form) {
-    return fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: netlifyEncode(form) });
-  }
-  const leadForm = document.getElementById('leadForm');
-  const leadBtn = document.getElementById('leadSubmitBtn');
-  const leadErr = document.getElementById('leadFormError');
-
-  leadForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    leadErr.style.display = 'none';
-    leadBtn.textContent = 'Sending...';
-
-    try {
-      const [response] = await Promise.all([netlifySubmit(leadForm), sendToFormspree('Free calculator sign-up', formToObject(leadForm))]);
-
-      if (response.ok) {
-        const params = new URLSearchParams({
-          name: leadForm.querySelector('[name="name"]').value,
-          email: leadForm.querySelector('[name="email"]').value,
-          phone: leadForm.querySelector('[name="phone"]').value
-        });
-        window.location.href = 'calculator.html?' + params.toString();
-      } else {
-        throw new Error('Submission failed');
-      }
-    } catch (err) {
-      leadBtn.textContent = 'Calculate My Calories';
-      leadErr.textContent = "Something went wrong — try again, or email sprayberry.fitness@gmail.com directly.";
-      leadErr.style.display = 'block';
-    }
-  });
-</script>
 
 <div class="wrap">
   <div class="cta-band-footer reveal">
@@ -1429,7 +1388,7 @@
       <a href="#mission">Mission</a>
       <a href="#wins">Client Wins</a>
       <a href="#pricing">Pricing</a>
-      <a href="#calculator">Build My Plan</a>
+      <a href="calculator.html">Build My Plan</a>
       <a href="plans.html">Meal Plans</a>
       <a href="trainer-quiz.html">Need a Trainer?</a>
     <a href="privacy.html">Privacy</a>

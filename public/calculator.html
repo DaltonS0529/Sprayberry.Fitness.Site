@@ -877,12 +877,14 @@
     const pgSubmitBtn = document.getElementById('pgSubmitBtn');
     const pgDownloadBtn = document.getElementById('pgDownloadBtn');
     pgDownloadBtn.addEventListener('click', function () {
+      if (typeof gtag === 'function') gtag('event', 'plan_downloaded');
       const doc = buildDownloadDoc(lastName, lastMealPlanText, lastGroceryListText, lastWorkoutText, lastRunText);
       const safeName = (lastName || 'my').replace(/[^a-z0-9]/gi, '-').toLowerCase();
       triggerDownload('sprayberry-' + safeName + '-plan.html', doc);
     });
 
     pgSubmitBtn.addEventListener('click', async function () {
+      if (typeof gtag === 'function') gtag('event', 'plan_built');
       const pgResult = document.getElementById('pgResult');
       const name = prefillName || document.getElementById('captureName').value || 'there';
       const proteinPrefs = Array.from(document.querySelectorAll('#pgProteinChecks input:checked')).map(el => el.value);
