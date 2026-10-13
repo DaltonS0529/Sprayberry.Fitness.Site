@@ -558,6 +558,7 @@
       document.getElementById('resultCol').innerHTML = '<div class="placeholder-note">Fill in age, weight, and height first.</div>';
       return;
     }
+    if (typeof gtag === 'function') gtag('event', 'calculator_used');
 
     const weightKg = weightLbs * 0.453592;
     const heightCm = (ft * 12 + inch) * 2.54;
@@ -731,6 +732,7 @@
       try {
         const p = new URLSearchParams();
         for (const [k, v] of new FormData(resultsForm)) { if (k !== '_subject') p.append(k, v); }
+        if (typeof gtag === 'function') gtag('event', 'calculator_results_sent');
         const [response] = await Promise.all([fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: p.toString() }), sendToFormspree('Calculator results', formToObject(resultsForm))]);
         if (response.ok) {
           document.getElementById('captureBlock').innerHTML =
