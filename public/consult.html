@@ -263,6 +263,7 @@
   </div>
 </div>
 
+<script src="assets/formspree.js"></script>
 <script>
   // Netlify Forms: POST url-encoded to "/" with form-name. Repeated fields (checkboxes) are joined.
   function netlifyEncode(form) {
@@ -298,7 +299,7 @@
     consultBtn.textContent = 'Sending...';
 
     try {
-      const response = await netlifySubmit(consultForm);
+      const [response] = await Promise.all([netlifySubmit(consultForm), sendToFormspree('Consult request', formToObject(consultForm))]);
 
       if (response.ok) {
         document.getElementById('formBody').innerHTML = `
