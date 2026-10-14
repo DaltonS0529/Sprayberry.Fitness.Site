@@ -319,6 +319,11 @@
     transition: border-color 0.15s, background 0.15s;
   }
   .pg-download-btn:hover { border-color: var(--gold); background: var(--mist); }
+  .pg-gate { margin-top: 18px; padding: 20px; border: 2px solid var(--gold); border-radius: 12px; background: var(--white); }
+  .pg-gate-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--ink); }
+  .pg-gate-sub { font-size: 13px; color: var(--slate); margin: 6px 0 12px; line-height: 1.5; }
+  .pg-gate .pg-input { margin-top: 8px; font-size: 15px; padding: 11px 12px; }
+  .pg-gate.done .pg-gate-title, .pg-gate.done .pg-gate-sub, .pg-gate.done .pg-input { display: none; }
   .pg-loading { font-size: 12.5px; color: var(--slate-light); text-align: center; padding: 14px 0; }
   .pg-error { font-size: 12.5px; color: #b23; padding: 10px 0; }
   .pg-plan-output {
@@ -649,7 +654,7 @@
           <p hidden><label>Leave this empty <input name="bot-field"></label></p>
           <input type="text" name="name" id="captureName" placeholder="First name" value="${prefillName}" required />
           <input type="email" name="email" id="captureEmail" placeholder="Email address" value="${prefillEmail}" required />
-          <input type="tel" name="phone" id="capturePhone" placeholder="Phone number" value="${prefillPhone}" required pattern="[0-9\-\+\s\(\)]{7,}" />
+          <input type="tel" name="phone" id="capturePhone" placeholder="Phone (optional)" value="${prefillPhone}" pattern="[0-9\-\+\s\(\)]{7,}" />
           <input type="hidden" name="_subject" value="New macro plan result — Sprayberry Fitness" />
           <input type="hidden" name="goal" value="${goalLabel}" />
           <input type="hidden" name="daily_calories" value="${goalCalories}" />
@@ -714,7 +719,17 @@
       <button type="button" id="pgSubmitBtn" class="pg-submit-btn">Build My Free Plan</button>
       <p class="pg-fine">Takes about 30 seconds. Free, no strings attached.</p>
       <div id="pgResult"></div>
-      <button type="button" id="pgDownloadBtn" class="pg-download-btn" style="display:none;">Download My Plan</button>
+      <div id="pgGate" class="pg-gate" style="display:none;">
+        <div class="pg-gate-title">Where should we send your plan?</div>
+        <div class="pg-gate-sub">Enter your name and email to download your week. No spam, just a quick check-in from Dalton to see how it's going.</div>
+        <form id="pgGateForm" novalidate>
+          <input type="text" id="pgGateName" class="pg-input" placeholder="First name" autocomplete="given-name">
+          <input type="email" id="pgGateEmail" class="pg-input" placeholder="Email address" autocomplete="email">
+          <input type="tel" id="pgGatePhone" class="pg-input" placeholder="Phone (optional)" autocomplete="tel">
+          <button type="submit" id="pgDownloadBtn" class="pg-submit-btn">Download My Plan</button>
+          <div id="pgGateErr" class="pg-error" style="display:none;"></div>
+        </form>
+      </div>
     `;
 
     const rv = (n) => { const el = document.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : ''; };
@@ -876,7 +891,33 @@
 
     const pgSubmitBtn = document.getElementById('pgSubmitBtn');
     const pgDownloadBtn = document.getElementById('pgDownloadBtn');
-    pgDownloadBtn.addEventListener('click', function () {
+    const pgGate = document.getElementById('pgGate');
+    const pgGateName = document.getElementById('pgGateName');
+    const pgGateEmail = document.getElementById('pgGateEmail');
+    const pgGatePhone = document.getElementById('pgGatePhone');
+    const pgGateErr = document.getElementById('pgGateErr');
+    document.getElementById('pgGateForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!pgGate.classList.contains('done')) {
+        const gName = pgGateName.value.trim(), gEmail = pgGateEmail.value.trim(), gPhone = pgGatePhone.value.trim();
+        if (!gName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(gEmail)) {
+          pgGateErr.textContent = 'Add your first name and a valid email to download your plan.';
+          pgGateErr.style.display = 'block';
+          return;
+        }
+        pgGateErr.style.display = 'none';
+        lastName = gName;
+        const details = ['Days: ' + rv('pgDays'), 'Experience: ' + rv('pgExperience'), 'Equipment: ' + rv('pgEquipment'),
+          'Diet: ' + (rv('pgRestriction') || 'none'), 'Meals/day: ' + rv('pgMeals'), runToggle.checked ? 'Running: ' + rv('pgRunGoal') : 'No running plan'].join(' · ');
+        const lead = { name: gName, email: gEmail, phone: gPhone, goal: goalLabel, daily_calories: String(goalCalories),
+          protein_g: String(proteinG), carbs_g: String(carbG), fat_g: String(fatG), plan_details: details };
+        const fd = new URLSearchParams(Object.assign({ 'form-name': 'plan', 'bot-field': '' }, lead));
+        try { fetch('/', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: fd.toString() }).catch(function () {}); } catch (err) {}
+        if (typeof sendToFormspree === 'function') sendToFormspree('Free plan download', lead);
+        if (typeof gtag === 'function') gtag('event', 'plan_lead');
+        pgGate.classList.add('done');
+        pgDownloadBtn.textContent = 'Download Again';
+      }
       if (typeof gtag === 'function') gtag('event', 'plan_downloaded');
       const doc = buildDownloadDoc(lastName, lastMealPlanText, lastGroceryListText, lastWorkoutText, lastRunText);
       const safeName = (lastName || 'my').replace(/[^a-z0-9]/gi, '-').toLowerCase();
@@ -897,7 +938,7 @@
       lastGroceryListText = null;
       lastWorkoutText = null;
       lastRunText = null;
-      pgDownloadBtn.style.display = 'none';
+      pgGate.style.display = 'none';
       const wantRun = runToggle.checked;
 
       const rotation = buildProteinRotation(restriction, proteinPrefs);
@@ -946,7 +987,12 @@
 
       function maybeShowDownload() {
         if (lastMealPlanText || lastWorkoutText || lastRunText) {
-          pgDownloadBtn.style.display = 'block';
+          if (!pgGate.classList.contains('done')) {
+            pgGateName.value = pgGateName.value || prefillName || (document.getElementById('captureName') || {}).value || '';
+            pgGateEmail.value = pgGateEmail.value || prefillEmail || (document.getElementById('captureEmail') || {}).value || '';
+            pgGatePhone.value = pgGatePhone.value || prefillPhone || (document.getElementById('capturePhone') || {}).value || '';
+          }
+          pgGate.style.display = 'block';
         }
       }
 
@@ -1031,6 +1077,11 @@
   <input type="text" name="name" /><input type="email" name="email" /><input type="tel" name="phone" />
   <input type="text" name="goal" /><input type="text" name="daily_calories" /><input type="text" name="protein_g" />
   <input type="text" name="carbs_g" /><input type="text" name="fat_g" /><input name="bot-field" />
+</form>
+<form name="plan" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" /><input type="email" name="email" /><input type="tel" name="phone" />
+  <input type="text" name="goal" /><input type="text" name="daily_calories" /><input type="text" name="protein_g" />
+  <input type="text" name="carbs_g" /><input type="text" name="fat_g" /><input type="text" name="plan_details" /><input name="bot-field" />
 </form>
 <script src="assets/formspree.js"></script>
 </body>
