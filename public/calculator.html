@@ -365,6 +365,10 @@
   }
   .pg-section-label:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
   .pg-plan-section { margin-top: 18px; }
+  .pg-locked .pg-plan-output { max-height: 420px; overflow: hidden; position: relative; }
+  .pg-locked .pg-plan-output::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 140px; background: linear-gradient(rgba(255,255,255,0), var(--white) 85%); pointer-events: none; }
+  .pg-lock-note { display: none; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--gold-deep); text-align: center; cursor: pointer; }
+  .pg-locked .pg-lock-note { display: block; }
   .pg-plan-section:first-child { margin-top: 0; }
   .pg-result-h {
     font-family: 'Space Grotesk', sans-serif;
@@ -720,13 +724,13 @@
       <p class="pg-fine">Takes about 30 seconds. Free, no strings attached.</p>
       <div id="pgResult"></div>
       <div id="pgGate" class="pg-gate" style="display:none;">
-        <div class="pg-gate-title">Where should we send your plan?</div>
-        <div class="pg-gate-sub">Enter your name and email to download your week. No spam, just a quick check-in from Dalton to see how it's going.</div>
+        <div class="pg-gate-title">Unlock your full week</div>
+        <div class="pg-gate-sub">You're seeing a preview. Enter your name and email to see all 7 days of meals, your full grocery list and every workout, and download it. No spam, just a quick check-in from Dalton to see how it's going.</div>
         <form id="pgGateForm" novalidate>
           <input type="text" id="pgGateName" class="pg-input" placeholder="First name" autocomplete="given-name">
           <input type="email" id="pgGateEmail" class="pg-input" placeholder="Email address" autocomplete="email">
           <input type="tel" id="pgGatePhone" class="pg-input" placeholder="Phone (optional)" autocomplete="tel">
-          <button type="submit" id="pgDownloadBtn" class="pg-submit-btn">Download My Plan</button>
+          <button type="submit" id="pgDownloadBtn" class="pg-submit-btn">Unlock &amp; Download My Plan</button>
           <div id="pgGateErr" class="pg-error" style="display:none;"></div>
         </form>
       </div>
@@ -916,6 +920,7 @@
         if (typeof sendToFormspree === 'function') sendToFormspree('Free plan download', lead);
         if (typeof gtag === 'function') gtag('event', 'plan_lead');
         pgGate.classList.add('done');
+        document.getElementById('pgResult').classList.remove('pg-locked');
         pgDownloadBtn.textContent = 'Download Again';
       }
       if (typeof gtag === 'function') gtag('event', 'plan_downloaded');
@@ -939,6 +944,7 @@
       lastWorkoutText = null;
       lastRunText = null;
       pgGate.style.display = 'none';
+      pgResult.classList.toggle('pg-locked', !pgGate.classList.contains('done'));
       const wantRun = runToggle.checked;
 
       const rotation = buildProteinRotation(restriction, proteinPrefs);
@@ -985,6 +991,7 @@
       const grocerySection = document.getElementById('pgGrocerySection');
       const workoutSection = document.getElementById('pgWorkoutSection');
 
+      const LOCK = '<div class="pg-lock-note" onclick="document.getElementById(\'pgGate\').scrollIntoView({behavior:\'smooth\',block:\'center\'})">&#128274; See the rest of your plan below &darr;</div>';
       function maybeShowDownload() {
         if (lastMealPlanText || lastWorkoutText || lastRunText) {
           if (!pgGate.classList.contains('done')) {
@@ -1000,7 +1007,7 @@
       const workoutPromise = callFunction('generate-workout', workoutBody)
         .then((data) => {
           lastWorkoutText = data.routine;
-          workoutSection.innerHTML = '<h4 class="pg-result-h">Your Weekly Workout Plan</h4><div class="pg-plan-output">' + formatPlan(data.routine) + '</div>';
+          workoutSection.innerHTML = '<h4 class="pg-result-h">Your Weekly Workout Plan</h4><div class="pg-plan-output">' + formatPlan(data.routine) + '</div>' + LOCK;
           maybeShowDownload();
         })
         .catch(() => {
@@ -1012,7 +1019,7 @@
         ? callFunction('generate-running-plan', runBody)
             .then((data) => {
               lastRunText = data.plan;
-              document.getElementById('pgRunSection').innerHTML = '<h4 class="pg-result-h">Your Running Plan</h4><div class="pg-plan-output">' + formatPlan(data.plan) + '</div>';
+              document.getElementById('pgRunSection').innerHTML = '<h4 class="pg-result-h">Your Running Plan</h4><div class="pg-plan-output">' + formatPlan(data.plan) + '</div>' + LOCK;
               maybeShowDownload();
             })
             .catch(() => {
@@ -1028,14 +1035,14 @@
         .then(([a, b]) => {
           const fullPlanText = 'Hey ' + name + ', here\u2019s your week!\n\n' + a.chunk + '\n\n' + b.chunk;
           lastMealPlanText = fullPlanText;
-          mealSection.innerHTML = '<h4 class="pg-result-h">Your 7-Day Meal Plan</h4><div class="pg-plan-output">' + formatPlan(fullPlanText) + '</div>';
+          mealSection.innerHTML = '<h4 class="pg-result-h">Your 7-Day Meal Plan</h4><div class="pg-plan-output">' + formatPlan(fullPlanText) + '</div>' + LOCK;
           grocerySection.innerHTML = '<h4 class="pg-result-h">Grocery List</h4><div class="pg-loading">Building your grocery list…</div>';
           maybeShowDownload();
           return callFunction('generate-grocery-list', { mealPlanText: fullPlanText });
         })
         .then((data) => {
           lastGroceryListText = data.groceryList;
-          grocerySection.innerHTML = '<h4 class="pg-result-h">Grocery List</h4><div class="pg-plan-output">' + formatPlan(data.groceryList) + '</div>';
+          grocerySection.innerHTML = '<h4 class="pg-result-h">Grocery List</h4><div class="pg-plan-output">' + formatPlan(data.groceryList) + '</div>' + LOCK;
         })
         .catch(() => {
           mealSection.innerHTML = mealSection.innerHTML.includes('pg-plan-output')
