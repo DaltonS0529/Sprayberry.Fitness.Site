@@ -545,6 +545,7 @@ details.fallback summary{cursor:pointer;font-size:13px;color:var(--muted)}
       [res] = await Promise.all([fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body: fd.toString()}), sendToFormspree("New client onboarding", fsData)]);
       if(!res.ok) throw new Error(res.status);
       submitted = true;
+      if (typeof gtag === "function") gtag("event", "new_client_onboarded", { plan: $("h_plan").value || "" });
       $("presend").hidden = true; $("sentBox").hidden = false; $("fallback").hidden = true;
       btn.hidden = true; save();
     }catch(e){
