@@ -478,6 +478,56 @@
     .hero-badge .pulse-dot::after { animation: none; display: none; }
   }
 
+
+  /* PLAN PREVIEW CARD (hero) */
+  .plan-card {
+    position: relative; display: block; text-decoration: none; color: var(--white);
+    background: var(--ink); border-radius: 20px; padding: 26px 26px 22px;
+    box-shadow: 0 30px 60px -20px rgba(27,36,48,0.45); border: 1px solid rgba(184,147,90,0.35);
+    opacity: 0; animation: heroPhotoIn 0.9s cubic-bezier(0.16,1,0.3,1) 0.15s forwards;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .plan-card:hover { transform: translateY(-4px); box-shadow: 0 36px 70px -20px rgba(27,36,48,0.55); }
+  .plan-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+  .plan-card .hero-badge { top: -16px; left: -16px; }
+  .pc-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 6px 0 16px; }
+  .pc-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+  .pc-who { font-size: 12.5px; color: var(--slate-light); }
+  .pc-macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  .pc-macros div { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 10px 8px; text-align: center; }
+  .pc-macros b { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 20px; color: var(--white); font-variant-numeric: tabular-nums; }
+  .pc-macros div:first-child b { color: var(--gold); }
+  .pc-macros span { font-size: 11px; color: var(--slate-light); }
+  .pc-days { display: flex; gap: 6px; margin-bottom: 12px; }
+  .pc-days span { flex: 1; text-align: center; font-size: 11.5px; font-weight: 600; padding: 6px 0; border-radius: 8px; color: var(--slate-light); background: rgba(255,255,255,0.04); }
+  .pc-days span.on { background: var(--gold); color: var(--ink); }
+  .pc-meals { list-style: none; margin: 0 0 14px; padding: 0; }
+  .pc-meals li { display: grid; grid-template-columns: 72px 1fr auto; gap: 10px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 14px; }
+  .pc-meals li span { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--slate-light); }
+  .pc-meals li em { font-style: normal; color: var(--mist); min-width: 0; }
+  .pc-meals li b { font-variant-numeric: tabular-nums; color: var(--white); font-weight: 600; }
+  .pc-meals li b::after { content: ' cal'; font-weight: 400; color: var(--slate-light); font-size: 12px; }
+  .pc-extra { display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .pc-extra div { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 10px 12px; display: grid; gap: 2px; }
+  .pc-extra span { font-size: 11px; color: var(--slate-light); }
+  .pc-extra b { font-size: 13.5px; color: var(--white); font-weight: 600; }
+  .pc-cta { display: block; text-align: center; font-weight: 700; font-size: 15px; color: var(--ink); background: linear-gradient(135deg, var(--gold) 0%, #D9AF73 100%); border-radius: 12px; padding: 12px; }
+  @media (max-width: 860px) { .plan-card .hero-badge { left: 14px; top: -14px; } }
+  @media (max-width: 480px) { .plan-card { padding: 22px 16px 18px; } .pc-macros b { font-size: 17px; } .pc-meals li { grid-template-columns: 82px 1fr auto; font-size: 13px; gap: 8px; } .pc-meals li span { font-size: 10px; } }
+  @media (prefers-reduced-motion: reduce) { .plan-card { animation: none; opacity: 1; transform: none; } }
+
+  /* HOW IT WORKS */
+  .how { background: var(--white); }
+  .how-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .how-steps li { background: var(--mist); border-radius: 18px; padding: 28px 26px; }
+  .how-num { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: var(--gold); font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; margin-bottom: 14px; }
+  .how-steps h3 { font-size: 21px; margin: 0 0 8px; }
+  .how-steps p { color: var(--slate); margin: 0; font-size: 15.5px; }
+  .how-cta { margin-top: 34px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .how-cta span { color: var(--slate); font-size: 14.5px; }
+  .how-cta span a { color: var(--gold-deep); font-weight: 600; }
+  @media (max-width: 860px) { .how-steps { grid-template-columns: 1fr; } }
+
   /* SCROLL CUE */
   .scroll-cue {
     position: absolute;
@@ -1078,6 +1128,7 @@
   <div class="mobile-menu" id="mobileMenu">
       <a href="about.html">About</a>
       <a href="#coach">Meet Dalton</a>
+      <a href="#how">How It Works</a>
       <a href="#approach">Approach</a>
       <a href="#mission">Mission</a>
       <a href="#wins">Client Wins</a>
@@ -1092,15 +1143,15 @@
   <div class="wrap">
     <div>
       <span class="eyebrow">Build Your Own Plan — 100% Free</span>
-      <h1>Get a free week of <em>meals &amp; workouts</em>, built from your exact numbers — not a generic template.</h1>
-      <p class="sub">Answer a few quick questions and Sprayberry Fitness builds your 7-day meal plan (with a grocery list) and a weekly workout split — free, in about two minutes, no strings attached.</p>
+      <h1>Build your <em>7-day plan</em> in about 2 minutes.</h1>
+      <p class="sub">Tell us your goal, your schedule and the foods you like. You get your calorie and protein targets, a full week of meals with a grocery list, and a workout split, all built from your numbers.</p>
       <div class="hero-ctas">
-        <a href="calculator.html" class="btn btn-gold">Build My Plan — It's Free</a>
-        <a href="#approach" class="btn" style="border:1px solid var(--hairline); color:var(--ink);">See the Approach</a>
+        <a href="calculator.html" class="btn btn-gold">Build My Free Plan &rarr;</a>
+        <a href="#how" class="btn" style="border:1px solid var(--hairline); color:var(--ink);">How It Works</a>
       </div>
       <div class="hero-chips">
         <span class="hero-chip">⏱️ 2-Minute Setup</span>
-        <span class="hero-chip">✅ 100% Free</span>
+        <span class="hero-chip">✅ No Sign-Up to Start</span>
         <span class="hero-chip">📋 Grocery List Included</span>
       </div>
       <a href="trainer-quiz.html" class="hero-quiz-link">Not sure a trainer's even what you need? <span>Take the 60-second quiz &rarr;</span></a>
@@ -1110,19 +1161,33 @@
       </div>
     </div>
 
-    <div class="hero-photo">
+    <a href="calculator.html" class="plan-card" aria-label="Example of a free 7-day plan. Build yours.">
       <span class="hero-badge"><span class="pulse-dot"></span>Built From Your Numbers</span>
-      <picture>
-        <source srcset="assets/coach-hero.webp" type="image/webp">
-        <img src="assets/coach-hero.jpg" alt="Dalton, founder and coach at Sprayberry Fitness" width="1000" height="1201" fetchpriority="high">
-      </picture>
-      <div class="hero-photo-caption">
-        <span class="verse-font">"Fearfully &amp; wonderfully made"</span>
-        <span class="ref">Dalton — Founder &amp; Coach</span>
+      <div class="pc-head">
+        <span class="pc-eyebrow">Example plan</span>
+        <span class="pc-who">180 lb · Fat loss · 4 training days</span>
       </div>
-    </div>
+      <div class="pc-macros">
+        <div><b>2,200</b><span>calories</span></div>
+        <div><b>180g</b><span>protein</span></div>
+        <div><b>205g</b><span>carbs</span></div>
+        <div><b>73g</b><span>fat</span></div>
+      </div>
+      <div class="pc-days" aria-hidden="true"><span class="on">Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+      <ul class="pc-meals">
+        <li><span>Breakfast</span><em>Greek yogurt power bowl</em><b>420</b></li>
+        <li><span>Lunch</span><em>Chicken &amp; rice bowl</em><b>560</b></li>
+        <li><span>Snack</span><em>Protein shake + banana</em><b>310</b></li>
+        <li><span>Dinner</span><em>Salmon, potatoes &amp; greens</em><b>640</b></li>
+      </ul>
+      <div class="pc-extra">
+        <div class="pc-workout"><span>Today's workout</span><b>Lower body · Squat 4×8</b></div>
+        <div class="pc-grocery"><span>Grocery list</span><b>24 items</b></div>
+      </div>
+      <span class="pc-cta">Build yours free &rarr;</span>
+    </a>
   </div>
-  <a href="#coach" class="scroll-cue" aria-label="Scroll to learn more"><span></span></a>
+  <a href="#how" class="scroll-cue" aria-label="Scroll to how it works"><span></span></a>
 </header>
 
 <div class="marquee-band" aria-hidden="true">
@@ -1139,6 +1204,22 @@
     <span>STEWARD YOUR BODY WELL</span><span class="mq-dot">✦</span>
   </div>
 </div>
+
+<section id="how" class="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">How It Works</span>
+      <h2>Three steps to your plan</h2>
+      <p>No sign-up to start. You only add your name and email at the end to unlock and download the full week.</p>
+    </div>
+    <ol class="how-steps">
+      <li class="reveal"><span class="how-num">1</span><h3>Your numbers</h3><p>Age, height, weight, activity and goal: lose fat, maintain or build muscle. We work out your calories and macros.</p></li>
+      <li class="reveal" style="transition-delay:0.1s;"><span class="how-num">2</span><h3>Your preferences</h3><p>Pick how many meals you eat, foods you like, and how many days you can train. Add running if you want it.</p></li>
+      <li class="reveal" style="transition-delay:0.2s;"><span class="how-num">3</span><h3>Your 7-day plan</h3><p>A week of meals built to your numbers, a grocery list, and a workout split. Download it and start Monday.</p></li>
+    </ol>
+    <div class="how-cta reveal"><a href="calculator.html" class="btn btn-gold">Build My Free Plan &rarr;</a><span>Want a coach to build it with you instead? <a href="consult.html">Book a free call</a>.</span></div>
+  </div>
+</section>
 
 <section id="coach">
   <div class="wrap">
@@ -1327,41 +1408,7 @@
   </div>
 </section>
 
-<section id="calculator">
-  <div class="wrap">
-    <div class="calc reveal">
-      <span class="calc-ribbon">Flagship Free Tool</span>
-      <div>
-        <span class="eyebrow">Our Signature Feature</span>
-        <h2>Build Your Own Plan</h2>
-        <p>Answer a few quick questions and get your personalized calorie target, a free 7-day meal plan with grocery list, and a weekly workout split — built from your exact numbers, not a generic template.</p>
-        <div class="trust-badges">
-          <span class="trust-badge">100% Free</span>
-          <span class="trust-badge">2 Minutes</span>
-          <span class="trust-badge">No Generic Templates</span>
-        </div>
-        <div class="sample-preview">
-          <div class="sp-label">A peek at what you'll get</div>
-          <div class="sp-row"><span class="sp-txt">Breakfast</span><span class="sp-val">Greek Yogurt Power Bowl · 420 cal</span></div>
-          <div class="sp-row"><span class="sp-txt">Lunch</span><span class="sp-val">Grilled Chicken &amp; Rice Bowl · 560 cal</span></div>
-          <div class="sp-row"><span class="sp-txt">Leg Day</span><span class="sp-val">Squats 4x8 @ 135 lb</span></div>
-          <div class="sp-row"><span class="sp-txt">Grocery List</span><span class="sp-val">Auto-built for your week</span></div>
-        </div>
-      </div>
-      <div class="calc-form">
-        <span class="eyebrow">What You'll Walk Away With</span>
-        <ul class="calc-list">
-          <li>Your daily calories, protein, carbs and fat</li>
-          <li>A 7-day meal plan built to those numbers</li>
-          <li>A grocery list for the week</li>
-          <li>A weekly workout split (plus a running plan if you want one)</li>
-        </ul>
-        <a href="calculator.html" class="btn btn-gold">Build My Free Plan &rarr;</a>
-        <div class="calc-note">No sign-up to start. Download it when you're done.</div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 
 <div class="wrap">
