@@ -304,6 +304,7 @@
       const [response] = await Promise.all([netlifySubmit(consultForm), sendToFormspree('Consult request', formToObject(consultForm))]);
 
       if (response.ok) {
+        if (typeof gtag === 'function') gtag('event', 'consult_request', { source: (consultForm.elements['source'] || {}).value || '' });
         document.getElementById('formBody').innerHTML = `
           <div class="success-state">
             <div class="check-circle">✓</div>
