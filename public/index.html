@@ -528,6 +528,18 @@
   .how-cta span a { color: var(--gold-deep); font-weight: 600; }
   @media (max-width: 860px) { .how-steps { grid-template-columns: 1fr; } }
 
+
+  /* FEATURED TESTIMONY */
+  .feature-quote { margin: 34px 0 0; background: var(--ink); color: var(--mist); border-radius: 20px; padding: 40px 44px; position: relative; overflow: hidden; border: 1px solid rgba(184,147,90,0.3); }
+  .feature-quote::before { content: "\201C"; position: absolute; top: -26px; right: 28px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 220px; line-height: 1; color: var(--gold); opacity: .22; }
+  .feature-quote .tag-mini { position: relative; color: var(--gold); background: rgba(184,147,90,0.16); }
+  .feature-quote blockquote { margin: 16px 0 0; position: relative; }
+  .feature-quote p { font-size: 18px; line-height: 1.7; margin: 0; max-width: 72ch; color: var(--mist); }
+  .feature-quote strong { color: var(--gold); font-weight: 700; }
+  .feature-quote figcaption { margin-top: 20px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--white); }
+  .feature-quote figcaption span { font-family: inherit; font-weight: 400; font-size: 14px; color: var(--slate-light); margin-left: 8px; }
+  @media (max-width: 600px) { .feature-quote { padding: 28px 22px; } .feature-quote p { font-size: 16px; } }
+
   /* SCROLL CUE */
   .scroll-cue {
     position: absolute;
@@ -1327,6 +1339,13 @@
         <div class="stat">A split built around his schedule</div>
       </div>
     </div>
+    <figure class="feature-quote reveal">
+      <span class="tag-mini">In Her Words</span>
+      <blockquote>
+        <p>Working with Dalton has seriously helped my fitness journey in so many ways. Before working with him, I underestimated the power of consistent accountability. Having someone who would check in and support me even on the days that I fail, has given me motivation to stick with the process. My favorite part of working with him is how much he reminds me of my worth in Christ. He also reminds me on the hard days that my emotions don&rsquo;t change his feelings towards coaching me. <strong>He shows up when I don&rsquo;t, and that gives me confidence to wake up and try again.</strong> I am grateful for the structure he has brought to my workouts and the clear direction he has given me in my nutrition program. Overall, Dalton has been a pretty awesome coach and I&rsquo;m grateful for all the way in which he has helped me become the strong and healthy woman God has called me to be.</p>
+      </blockquote>
+      <figcaption>&mdash; P. <span>Online coaching client</span></figcaption>
+    </figure>
   </div>
 </section>
 
